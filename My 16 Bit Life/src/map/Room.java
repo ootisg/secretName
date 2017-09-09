@@ -14,6 +14,7 @@ import resources.Spritesheet;
 
 public class Room {
 	private Sprite[] tileList;
+	private String[] tileIdList;
 	private String[] objectList;
 	private short[][][] tileData;
 	private boolean[] collisionData;
@@ -23,8 +24,9 @@ public class Room {
 	private int viewY;
 	private int readBit;
 	private byte[] inData;
+	private TileAttributesList tileAttributesList;
 	public Room () {
-		tileList = new Sprite[] {new Sprite ("resources/sprites/grass.png"), new Sprite ("resources/sprites/stone.png")};
+		tileAttributesList = new TileAttributesList (MapConstants.tileList);
 		tileData = new short[1][32][32];
 		levelWidth = 32;
 		levelHeight = 32;
@@ -69,6 +71,24 @@ public class Room {
 		}
 		return false;
 	}
+	public boolean isColliding (Hitbox hitbox, String tileId) {
+		int x = hitbox.x;
+		int y = hitbox.y;
+		int width = hitbox.width;
+		int height = hitbox.height;
+		int x1 = bind (x / 16, 0, levelWidth * 16);
+		int x2 = bind ((x + width) / 16, 0, levelWidth * 16);
+		int y1 = bind (y / 16, 0, levelHeight * 16);
+		int y2 = bind ((y + height) / 16, 0, levelHeight * 16);
+		for (int i = x1; i <= x2; i ++) {
+			for (int j = y1; j <= y2; j ++) {
+				if (tileIdList [getTileId (i, j)].equals (tileId)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
 	public boolean[][] getCollidingTiles (Hitbox hitbox) {
 		int x = hitbox.x;
 		int y = hitbox.y;
@@ -82,6 +102,23 @@ public class Room {
 		for (int i = y1; i <= y2; i ++) {
 			for (int j = x1; j <= x2; j ++) {
 				result [j - x1][i - y1] = collisionData [getTileId (j, i)];
+			}
+		}
+		return result;
+	}
+	public boolean[][] getCollidingTiles (Hitbox hitbox, String tileId) {
+		int x = hitbox.x;
+		int y = hitbox.y;
+		int width = hitbox.width;
+		int height = hitbox.height;
+		int x1 = bind (x / 16, 0, levelWidth * 16);
+		int x2 = bind ((x + width) / 16, 0, levelWidth * 16);
+		int y1 = bind (y / 16, 0, levelHeight * 16);
+		int y2 = bind ((y + height) / 16, 0, levelHeight * 16);
+		boolean[][] result = new boolean [(x2 - x1 + 1)][(y2 - y1 + 1)];
+		for (int i = y1; i <= y2; i ++) {
+			for (int j = x1; j <= x2; j ++) {
+				result [j - x1][i - y1] = tileIdList [getTileId (j, i)].equals (tileId);
 			}
 		}
 		return result;
@@ -170,6 +207,7 @@ public class Room {
 		}
 		//Import tiles
 		ArrayList<Sprite> tileSheet = new ArrayList<Sprite> ();
+		ArrayList<String> tileIdArrList = new ArrayList<String> ();
 		Spritesheet importSheet;
 		for (int i = 0; i < tilesetNameArray.length; i ++) {
 			//System.out.println("resources/tilesets/" + tilesetNameArray [i]);
@@ -178,25 +216,36 @@ public class Room {
 			//System.out.println(tempSheet.length);
 			for (int j = 0; j < tempSheet.length; j ++) {
 				tileSheet.add (tempSheet [j]);
+				tileIdArrList.add (tilesetNameArray [i] + ":" + String.valueOf (j));
 			}
 		}
 		short[] tilesUsed = new short[tilesUsedLength];
 		int tileBits = numBits (tilesUsedLength - 1);
 		tileList = new Sprite[tilesUsed.length];
+		tileIdList = new String[tileIdArrList.size ()];
 		int tileSheetBits = numBits (tileList.length - 1);
 		for (int i = 0; i < tilesUsedLength; i ++) {
 			tilesUsed [i] = (short) readBits (tileSheetBits);
 		}
 		for (int i = 0; i < tileList.length; i ++) {
 			tileList [i] = tileSheet.get (tilesUsed [i]);
+			tileIdList [i] = tileIdArrList.get (tilesUsed [i]);
+			System.out.println(tileIdList [i]);
+		}
+		for (int i = 0; i < tileIdArrList.size (); i ++) {
+			tileIdList [i] = tileIdArrList.get (i);
 		}
 		for (int i = 0; i < tileList.length; i ++) {
 			tileSheet.add (tileList [i]);
 		}
-		collisionData = new boolean[tileList.length];
-		collisionData [0] = false;
-		for (int i = 1; i < collisionData.length; i ++) {
-			collisionData [i] = true;
+		collisionData = new boolean[tileIdList.length];
+		for (int i = 0; i < collisionData.length; i ++) {
+			MapTile workingTile = tileAttributesList.getTile (tileIdList [i]);
+			if (workingTile != null) {
+				collisionData [i] = workingTile.isSolid ();
+			} else {
+				collisionData [i] = true;
+			}
 		}
 		//Import object icons
 		int widthBits = numBits (levelWidth - 1);

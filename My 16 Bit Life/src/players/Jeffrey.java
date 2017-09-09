@@ -14,7 +14,6 @@ public class Jeffrey extends GameObject {
 	private Sprite standSprite;
 	private Sprite walkSprite;
 	private Sprite redblack_gun;
-	private TubeRaster raster;
 	private AimableWeapon wpn;
 	private int cooldown;
 	private int specialCooldown;
@@ -25,8 +24,6 @@ public class Jeffrey extends GameObject {
 		setSprite (standSprite);
 		getAnimationHandler ().setAnimationSpeed (.7);
 		createHitbox (4, 4, 7, 27);
-		raster = new TubeRaster (0xFF0000FF, 1, 0, 16, 16, 0, 0, 15, 16);
-		raster.declare(0, 0);
 		redblack_gun = new Sprite ("resources/sprites/redblack_gun.png");
 		wpn = new AimableWeapon (redblack_gun);
 		wpn.declare (0, 0);
