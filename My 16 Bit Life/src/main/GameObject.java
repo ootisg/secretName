@@ -7,7 +7,6 @@ import resources.AnimationHandler;
 import resources.Sprite;
 
 public abstract class GameObject extends GameAPI {
-	private static String[] parentIdList = new String[] {"Enemy"};
 	protected int[] matrixLocation;
 	private double x;
 	private double y;
@@ -21,7 +20,6 @@ public abstract class GameObject extends GameAPI {
 	private boolean animationEnabled;
 	private boolean flipHorizontal = false;
 	private boolean flipVertical = false;
-	private String idString;
 	protected TileMap tileMap;
 	public void declare (double x, double y) {
 		matrixLocation = MainLoop.getObjectMatrix ().add (this);

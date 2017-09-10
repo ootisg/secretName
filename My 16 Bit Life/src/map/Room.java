@@ -223,14 +223,13 @@ public class Room {
 		int tileBits = numBits (tilesUsedLength - 1);
 		tileList = new Sprite[tilesUsed.length];
 		tileIdList = new String[tileIdArrList.size ()];
-		int tileSheetBits = numBits (tileList.length - 1);
+		int tileSheetBits = numBits (tileSheet.size () - 1);
 		for (int i = 0; i < tilesUsedLength; i ++) {
 			tilesUsed [i] = (short) readBits (tileSheetBits);
 		}
 		for (int i = 0; i < tileList.length; i ++) {
 			tileList [i] = tileSheet.get (tilesUsed [i]);
 			tileIdList [i] = tileIdArrList.get (tilesUsed [i]);
-			System.out.println(tileIdList [i]);
 		}
 		for (int i = 0; i < tileIdArrList.size (); i ++) {
 			tileIdList [i] = tileIdArrList.get (i);
