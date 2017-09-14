@@ -36,7 +36,7 @@ public class GameCode extends GameAPI {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println (room.isColliding (0, 0, 128, 128));
+		//System.out.println (room.isColliding (0, 0, 128, 128));
 	}
 	public void gameLoop () {
 		room.frameEvent ();

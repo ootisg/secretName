@@ -11,6 +11,9 @@ public abstract class Projectile extends GameObject {
 		projectileFrame ();
 		this.setX (this.getX () + Math.cos (direction) * speed);
 		this.setY (this.getY () + Math.sin (direction) * speed);
+		if (!this.isInBounds ()) {
+			this.forget ();
+		}
 	}
 	public double getDirection () {
 		return this.direction;

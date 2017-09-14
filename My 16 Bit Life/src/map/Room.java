@@ -156,7 +156,6 @@ public class Room {
 					ycheck1 = ycheck2;
 					ycheck2 = temp;
 					tileX ++;
-					System.out.println(tileX);
 				} else if (checkUp) {
 					tileY --;
 				}

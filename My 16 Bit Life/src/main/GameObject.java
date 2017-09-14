@@ -37,6 +37,16 @@ public abstract class GameObject extends GameAPI {
 		this.x = x;
 		this.y = y;
 	}
+	public boolean isInBounds () {
+		return isInBounds (this.getX (), this.getY ());
+	}
+	public boolean isInBounds (double x, double y) {
+		if (x >= 0 && x <= room.getWidth () * 16 && y >= 0 && y <= room.getHeight () * 16) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	public void setX (double x) {
 		xprevious = this.x;
 		this.x = x;

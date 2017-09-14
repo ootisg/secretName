@@ -20,7 +20,6 @@ public class AimableWeapon extends GameObject {
 	}
 	@Override
 	public void draw () {
-		System.out.println(rotation);
 		if (rotation != renderedRotation) {
 			BufferedImage startImg = src.getImageArray ()[0];
 			AffineTransform transform = new AffineTransform ();
