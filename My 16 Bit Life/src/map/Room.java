@@ -53,6 +53,133 @@ public class Room {
 		}
 		return result;
 	}
+	public boolean isColliding (double x1, double y1, double x2, double y2) {
+		if (collisionData [getTileId (((int) x1) / 16, ((int) y1) / 16)]) {
+			return true;
+		}
+		if (x1 > x2) {
+			double temp = x1;
+			x1 = x2;
+			x2 = temp;
+			temp = y1;
+			y1 = y2;
+			y2 = temp;
+		}
+		if (x1 == x2) {
+			//Vertical case
+			double ycheck = y1;
+			double ystep = y1;
+			while (true) {
+				if (ycheck % 16 != 0) {
+					ycheck = ((int) ycheck / 16) * 16 + 16;
+				} else {
+					ycheck += 16;
+				}
+				if (ycheck > y2) {
+					break;
+				}
+				ystep = ycheck;
+				if (collisionData [getTileId ((int) x1 / 16, (int) ystep / 16)]) {
+					return true;
+				}
+			}
+			return false;
+		} else if (y1 == y2) {
+			//Horizontal case
+			double xcheck = x1;
+			double xstep = x1;
+			while (true) {
+				if (xcheck % 16 != 0) {
+					xcheck = ((int) xcheck / 16) * 16 + 1;
+				} else {
+					xcheck += 16;
+				}
+				if (xcheck > y2) {
+					break;
+				}
+				xstep = xcheck;
+				if (x1 > 0 && x1 <= this.getWidth () && y1 > 0 && y1 <= this.getHeight ()) {
+					if (collisionData [getTileId ((int) x1 / 16, (int) xstep / 16)]) {
+						return true;
+					}
+				}
+			}
+			return false;
+		} else {
+			//Default case
+			//y = mx + b
+			//x = (y - b) / m
+			//b = y - mx
+			double m = (y1 - y2) / (x1 - x2);
+			double b = y1 - m * x1;
+			double xcheck1 = x1;
+			double ycheck1 = y1;
+			double xcheck2 = x1;
+			double ycheck2 = y1;
+			double stepx = x1;
+			double stepy = y1;
+			boolean checkUp = false;
+			int tileX;
+			int tileY;
+			while (true) {
+				checkUp = false;
+				if (m < 0) {
+					if (stepy % 16 != 0) {
+						ycheck1 = (((int) stepy) / 16) * 16;
+						checkUp = true;
+					} else {
+						ycheck1 -= 16;
+						checkUp = true;
+					}
+					xcheck1 = (ycheck1 - b) / m;
+				} else {
+					if (stepy % 16 != 0) {
+						ycheck1 = (((int) stepy) / 16) * 16 + 16;
+					} else {
+						ycheck1 += 16;
+					}
+					xcheck1 = (ycheck1 - b) / m;
+				}
+				if (xcheck2 % 16 != 0) {
+					xcheck2 = (((int) xcheck2) / 16) * 16 + 16;
+				} else {
+					xcheck2 = xcheck2 + 16;
+				}
+				tileX = (int) xcheck1 / 16;
+				tileY = (int) ycheck1 / 16;
+				if (xcheck1 > xcheck2) {
+					double temp;
+					temp = xcheck1;
+					xcheck1 = xcheck2;
+					xcheck2 = temp;
+					temp = ycheck1;
+					ycheck1 = ycheck2;
+					ycheck2 = temp;
+					tileX ++;
+					System.out.println(tileX);
+				} else if (checkUp) {
+					tileY --;
+				}
+				/*System.out.print ((int) xcheck1 / 16);
+				System.out.print (", ");
+				System.out.println ((int) ycheck1 / 16);
+				//System.out.print (", ");
+				//System.out.println ((int) y1 / 16);*/
+				if (xcheck1 >= x1 && xcheck2 <= x2) {
+					if (tileX > 0 && tileX <= this.getWidth () / 16 && tileY > 0 && tileY <= this.getHeight () / 16) {
+						if (collisionData [getTileId (tileX, tileY)]) {
+							return true;
+						}
+					}
+					stepx = xcheck1;
+					stepy = ycheck1;
+				} else {
+					break;
+				}
+			}
+		}
+		return false;
+	}
 	public boolean isColliding (Hitbox hitbox) {
 		int x = hitbox.x;
 		int y = hitbox.y;
@@ -124,8 +251,6 @@ public class Room {
 		return result;
 	}
 	public short getTileId (int x, int y) {
-		int chunkX = (x / 16);
-		int chunkY = (y / 16);
 		return tileData [0][x][y];
 	}
 	public void frameEvent () {
@@ -239,7 +364,7 @@ public class Room {
 		}
 		collisionData = new boolean[tileIdList.length];
 		for (int i = 0; i < collisionData.length; i ++) {
-			MapTile workingTile = tileAttributesList.getTile (tileIdList [i]);
+			TileData workingTile = tileAttributesList.getTile (tileIdList [i]);
 			if (workingTile != null) {
 				collisionData [i] = workingTile.isSolid ();
 			} else {

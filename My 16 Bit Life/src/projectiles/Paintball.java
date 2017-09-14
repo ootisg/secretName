@@ -16,5 +16,8 @@ public class Paintball extends Projectile {
 		if (this.isColliding ("gameObjects.CreepyButterfly", xTo, yTo)) {
 			this.getCollidingObject ("gameObjects.CreepyButterfly", xTo, yTo).forget ();
 		}
+		if (room.isColliding (getX (), getY (), xTo, yTo)) {
+			this.forget ();
+		}
 	}
 }

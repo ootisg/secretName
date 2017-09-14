@@ -1,14 +1,14 @@
 package map;
 
 public class TileAttributesList {
-	private MapTile[] list;
-	public TileAttributesList (MapTile[] list) {
+	private TileData[] list;
+	public TileAttributesList (TileData[] list) {
 		this.list = list;
 	}
-	public MapTile[] getTiles () {
+	public TileData[] getTiles () {
 		return list;
 	}
-	public MapTile getTile (String tileId) {
+	public TileData getTile (String tileId) {
 		for (int i = 0; i < list.length; i ++) {
 			if (list [i].getName ().equals (tileId)) {
 				return list [i];

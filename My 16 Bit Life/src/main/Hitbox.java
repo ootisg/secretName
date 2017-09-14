@@ -54,10 +54,10 @@ public class Hitbox {
 	}
 	public double[] getIntersect (double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4) {
 		double[] intersectCoords = new double[2];
-		if (x1 == x2 && x3 == x4) {
+		if (y1 == y2 && y3 == y4) {
 			return null;
 		}
-		if (y1 == y2 && y3 == y4) {
+		if ((y1 - y2) / (x1 - x2) == (y3 - y4) / (x3 - x4)) {
 			return null;
 		}
 		if (x1 == x2) {
