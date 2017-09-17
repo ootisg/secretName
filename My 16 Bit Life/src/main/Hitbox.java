@@ -14,6 +14,7 @@ public class Hitbox {
 		this.height = height;
 	}
 	public boolean checkOverlap (Hitbox hitbox) {
+		//Returns true if this hitbox is overlapping with another hitbox
 		if (x > hitbox.x - width && x < hitbox.x + hitbox.width && y > hitbox.y - height && y < hitbox.y + hitbox.height) {
 			return true;
 		} else {
@@ -21,6 +22,7 @@ public class Hitbox {
 		}
 	}
 	public double[] checkVectorCollision (Hitbox hitbox, double xTo, double yTo) {
+		//Field collision detection using a hitbox and the coordinates it will be travelling to
 		for (int i = 0; i < 4; i ++) {
 			double x1 = this.x;
 			double y1 = this.y;
@@ -53,6 +55,7 @@ public class Hitbox {
 		return null;
 	}
 	public double[] getIntersect (double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4) {
+		//Returns the point at which two lines intersect in the format [x, y], and returns null if they do not intersect
 		double[] intersectCoords = new double[2];
 		if (y1 == y2 && y3 == y4) {
 			return null;
@@ -111,6 +114,7 @@ public class Hitbox {
 		return intersectCoords;
 	}
 	public boolean isBetween (double num, double bound1, double bound2) {
+		//Returns true if num is between bound1 and bound2
 		if (bound1 >= bound2) {
 			double temp = bound2;
 			bound1 = bound2;

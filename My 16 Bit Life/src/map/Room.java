@@ -26,6 +26,7 @@ public class Room {
 	private byte[] inData;
 	private TileAttributesList tileAttributesList;
 	public Room () {
+		//A fairly generic constructor
 		tileAttributesList = new TileAttributesList (MapConstants.tileList);
 		tileData = new short[1][32][32];
 		levelWidth = 32;
@@ -35,6 +36,7 @@ public class Room {
 		readBit = 0;
 	}
 	private int readBits (int num) {
+		//Reads a number of bits from the byte[] inData equal to num and returns them as an int
 		int result = 0;
 		int mask;
 		while (num > 0) {
@@ -54,6 +56,7 @@ public class Room {
 		return result;
 	}
 	public boolean isColliding (double x1, double y1, double x2, double y2) {
+		//Returns true if the vector (x1, y1) -> (x2, y2) is colliding with a solid tile
 		if (collisionData [getTileId (((int) x1) / 16, ((int) y1) / 16)]) {
 			return true;
 		}
@@ -180,6 +183,7 @@ public class Room {
 		return false;
 	}
 	public boolean isColliding (Hitbox hitbox) {
+		//Returns true if the given Hitbox is colliding with a solid tile
 		int x = hitbox.x;
 		int y = hitbox.y;
 		int width = hitbox.width;
@@ -198,6 +202,7 @@ public class Room {
 		return false;
 	}
 	public boolean isColliding (Hitbox hitbox, String tileId) {
+		//Returns true if the given Hitbox is colliding with a tile of type tileId
 		int x = hitbox.x;
 		int y = hitbox.y;
 		int width = hitbox.width;
@@ -216,6 +221,7 @@ public class Room {
 		return false;
 	}
 	public boolean[][] getCollidingTiles (Hitbox hitbox) {
+		//Returns a matrix of tiles that are being collided with by the given Hitbox
 		int x = hitbox.x;
 		int y = hitbox.y;
 		int width = hitbox.width;
@@ -233,6 +239,7 @@ public class Room {
 		return result;
 	}
 	public boolean[][] getCollidingTiles (Hitbox hitbox, String tileId) {
+		//Returns a matrix of tiles that are under the given Hitbox and have the given tileId
 		int x = hitbox.x;
 		int y = hitbox.y;
 		int width = hitbox.width;
@@ -250,9 +257,11 @@ public class Room {
 		return result;
 	}
 	public short getTileId (int x, int y) {
+		//Returns the numerical tile ID of a give object
 		return tileData [0][x][y];
 	}
 	public void frameEvent () {
+		//Renders the room
 		for (int layer = tileData.length - 1; layer >= 0; layer --) {
 			for (int i = 0; i < levelWidth; i ++) {
 				for (int j = 0; j < levelHeight; j ++) {
@@ -262,6 +271,7 @@ public class Room {
 		}
 	}
 	public void loadRoom (String path) throws FileNotFoundException {
+		//Loads the CMF file at the given filepath
 		readBit = 0;
 		File file = null;
 		FileInputStream stream = null;
@@ -456,6 +466,7 @@ public class Room {
 		}
 	}
 	public int numBits (int num) {
+		//Returns the number of bits needed to represent a given number
 		for (int i = 31; i > 0; i --) {
 			if (num >= (1 << (i - 1))) {
 				return i;
@@ -464,22 +475,28 @@ public class Room {
 		return 1;
 	}
 	public void setView (int x, int y) {
+		//Sets the top-right coordinate of the viewport of the room to (x, y)
 		this.viewX = x;
 		this.viewY = y;
 	}
 	public int getViewX () {
+		//Returns the x-coordinate of the viewport of the room
 		return viewX;
 	}
 	public int getViewY () {
+		//Returns the y-coordinate of the viewport of the room
 		return viewY;
 	}
 	public int getWidth () {
+		//Returns the width of the room in tiles
 		return levelWidth;
 	}
 	public int getHeight () {
+		//Returns the height of the room in tiles
 		return levelHeight;
 	}
 	public int bind (int value, int min, int max) {
+		//Binds a value to within the range min, max
 		if (value < min) {
 			return min;
 		}

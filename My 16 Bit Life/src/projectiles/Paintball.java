@@ -3,6 +3,7 @@ package projectiles;
 import gameObjects.Projectile;
 
 public class Paintball extends Projectile {
+	//This class is not yet commented
 	public Paintball () {
 		this.setSprite (getSprites ().paintball);
 		this.setSpeed (20);

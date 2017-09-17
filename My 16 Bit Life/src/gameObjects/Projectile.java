@@ -4,6 +4,7 @@ import main.GameObject;
 import resources.Sprite;
 
 public abstract class Projectile extends GameObject {
+	//Template for projectiles
 	protected double direction = 0;
 	protected double speed = 0;
 	@Override

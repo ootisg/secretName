@@ -8,6 +8,7 @@ import main.GameObject;
 import resources.Sprite;
 
 public class AimableWeapon extends GameObject {
+	//This class is not yet commented
 	private BufferedImage img;
 	private Sprite src;
 	private double rotation;

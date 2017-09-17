@@ -10,6 +10,7 @@ public class ObjectMatrix {
 		classNameList = new ArrayList<String> ();
 	}
 	public int[] add (GameObject gameObject) {
+		//Adds an object to the object matrix and returns its position as [x, y]
 		boolean typeDeclared = false;
 		int[] coords = new int[2];
 		for (int i = 0; i < classNameList.size (); i ++) {
@@ -35,9 +36,11 @@ public class ObjectMatrix {
 		return coords;
 	}
 	public void remove (int[] coords) {
+		//Removes an object from the object matrix with the coordinates [x, y]
 		objectMatrix.get (coords [0]).set (coords [1], null);
 	}
 	public void callAll () {
+		//Calls the draw method and the frameEvent method
 		int objectArrayLength1 = objectMatrix.size ();
 		int objectArrayLength2;
 		for (int i = 0; i < objectArrayLength1; i ++) {
@@ -52,9 +55,11 @@ public class ObjectMatrix {
 		}
 	}
 	public GameObject get (int x, int y) {
+		//Gets the GameObject with an index of x, y
 		return objectMatrix.get (x).get (y);
 	}
 	public int getTypeId (String objectName) {
+		//Gets the x-coordinate on the object matrix of the name objectName
 		for (int i = 0; i < classNameList.size (); i ++) {
 			if (classNameList.get (i).equals (objectName)) {
 				return i;
@@ -63,6 +68,7 @@ public class ObjectMatrix {
 		return -1;
 	}
 	public String getStringId (int objectId) {
+		//Gets the string id associated with the x-coordinate objectId on the object matrix
 		return classNameList.get (objectId);
 	}
 }

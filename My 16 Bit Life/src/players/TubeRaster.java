@@ -8,6 +8,7 @@ import main.GameObject;
 import resources.Sprite;
 
 public class TubeRaster extends GameObject {
+	//This class is not yet commented
 	BufferedImage img;
 	int color;
 	int x1;

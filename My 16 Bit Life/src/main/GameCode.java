@@ -4,7 +4,6 @@ import resources.AnimationHandler;
 import resources.Sprite;
 import resources.Spritesheet;
 import gameObjects.DuoflyPlus;
-import map.TileMap;
 import gameObjects.DuoflyMinus;
 import players.Jeffrey;
 import gameObjects.AimableWeapon;
@@ -39,7 +38,7 @@ public class GameCode extends GameAPI {
 		//System.out.println (room.isColliding (0, 0, 128, 128));
 	}
 	public void gameLoop () {
-		room.frameEvent ();
+		room.frameEvent (); //Draws the tiles
 		textbox.textBoxCreator ("HELLOTHISISTHEAWESOMEJEFFREY1234567890", 128, 32, 128, 128);
 	}
 }

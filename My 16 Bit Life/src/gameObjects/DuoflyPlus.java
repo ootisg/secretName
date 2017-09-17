@@ -3,6 +3,7 @@ package gameObjects;
 import resources.Sprite;
 
 public class DuoflyPlus extends Enemy {
+	//This class is not yet commented
 	int deathcount;
 	Sprite deathSprite;
 	public DuoflyPlus () {

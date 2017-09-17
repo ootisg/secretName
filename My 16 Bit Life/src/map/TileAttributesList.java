@@ -1,6 +1,7 @@
 package map;
 
 public class TileAttributesList {
+	//A container class for a list of TileData objects
 	private TileData[] list;
 	public TileAttributesList (TileData[] list) {
 		this.list = list;

@@ -21,41 +21,35 @@ public class GameWindow extends JFrame {
 	ExtendedMouseListener mouseListener;
 	ExtendedMouseMotionListener motionListener;
 	BufferedImage bufferImage;
-	BufferedImage rasterImage;
 	BufferedImage consoleImage;
-	WritableRaster rasterBuffer;
 	Graphics bufferGraphics;
 	Insets insets;
 	int numtest = 0;
-	int[] imageData;
 	int[] resolution = {640, 480};
 	int[] mouseCoords = null;
 	public GameWindow () {
-		bufferImage = new BufferedImage (640, 480, BufferedImage.TYPE_INT_ARGB);
-		rasterImage = new BufferedImage (640, 480, BufferedImage.TYPE_INT_RGB);
-		consoleImage = new BufferedImage (640, 480, BufferedImage.TYPE_INT_RGB);
-		rasterBuffer = rasterImage.getRaster ();
-		keysPressed = new boolean[256];
-		keysPressedOnFrame = new boolean[256];
-		keysReleasedOnFrame = new boolean[256];
-		imageData = new int [307200];
-		bufferGraphics = bufferImage.getGraphics ();
-		for (int i = 0; i < 307200; i ++) {
-			imageData [i] = 0xC0C0C0;
-		}
-		this.addWindowListener (new WindowAdapter() {
+		//Create buffers
+		bufferImage = new BufferedImage (640, 480, BufferedImage.TYPE_INT_ARGB); //Used for sprites
+		consoleImage = new BufferedImage (640, 480, BufferedImage.TYPE_INT_RGB); //The buffer for the dev console
+		keysPressed = new boolean[256]; //Array for tracking which keys are down
+		keysPressedOnFrame = new boolean[256]; //Array for tracking which keys have just been pressed
+		keysReleasedOnFrame = new boolean[256]; //Array for tracking which keys have just been released
+		bufferGraphics = bufferImage.getGraphics (); //Get a graphics interface for bufferedimage
+		//To be honest, this window listener doesn't do anything; it's helpful if I switch to using java.awt.frame, though
+		/*this.addWindowListener (new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				System.exit (0);
 			}
-		});
-		this.pack ();
-		this.insets = this.getInsets();
-		this.setSize (640 + insets.left + insets.right, 480 + insets.top + insets.bottom);
-		this.setVisible (true);
-		mouseListener = new ExtendedMouseListener (insets.left, insets.top);
-		motionListener = new ExtendedMouseMotionListener (insets.left, insets.top);
+		});*/
+		this.pack (); //This line makes the code work for some reason
+		this.insets = this.getInsets(); //Get offsets for the actual display part of the window
+		this.setSize (640 + insets.left + insets.right, 480 + insets.top + insets.bottom); //Sets the size of the window to get a useable size of 640x480
+		this.setVisible (true); //Makes the window visible
+		mouseListener = new ExtendedMouseListener (insets.left, insets.top); //Makes a mouse listener
+		motionListener = new ExtendedMouseMotionListener (insets.left, insets.top); //Makes a mouse motion listener
 		this.addMouseListener (mouseListener);
 		this.addMouseMotionListener (motionListener);
+		//This section handles keystroke detection
 		KeyboardFocusManager keyboardFocusManager = KeyboardFocusManager.getCurrentKeyboardFocusManager ();
 		keyboardFocusManager.addKeyEventDispatcher (new KeyEventDispatcher () {
 			@Override
@@ -65,9 +59,10 @@ public class GameWindow extends JFrame {
 						keysPressed [e.getKeyCode ()] = true;
 						keysPressedOnFrame [e.getKeyCode ()] = true;
 						if (e.getKeyCode () == 0x7F) {
+							//Enable the dev console if delete (0x7F) is pressed 
 							MainLoop.getConsole ().enable ();
-						}
-						if (MainLoop.getConsole ().isEnabled ()) {
+						} else if (MainLoop.getConsole ().isEnabled ()) {
+							//Adds characters to the dev console if it is enabled
 							if (e.getKeyCode () >= 0x20 && e.getKeyCode () != 0x7F) {
 								MainLoop.getConsole ().addChar (e.getKeyChar ());
 							} else {
@@ -85,31 +80,33 @@ public class GameWindow extends JFrame {
 		});
 	}
 	public void updateClick () {
+		//This method updates click information
 		mouseCoords = mouseListener.getClick ();
 		if (motionListener.getClicked ()) {
 			mouseCoords = motionListener.getMouseCoords ();
 		}
 	}
 	public int[] getClick () {
+		//Returns the coordinates of the last click, or null if there wasn't a click this frame
 		return mouseCoords;
 	}
 	public void doPaint () {
+		//Refreshes the screen
 		Graphics g = this.getGraphics ();
 		if (bufferImage != null) {
 			if (bufferGraphics != null) {
 				Console console = MainLoop.getConsole ();
 				if (!console.isEnabled ()) {
 					bufferGraphics.drawRect (getMouseX (), getMouseY (), 2, 2);
-					rasterBuffer.setDataElements (0, 0, resolution [0], resolution [1], imageData);
 				} else {
 					console.render ();
 				}
-				rasterImage.getGraphics ().drawImage (bufferImage, 0, 0, null);
-				g.drawImage (rasterImage, insets.left, insets.top, this.getContentPane ().getWidth (), this.getContentPane ().getHeight (), null);
+				g.drawImage (bufferImage, insets.left, insets.top, this.getContentPane ().getWidth (), this.getContentPane ().getHeight (), null);
 			}
 		}
 		int[] usedResolution = this.getResolution ();
 		bufferGraphics.setColor (new Color (0xC0C0C0));
+		//Fills the screen with grey
 		bufferGraphics.fillRect (0, 0, bufferImage.getWidth () - 1, bufferImage.getHeight () - 1);
 		/*for (int i = 0; i < usedResolution [0] * usedResolution [1]; i ++) {
 			imageData [i] = 0xC0C0C0;
@@ -150,9 +147,6 @@ public class GameWindow extends JFrame {
 	public Graphics getBuffer () {
 		return bufferGraphics;
 	}
-	public int[] getImageData () {
-		return imageData;
-	}
 	public int[] getResolution () {
 		return resolution;
 	}
@@ -165,12 +159,6 @@ public class GameWindow extends JFrame {
 	public void setResolution (int width, int height) {
 		int[] usedResolution = {width, height};
 		resolution = usedResolution;
-		imageData = new int[width * height];
 		bufferImage = new BufferedImage (width, height, BufferedImage.TYPE_INT_ARGB);
-		rasterImage = new BufferedImage (width, height, BufferedImage.TYPE_INT_RGB);
-		rasterBuffer = rasterImage.getRaster ();
-		for (int i = 0; i < width * height; i ++) {
-			imageData [i] = 0xC0C0C0;
-		}
 	}
 }

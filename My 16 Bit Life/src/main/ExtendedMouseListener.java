@@ -10,6 +10,7 @@ public class ExtendedMouseListener implements MouseListener {
 	private boolean isClicked;
 	private MouseEvent mouseEvent;
 	public ExtendedMouseListener (int xOffset, int yOffset) {
+		//Pretty self-explanitory constructor
 		this.xOffset = xOffset;
 		this.yOffset = yOffset;
 		this.isClicked = false;
@@ -17,6 +18,7 @@ public class ExtendedMouseListener implements MouseListener {
 	}
 	@Override
 	public void mouseClicked (MouseEvent event) {
+		//Fires when the mouse is clicked
 		this.isClicked = true;
 		mouseEvent = event;
 	}
@@ -33,6 +35,7 @@ public class ExtendedMouseListener implements MouseListener {
 	public void mouseReleased (MouseEvent event) {
 	}
 	public int[] getClick () {
+		//Gets the most recent mouse click and causes all subsequent calls of this method for the next click to return null
 		if (isClicked) {
 			isClicked = false;
 			int clickX = (mouseEvent.getX () - xOffset);

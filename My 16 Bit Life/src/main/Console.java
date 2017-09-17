@@ -18,8 +18,9 @@ public class Console {
 	private GameWindow window;
 	private int currentLine = 0;
 	String[] text = new String[40];
-	GameObject objectRef;
+	GameObject objectRef; //A GameObject reference used in several commands
 	public Console () {
+		//Pretty self-explanitory constructor
 		window = MainLoop.getWindow ();
 		text [0] = "-";
 		for (int i = 1; i < text.length; i ++) {
@@ -28,9 +29,11 @@ public class Console {
 		objectRef = null;
 	}
 	public boolean isEnabled () {
+		//Returns true if the console is enabled
 		return enabled;
 	}
 	public void enable () {
+		//Enables the dev console with a default string
 		this.enabled = true;
 		text [0] = "-";
 		for (int i = 1; i < text.length; i ++) {
@@ -38,6 +41,7 @@ public class Console {
 		}
 	}
 	public void enable (String message) {
+		//Enables the dev console with a given message on the first line
 		this.enabled = true;
 		text [0] = message;
 		text [1] = "-";
@@ -47,23 +51,29 @@ public class Console {
 		}
 	}
 	public void disable () {
+		//Disables the dev console; called when the -exit command is entered
 		this.enabled = false;
 	}
 	public void addChar (char c) {
+		//Adds a character to the active line in the dev console; called by GameWindow while processing keyboard events
 		if ((int) c >= 0x20 && (int) c != 0x7F) {
+			//Handles presses of printable keys
 			text [currentLine] += c;
 		} else {
 			if ((int) c == KeyEvent.VK_DELETE || (int) c == KeyEvent.VK_BACK_SPACE) {
+				//Handles presses of backspace
 				if (text [currentLine].length () > 0) {
 					text [currentLine] = text [currentLine].substring (0, text [currentLine].length () - 1);
 				}
 			}
 			if ((int) c == KeyEvent.VK_ENTER) {
+				//Handles presses of the enter key
 				this.doNewline ();
 			}
 		}
 	}
 	public void doNewline () {
+		//Handles presses of the enter key
 		String command = text [currentLine];
 		if (currentLine < text.length) {
 			currentLine ++;
@@ -85,6 +95,7 @@ public class Console {
 		}
 	}
 	public void evaluate (String command) {
+		//Evaluates the commands
 		if (command.equals ("-exit")) {
 			this.disable ();
 			return;
@@ -162,6 +173,7 @@ public class Console {
 		text [currentLine] = "-";
 	}
 	public void addObject (String name, int x, int y) {
+		//Handles adding objects through the dev console
 		Class<?> objectClass = null;
 		try {
 			objectClass = Class.forName (name);
@@ -187,6 +199,7 @@ public class Console {
 		text [currentLine] = "The object was successfully created";
 	}
 	public void render () {
+		//Renders the dev console; called by GameWindow.doPaint ()
 		Graphics g = window.getBuffer ();
 		g.setColor (new Color (0));
 		g.fillRect (0, 0, 640, 480);

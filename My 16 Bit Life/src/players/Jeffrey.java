@@ -18,6 +18,7 @@ public class Jeffrey extends GameObject {
 	private int cooldown;
 	private int specialCooldown;
 	public Jeffrey () {
+		//This class is not yet commented
 		this.declare (0, 0);
 		this.standSprite = getSprites ().jeffreyIdle;
 		this.walkSprite = getSprites ().jeffreyWalking;
