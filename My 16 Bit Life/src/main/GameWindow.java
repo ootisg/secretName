@@ -35,12 +35,12 @@ public class GameWindow extends JFrame {
 		keysPressedOnFrame = new boolean[256]; //Array for tracking which keys have just been pressed
 		keysReleasedOnFrame = new boolean[256]; //Array for tracking which keys have just been released
 		bufferGraphics = bufferImage.getGraphics (); //Get a graphics interface for bufferedimage
-		//To be honest, this window listener doesn't do anything; it's helpful if I switch to using java.awt.frame, though
-		/*this.addWindowListener (new WindowAdapter() {
+		//Makes sure that java closes
+		this.addWindowListener (new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				System.exit (0);
 			}
-		});*/
+		});
 		this.pack (); //This line makes the code work for some reason
 		this.insets = this.getInsets(); //Get offsets for the actual display part of the window
 		this.setSize (640 + insets.left + insets.right, 480 + insets.top + insets.bottom); //Sets the size of the window to get a useable size of 640x480

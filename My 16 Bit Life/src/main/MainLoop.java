@@ -47,7 +47,9 @@ public class MainLoop {
 			//The following is used for delaying the loop to a rate equal to the framerate
 			if (delay < (1000 / framerate)) {
 				try {
-					Thread.sleep (1000 / (long) framerate - delay - 1);
+					if (1000 / (long) framerate - delay - 1 > 0) {
+						Thread.sleep (1000 / (long) framerate - delay - 1);
+					}
 				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
