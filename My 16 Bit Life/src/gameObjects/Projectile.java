@@ -7,18 +7,14 @@ public abstract class Projectile extends GameObject {
 	//Template for projectiles
 	protected double direction = 0;
 	protected double speed = 0;
-	protected int frameCount = 0;
 	@Override
 	public void frameEvent () {
-		if (frameCount % 1 == 0) {
-			projectileFrame ();
-			this.setX (this.getX () + Math.cos (direction) * speed);
-			this.setY (this.getY () + Math.sin (direction) * speed);
-			if (!this.isInBounds ()) {
-				this.forget ();
-			}
+		projectileFrame ();
+		this.setX (this.getX () + Math.cos (direction) * speed);
+		this.setY (this.getY () + Math.sin (direction) * speed);
+		if (!this.isInBounds ()) {
+			this.forget ();
 		}
-		frameCount ++;
 	}
 	public double getDirection () {
 		return this.direction;

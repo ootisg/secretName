@@ -62,6 +62,9 @@ public class Room {
 		return false;
 	}
 	public double[] getCollidingCoords (double x1, double y1, double x2, double y2) {
+		if (x1 < 0 || x1 > levelWidth * 16 || x2 < 0 || x2 > levelWidth * 16 || y1 < 0 || y1 > levelHeight * 16 || y2 < 0 || y2 > levelHeight * 16) {
+			return null;
+		}
 		int xdir = 1;
 		int ydir = 1;
 		double xcheck1 = 0;
@@ -85,10 +88,10 @@ public class Room {
 			while (true) {
 				tileYOffset = 0;
 				ystep = snap16 (ystep, ydir);
-				if (ydir == -1) {
+				if (ydir == -1 && ystep % 16 == 0) {
 					tileYOffset = -1;
 				}
-				if (!isBetween (xstep, x1, x2)) {
+				if (!isBetween (ystep, y1, y2)) {
 					return null;
 				}
 				if (collisionData [getTileId ((int) x1 / 16, (int) ystep / 16 + tileYOffset)]) {
@@ -100,10 +103,12 @@ public class Room {
 			while (true) {
 				tileXOffset = 0;
 				xstep = snap16 (xstep, xdir);
-				if (xdir == -1) {
+				if (xdir == -1 && xstep % 16 == 0) {
 					tileXOffset = -1;
 				}
-				if (!isBetween (ystep, y1, y2));
+				if (!isBetween (xstep, x1, x2)) {
+					return null;
+				}
 				if (collisionData [getTileId ((int) x1 / 16 + tileXOffset, (int) ystep / 16)]) {
 					return new double[] {xstep, y1};
 				}
@@ -131,10 +136,10 @@ public class Room {
 			if (!isBetween (xstep, x1, x2) || !isBetween (ystep, y1, y2)) {
 				return null;
 			}
-			if (xdir == -1) {
+			if (xdir == -1 && xstep % 16 == 0) {
 				tileXOffset = -1;
 			}
-			if (ydir == -1) {
+			if (ydir == -1 && ystep % 16 == 0) {
 				tileYOffset = -1;
 			}
 			if (collisionData [getTileId ((int) xstep / 16 + tileXOffset, (int) ystep / 16 + tileYOffset)]) {
