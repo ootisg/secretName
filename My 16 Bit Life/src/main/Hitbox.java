@@ -117,7 +117,7 @@ public class Hitbox {
 		//Returns true if num is between bound1 and bound2
 		if (bound1 >= bound2) {
 			double temp = bound2;
-			bound1 = bound2;
+			bound2 = bound1;
 			bound1 = temp;
 		}
 		return (num >= bound1 && num <= bound2);

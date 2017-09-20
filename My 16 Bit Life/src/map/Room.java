@@ -81,14 +81,42 @@ public class Room {
 		if (collisionData [getTileId ((int) x1 / 16, (int) y1 / 16)]) {
 			return new double[] {x1, y1};
 		}
+		if (x1 == x2) {
+			while (true) {
+				tileYOffset = 0;
+				ystep = snap16 (ystep, ydir);
+				if (ydir == -1) {
+					tileYOffset = -1;
+				}
+				if (!isBetween (xstep, x1, x2)) {
+					return null;
+				}
+				if (collisionData [getTileId ((int) x1 / 16, (int) ystep / 16 + tileYOffset)]) {
+					return new double[] {x1, ystep};
+				}
+			}
+		}
+		if (y1 == y2) {
+			while (true) {
+				tileXOffset = 0;
+				xstep = snap16 (xstep, xdir);
+				if (xdir == -1) {
+					tileXOffset = -1;
+				}
+				if (!isBetween (ystep, y1, y2));
+				if (collisionData [getTileId ((int) x1 / 16 + tileXOffset, (int) ystep / 16)]) {
+					return new double[] {xstep, y1};
+				}
+			}
+		}
 		double m = (y1 - y2) / (x1 - x2);
 		double b = y1 - m * x1;
 		while (true) {
 			tileXOffset = 0;
 			tileYOffset = 0;
-			xcheck1 = snap16 (x1, xdir);
+			xcheck1 = snap16 (xstep, xdir);
 			ycheck1 = m * xcheck1 + b;
-			ycheck2 = snap16 (y1, ydir);
+			ycheck2 = snap16 (ystep, ydir);
 			xcheck2 = (ycheck2 - b) / m;
 			if (Math.abs (x1 - xcheck1) > Math.abs (x2 - xcheck2)) {
 				double temp = xcheck1;
@@ -100,24 +128,6 @@ public class Room {
 			}
 			xstep = xcheck1;
 			ystep = ycheck1;
-			/*System.out.print (xstep);
-			System.out.print (", ");
-			System.out.print (ystep);
-			System.out.print (", ");
-			System.out.print (x1);
-			System.out.print (", ");
-			System.out.print (x2);
-			System.out.print (", ");
-			System.out.print (y1);
-			System.out.print (", ");
-			System.out.print (y2);
-			System.out.print (", ");
-			System.out.print (m);
-			System.out.print (", ");
-			System.out.print (b);
-			System.out.print (", ");
-			System.out.println ();*/
-			//System.out.println (!isBetween (xstep, x1, x2) || !isBetween (ystep, y1, y2));
 			if (!isBetween (xstep, x1, x2) || !isBetween (ystep, y1, y2)) {
 				return null;
 			}
@@ -128,7 +138,6 @@ public class Room {
 				tileYOffset = -1;
 			}
 			if (collisionData [getTileId ((int) xstep / 16 + tileXOffset, (int) ystep / 16 + tileYOffset)]) {
-				System.out.println("ITS ALIIIIVE");
 				return new double[] {xstep, ystep};
 			}
 		}
@@ -475,7 +484,7 @@ public class Room {
 		//Returns true if num is between bound1 and bound2
 		if (bound1 >= bound2) {
 			double temp = bound2;
-			bound1 = bound2;
+			bound2 = bound1;
 			bound1 = temp;
 		}
 		return (num >= bound1 && num <= bound2);
