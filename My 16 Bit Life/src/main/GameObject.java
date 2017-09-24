@@ -385,4 +385,15 @@ public abstract class GameObject extends GameAPI {
 		//Returns this object's Sprite
 		return this.sprite;
 	}
+	public boolean hasParent (String parentId) {
+		Class c;
+		c = this.getClass ();
+		while (!c.getSuperclass ().getName ().equals ("main.GameObject")) {
+			if (c.getSuperclass ().getName ().equals (parentId)) {
+				return true;
+			}
+			c = c.getSuperclass ();
+		}
+		return false;
+	}
 }

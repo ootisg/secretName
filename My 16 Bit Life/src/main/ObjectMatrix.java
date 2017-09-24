@@ -5,6 +5,7 @@ import java.util.ArrayList;
 public class ObjectMatrix {
 	public ArrayList<ArrayList<GameObject>> objectMatrix;
 	public ArrayList<String> classNameList;
+	public Class testClass;
 	public ObjectMatrix () {
 		objectMatrix = new ArrayList<ArrayList<GameObject>> ();
 		classNameList = new ArrayList<String> ();

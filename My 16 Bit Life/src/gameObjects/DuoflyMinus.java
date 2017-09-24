@@ -14,7 +14,7 @@ public class DuoflyMinus extends Enemy {
 		createHitbox (0, 0, 32, 32);
 	}
 	@Override
-	public void frameEvent () {
+	public void enemyFrame () {
 		if (deathcount == 0) {
 			setSprite (deathSprite);
 			getAnimationHandler ().setFrame (0);

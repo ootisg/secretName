@@ -9,7 +9,7 @@ import java.lang.reflect.Constructor;
 public class Console {
 	//Commands are:
 	//-loadmap <name>
-	//-createinstance <name> <x> <y>
+	//-newinstance <name> <x> <y>
 	//-getinstance <name> <id>
 	//-gettype
 	//-getposition

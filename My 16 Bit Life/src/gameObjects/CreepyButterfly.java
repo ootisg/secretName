@@ -14,9 +14,10 @@ public class CreepyButterfly extends Enemy {
 		player = (Jeffrey) getObject (getTypeId ("players.Jeffrey"), 0);
 		x = -1;
 		y = -1;
+		this.health = 5;
 	}
 	@Override
-	public void frameEvent () {
+	public void enemyFrame () {
 		if (x == -1) {
 			x = this.getX ();
 			y = this.getY ();

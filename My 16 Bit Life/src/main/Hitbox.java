@@ -28,7 +28,7 @@ public class Hitbox {
 			double y1 = this.y;
 			double x2 = xTo;
 			double y2 = yTo;
-			if (x % 2 == 1) {
+			if (x >= 1 && x <= 3) {
 				x1 += this.width;
 				x2 += this.width;
 			}
@@ -36,13 +36,13 @@ public class Hitbox {
 				y1 += this.height;
 				y2 += this.height;
 			}
-			double[] collidingCoords = new double[] {hitbox.x, hitbox.y, hitbox.x + hitbox.width, hitbox.y, hitbox.x, hitbox.y + hitbox.height, hitbox.x + hitbox.width, hitbox.y + hitbox.height, hitbox.x, hitbox.y};
+			double[] collidingCoords = new double[] {hitbox.x, hitbox.y, hitbox.x + hitbox.width, hitbox.y, hitbox.x + hitbox.width, hitbox.y + hitbox.height, hitbox.x, hitbox.y + hitbox.height, hitbox.x, hitbox.y};
 			for (int j = 0; j <= 6; j += 2) {
 				double[] isect = this.getIntersect (x1, y1, x2, y2, collidingCoords [j], collidingCoords [j + 1], collidingCoords [j + 2], collidingCoords [j + 3]);
 				if (isect != null) {
 					double xmod = 0;
 					double ymod = 0;
-					if (i % 2 == 1) {
+					if (i >= 1 && i <= 3) {
 						xmod = -1 * this.width;
 					}
 					if (i >= 2) {

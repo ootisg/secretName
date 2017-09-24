@@ -24,6 +24,7 @@ public class Room {
 	private int viewY;
 	private int readBit;
 	private byte[] inData;
+	private static double[] hitboxCorners = new double[] {0, 0, 1, 0, 1, 1, 0, 1, 0, 0};
 	private TileAttributesList tileAttributesList;
 	public Room () {
 		//A fairly generic constructor
@@ -196,6 +197,14 @@ public class Room {
 				if (tileIdList [getTileId (i, j)].equals (tileId)) {
 					return true;
 				}
+			}
+		}
+		return false;
+	}
+	public boolean isColliding (Hitbox hitbox, double xTo, double yTo) {
+		for (int i = 0; i <= 6; i += 2) {
+			if (isColliding (hitbox.x + hitboxCorners [i] * hitbox.width, hitbox.y + hitboxCorners [i + 1] * hitbox.height, xTo + hitboxCorners [i] * hitbox.width, yTo + hitboxCorners [i + 1])) {
+				return true;
 			}
 		}
 		return false;
