@@ -11,6 +11,7 @@ public class Console {
 	//-loadmap <name>
 	//-newinstance <name> <x> <y>
 	//-getinstance <name> <id>
+	//-setposition <x> <y>
 	//-gettype
 	//-getposition
 	//-delete
@@ -161,6 +162,18 @@ public class Console {
 					}
 				} else {
 					text [currentLine] = "Error: instance does not exist";
+				}
+				return;
+			}
+			if (cmd [0].equals ("-setposition")) {
+				try {
+					objectRef.setX (Integer.parseInt (cmd [1]));
+					objectRef.setY (Integer.parseInt (cmd [2]));
+					text [currentLine] = "The selected object has been moved";
+				} catch (Throwable e) {
+					text [currentLine] = "Error: invalid argument(s)";
+				} finally {
+
 				}
 				return;
 			}
