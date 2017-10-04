@@ -1,4 +1,4 @@
-package gameObjects;
+package enemies;
 
 import players.Jeffrey;
 

@@ -1,7 +1,6 @@
 package projectiles;
 
-import gameObjects.Projectile;
-import gameObjects.Enemy;
+import enemies.Enemy;
 
 public class Paintball extends Projectile {
 	//This class is not yet commented

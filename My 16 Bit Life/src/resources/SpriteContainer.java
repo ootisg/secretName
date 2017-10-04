@@ -3,32 +3,26 @@
 package resources;
 
 public class SpriteContainer {
+	//Please alphebitize spritesheets and sprites
 	//Spritesheets
-	Spritesheet duoflySheet;
-	Spritesheet jeffreySheet;
-	Spritesheet butterflySheet;
+	public Spritesheet butterflySheet = new Spritesheet ("resources/sprites/creepy_butterfly.png");
+	public Spritesheet duoflySheet = new Spritesheet ("resources/sprites/duofly.png");
+	public Spritesheet jeffreySheet = new Spritesheet ("resources/sprites/jeffrey_walking.png");
+	public Spritesheet slimeletSheet = new Spritesheet ("resources/sprites/slimelet.png");
 	//Sprites
-	public Sprite duoflyPlus;
-	public Sprite duoflyMinus;
-	public Sprite duoflyPlusDeath;
-	public Sprite duoflyMinusDeath;
-	public Sprite jeffreyIdle;
-	public Sprite jeffreyWalking;
-	public Sprite butterflySprite;
-	public Sprite paintball;
+	public Sprite butterflySprite = new Sprite (butterflySheet, new int[]{0, 16, 32, 48, 64, 80, 96, 112, 128, 144, 160, 176}, new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 16, 16);
+	public Sprite duoflyMinus = new Sprite (duoflySheet, new int[]{0, 16}, new int[]{16, 16}, 16, 16);
+	public Sprite duoflyMinusDeath = new Sprite (duoflySheet, new int[]{32, 48, 64, 80, 96}, new int[]{16, 16, 16, 16, 16}, 16, 16);
+	public Sprite duoflyPlus = new Sprite (duoflySheet, new int[]{0, 16}, new int[]{0, 0}, 16, 16);
+	public Sprite duoflyPlusDeath = new Sprite (duoflySheet, new int[]{32, 48, 64, 80, 96}, new int[]{0, 0, 0, 0, 0}, 16, 16);
+	public Sprite jeffreyIdle = new Sprite (jeffreySheet, 0, 0, 16, 32);
+	public Sprite jeffreyWalking = new Sprite (jeffreySheet, new int[]{0, 16, 32, 48, 64, 80, 96, 112, 128, 144, 160, 176}, new int[]{32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32}, 16, 32);
+	public Sprite paintball = new Sprite ("resources/sprites/redblack_ball.png");
+	public Sprite slime = new Sprite ("resources/sprites/slime.png");
+	public Sprite slimeletHorizontal = new Sprite (slimeletSheet, new int[]{0, 16}, new int[]{0, 0}, 16, 16);
+	public Sprite slimeletVertical = new Sprite (slimeletSheet, new int[]{0, 16}, new int[]{16, 16}, 16, 16);
+	
 	public SpriteContainer () {
-		//Initialize spritesheets
-		duoflySheet = new Spritesheet ("resources/sprites/duofly.png");
-		jeffreySheet = new Spritesheet ("resources/sprites/jeffrey_walking.png");
-		butterflySheet = new Spritesheet ("resources/sprites/creepy_butterfly.png");
-		//Initialize sprites
-		duoflyPlus = new Sprite (duoflySheet, new int[]{0, 16}, new int[]{0, 0}, 16, 16);
-		duoflyMinus = new Sprite (duoflySheet, new int[]{0, 16}, new int[]{16, 16}, 16, 16);
-		duoflyPlusDeath = new Sprite (duoflySheet, new int[]{32, 48, 64, 80, 96}, new int[]{0, 0, 0, 0, 0}, 16, 16);
-		duoflyMinusDeath = new Sprite (duoflySheet, new int[]{32, 48, 64, 80, 96}, new int[]{16, 16, 16, 16, 16}, 16, 16);
-		butterflySprite = new Sprite (butterflySheet, new int[]{0, 16, 32, 48, 64, 80, 96, 112, 128, 144, 160, 176}, new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 16, 16);
-		jeffreyWalking = new Sprite (jeffreySheet, new int[]{0, 16, 32, 48, 64, 80, 96, 112, 128, 144, 160, 176}, new int[]{32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32, 32}, 16, 32);
-		jeffreyIdle = new Sprite (jeffreySheet, 0, 0, 16, 32);
-		paintball = new Sprite ("resources/sprites/redblack_ball.png");
+
 	}
 }

@@ -5,6 +5,7 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 import main.GameObject;
+import projectiles.Projectile;
 import resources.Sprite;
 
 public class AimableWeapon extends GameObject {

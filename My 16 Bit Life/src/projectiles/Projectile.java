@@ -1,4 +1,4 @@
-package gameObjects;
+package projectiles;
 
 import main.GameObject;
 import resources.Sprite;

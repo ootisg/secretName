@@ -3,11 +3,11 @@ package main;
 import resources.AnimationHandler;
 import resources.Sprite;
 import resources.Spritesheet;
-import gameObjects.DuoflyPlus;
-import gameObjects.DuoflyMinus;
+import enemies.DuoflyPlus;
+import enemies.DuoflyMinus;
 import players.Jeffrey;
 import gameObjects.AimableWeapon;
-import gameObjects.CreepyButterfly;
+import enemies.CreepyButterfly;
 
 import java.awt.Image;
 import java.awt.image.*;

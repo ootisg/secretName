@@ -383,7 +383,7 @@ public class Room {
 			objX = readBits (widthBits);
 			objY = readBits (heightBits);
 			try {
-				objectClass = Class.forName ("gameObjects." + objectList [objId]);
+				objectClass = Class.forName ("enemies." + objectList [objId]);
 			}
 			catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block

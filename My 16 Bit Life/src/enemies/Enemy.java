@@ -1,4 +1,4 @@
-package gameObjects;
+package enemies;
 
 import main.GameObject;
 import main.MainLoop;
