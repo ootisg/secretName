@@ -8,6 +8,7 @@ import projectiles.Paintball;
 import resources.Sprite;
 
 public class Jeffrey extends GameObject {
+	private double health;
 	private double fallSpeed;
 	private boolean isWalking;
 	private boolean isJumping;
@@ -16,6 +17,7 @@ public class Jeffrey extends GameObject {
 	private Sprite redblack_gun;
 	private AimableWeapon wpn;
 	private int cooldown;
+	private int invulTimer;
 	private int specialCooldown;
 	public Jeffrey () {
 		//This class is not yet commented
@@ -30,56 +32,20 @@ public class Jeffrey extends GameObject {
 		wpn.declare (0, 0);
 		this.cooldown = 0;
 		this.specialCooldown = 0;
+		this.health = 20;
+		this.invulTimer = 0;
 	}
 	@Override
 	public void frameEvent () {
+		//Handles weapon usage
 		if (this.cooldown > 0) {
 			this.cooldown --;
-		}
-		//I honestly have no idea why this section only works here instead of at the end
-		if (getFlipHorizontal ()) {
-			wpn.setX (this.getX () - 5);
-			wpn.setY (this.getY () + 16);
-			wpn.setFlipHorizontal (true);
-		} else {
-			wpn.setX (this.getX () + 11);
-			wpn.setY (this.getY () + 16);
-			wpn.setFlipHorizontal (false);
-		}
-		double wpnX = wpn.getX () - room.getViewX ();
-		double wpnY = wpn.getY () - room.getViewY ();
-		int mouseX = this.getMouseX ();
-		int mouseY = this.getMouseY ();
-		/*int wpnX = 32;
-		int wpnY = 32;
-		int mouseX = 64;
-		int mouseY = 48;*/
-		if (wpnX - mouseX != 0) {
-			double ang = Math.atan ((wpnY - mouseY) / (wpnX - mouseX));
-			GameWindow wind = MainLoop.getWindow ();
-			if (mouseX < wpnX) {
-				ang *= -1;
-				if (ang < -Math.PI / 4) {
-					ang = - Math.PI / 4;
-				}
-				if (ang > Math.PI / 4) {
-					ang = Math.PI / 4;
-				}
-			} else {
-				if (ang < -Math.PI / 4) {
-					ang = - Math.PI / 4;
-				}
-				if (ang > Math.PI / 4) {
-					ang = Math.PI / 4;
-				}
-			}
-			wpn.setRotation (ang);
 		}
 		if (mouseClicked () && cooldown == 0) {
 			wpn.shoot (new Paintball ());
 			cooldown = 5;
 		}
-		//End of super mysterious section
+		//Gravity and collision with floor
 		if (keyPressed (0x57) && !isJumping && fallSpeed == 0) {
 			isJumping = true;
 			fallSpeed = -10.15625;
@@ -160,5 +126,65 @@ public class Jeffrey extends GameObject {
 			viewX = (int) x - 213;
 			room.setView (viewX, room.getViewY ());
 		}
+		if (getFlipHorizontal ()) {
+			wpn.setX (this.getX () - 5);
+			wpn.setY (this.getY () + 16);
+			wpn.setFlipHorizontal (true);
+		} else {
+			wpn.setX (this.getX () + 11);
+			wpn.setY (this.getY () + 16);
+			wpn.setFlipHorizontal (false);
+		}
+		//Handles weapon aiming
+		double wpnX = wpn.getX () - room.getViewX ();
+		double wpnY = wpn.getY () - room.getViewY ();
+		int mouseX = this.getMouseX ();
+		int mouseY = this.getMouseY ();
+		/*int wpnX = 32;
+		int wpnY = 32;
+		int mouseX = 64;
+		int mouseY = 48;*/
+		if (wpnX - mouseX != 0) {
+			double ang = Math.atan ((wpnY - mouseY) / (wpnX - mouseX));
+			GameWindow wind = MainLoop.getWindow ();
+			if (mouseX < wpnX) {
+				ang *= -1;
+				if (ang < -Math.PI / 4) {
+					ang = - Math.PI / 4;
+				}
+				if (ang > Math.PI / 4) {
+					ang = Math.PI / 4;
+				}
+			} else {
+				if (ang < -Math.PI / 4) {
+					ang = - Math.PI / 4;
+				}
+				if (ang > Math.PI / 4) {
+					ang = Math.PI / 4;
+				}
+			}
+			wpn.setRotation (ang);
+		}
+		//Damage animation
+		if (invulTimer != 0) {
+			if ((invulTimer / 3) % 2 == 1) {
+				this.setSprite (null);
+			} else {
+				this.setSprite (standSprite);
+			}
+		}
+		//Handles invulnerability
+		if (invulTimer > 0) {
+			invulTimer --;
+		}
+	}
+	public void damage (int baseDamage) {
+		if (invulTimer == 0) {
+			health -= baseDamage;
+			invulTimer = 15;
+		}
+	}
+	public double getHealth () {
+		return this.health;
 	}
 }

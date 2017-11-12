@@ -49,8 +49,10 @@ public class ObjectMatrix {
 			objectArrayLength2 = objectArray.size ();
 			for (int c = 0; c < objectArrayLength2; c ++) {
 				if (objectArray.get (c) != null) {
-					objectArray.get (c).draw ();
 					objectArray.get (c).frameEvent ();
+					if (objectArray.get (c) != null) {
+						objectArray.get (c).draw ();
+					}
 				}
 			}
 		}

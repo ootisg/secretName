@@ -94,11 +94,13 @@ public abstract class GameObject extends GameAPI {
 	public void setSprite (Sprite sprite) {
 		//Sets this GameObject's Sprite to the given Sprite
 		this.sprite = sprite;
-		if (sprite.getIsAnimated ()) {
-			animationHandler.setSprite (sprite);
-			animationEnabled = true;
-		} else {
-			animationEnabled = false;
+		if (this.sprite != null) {
+			if (sprite.getIsAnimated ()) {
+				animationHandler.setSprite (sprite);
+				animationEnabled = true;
+			} else {
+				animationEnabled = false;
+			}
 		}
 		animationHandler.setFrame (0);
 	}

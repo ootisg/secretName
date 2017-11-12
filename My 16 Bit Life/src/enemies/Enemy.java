@@ -2,10 +2,12 @@ package enemies;
 
 import main.GameObject;
 import main.MainLoop;
+import players.Jeffrey;
 import resources.Spritesheet;
 
 public abstract class Enemy extends GameObject {
 	//Template for enemies
+	public static Jeffrey player = (Jeffrey) MainLoop.getObjectMatrix ().get (MainLoop.getObjectMatrix ().getTypeId ("players.Jeffrey"), 0);
 	public static String[] enemyList = new String [0];
 	protected int health = 1;
 	public Enemy () {
@@ -34,9 +36,15 @@ public abstract class Enemy extends GameObject {
 			this.forget ();
 		}
 		enemyFrame ();
+		if (isColliding (player)) {
+			attackEvent ();
+		}
 	}
 	public void enemyFrame () {
 		
+	}
+	public void attackEvent () {
+		player.damage (1);
 	}
 	public void damage (int amount) {
 		this.health -= amount;

@@ -4,6 +4,7 @@ import resources.AnimationHandler;
 import resources.Sprite;
 import resources.Spritesheet;
 import enemies.DuoflyPlus;
+import enemies.GreenBlob;
 import enemies.DuoflyMinus;
 import players.Jeffrey;
 import gameObjects.AimableWeapon;
@@ -27,10 +28,11 @@ public class GameCode extends GameAPI {
 		//Initialize sprites
 		//GameObject initialization
 		testJeffrey = new Jeffrey ();
+		new GreenBlob ().declare (96, 192);
 		//GameObject declaration
 		textbox = new Textbox ();
 		try {
-			room.loadRoom ("resources/maps/snowmap.cmf");
+			room.loadRoom ("resources/maps/snowmap2.cmf");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -4,7 +4,6 @@ import players.Jeffrey;
 
 public class CreepyButterfly extends Enemy {
 	//This class is not yet commented
-	private Jeffrey player;
 	private double x;
 	private double y;
 	public CreepyButterfly () {
