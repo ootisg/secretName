@@ -15,6 +15,7 @@ public class Console {
 	//-gettype
 	//-getposition
 	//-delete
+	public boolean showHitboxes = false;
 	private boolean enabled = false;
 	private GameWindow window;
 	private int currentLine = 0;
@@ -100,6 +101,14 @@ public class Console {
 		if (command.equals ("-exit")) {
 			this.disable ();
 			return;
+		}
+		if (command.equals ("-hbox")) {
+			this.showHitboxes = !this.showHitboxes;
+			if (this.showHitboxes) {
+				text [currentLine] = "Hitbox display turned on";
+			} else {
+				text [currentLine] = "Hitbox display turned off";
+			}
 		}
 		String[] cmd = command.split (" ");
 		if (cmd.length == 1) {

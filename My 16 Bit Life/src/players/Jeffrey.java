@@ -9,6 +9,7 @@ import resources.Sprite;
 
 public class Jeffrey extends GameObject {
 	private double health;
+	public double maxHealth;
 	private double fallSpeed;
 	private boolean isWalking;
 	private boolean isJumping;
@@ -32,7 +33,8 @@ public class Jeffrey extends GameObject {
 		wpn.declare (0, 0);
 		this.cooldown = 0;
 		this.specialCooldown = 0;
-		this.health = 20;
+		this.health = 100;
+		this.maxHealth = 100;
 		this.invulTimer = 0;
 	}
 	@Override
@@ -167,18 +169,22 @@ public class Jeffrey extends GameObject {
 		}
 		//Damage animation
 		if (invulTimer != 0) {
-			if ((invulTimer / 3) % 2 == 1) {
-				this.setSprite (null);
+			if ((invulTimer / 2) % 2 == 1) {
+				this.hide ();
 			} else {
-				this.setSprite (standSprite);
+				this.show ();
 			}
 		}
 		//Handles invulnerability
 		if (invulTimer > 0) {
 			invulTimer --;
 		}
+		if (this.health <= 0) {
+			this.health = this.maxHealth;
+			MainLoop.getConsole ().enable ("You died, and I'm too lazy to put anything in for that. :P");
+		}
 	}
-	public void damage (int baseDamage) {
+	public void damage (double baseDamage) {
 		if (invulTimer == 0) {
 			health -= baseDamage;
 			invulTimer = 15;

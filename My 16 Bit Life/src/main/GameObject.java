@@ -1,5 +1,6 @@
 package main;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import resources.AnimationHandler;
@@ -19,6 +20,7 @@ public abstract class GameObject extends GameAPI {
 	private boolean animationEnabled;
 	private boolean flipHorizontal = false;
 	private boolean flipVertical = false;
+	private boolean visible = true;
 	public void declare (double x, double y) {
 		//Adds this GameObject to the object matrix
 		matrixLocation = MainLoop.getObjectMatrix ().add (this);
@@ -343,13 +345,17 @@ public abstract class GameObject extends GameAPI {
 	}
 	public void draw () {
 		//Draws the Sprite associated with this GameObject; called once per frame by ObjectMatrix.callAll ()
-		if (sprite != null) {	
+		if (sprite != null && visible) {	
 			if (animationEnabled) {
 				animationHandler.animate ((int) x - room.getViewX (), (int) y - room.getViewY (), flipHorizontal, flipVertical);
 			} else {
 				sprite.setFrame (0);
 				sprite.draw ((int) x - room.getViewX (), (int) y - room.getViewY (), flipHorizontal, flipVertical);
 			}
+		}
+		if (MainLoop.getConsole ().showHitboxes && this.getHitbox () != null) {
+			MainLoop.getWindow ().getBuffer ().setColor (new Color (0x000080));
+			MainLoop.getWindow ().getBuffer ().drawRect (this.getHitboxXOffset () + (int)this.getX () - room.getViewX (), this.getHitboxYOffset () + (int)this.getY () - room.getViewY (), this.getHitbox ().width, this.getHitbox ().height);
 		}
 	}
 	public void frameEvent () {
@@ -397,5 +403,14 @@ public abstract class GameObject extends GameAPI {
 			c = c.getSuperclass ();
 		}
 		return false;
+	}
+	public void hide () {
+		this.visible = false;
+	}
+	public void show () {
+		this.visible = true;
+	}
+	public boolean isVisible () {
+		return this.visible;
 	}
 }

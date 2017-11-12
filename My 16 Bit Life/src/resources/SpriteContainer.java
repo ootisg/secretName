@@ -5,12 +5,14 @@ package resources;
 public class SpriteContainer {
 	//Please alphebitize spritesheets and sprites
 	//Spritesheets
+	public Spritesheet heartSheet = new Spritesheet ("resources/sprites/heartsheet.png");
 	public Spritesheet butterflySheet = new Spritesheet ("resources/sprites/creepy_butterfly.png");
 	public Spritesheet duoflySheet = new Spritesheet ("resources/sprites/duofly.png");
 	public Spritesheet jeffreySheet = new Spritesheet ("resources/sprites/jeffrey_walking.png");
 	public Spritesheet slimeletSheet = new Spritesheet ("resources/sprites/slimelet.png");
 	public Spritesheet blobSheet = new Spritesheet ("resources/sprites/blob_with_shoes.png");
 	//Sprites
+	public Sprite hearts = new Sprite (heartSheet, 16, 16);
 	public Sprite butterflySprite = new Sprite (butterflySheet, new int[]{0, 16, 32, 48, 64, 80, 96, 112, 128, 144, 160, 176}, new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 16, 16);
 	public Sprite duoflyMinus = new Sprite (duoflySheet, new int[]{0, 16}, new int[]{16, 16}, 16, 16);
 	public Sprite duoflyMinusDeath = new Sprite (duoflySheet, new int[]{32, 48, 64, 80, 96}, new int[]{16, 16, 16, 16, 16}, 16, 16);

@@ -23,16 +23,19 @@ public class GameCode extends GameAPI {
 	DuoflyMinus testFly2;
 	Jeffrey testJeffrey;
 	Textbox textbox;
+	Gui gui;
 	public void initialize () {
 		gameWindow = MainLoop.getWindow ();
 		//Initialize sprites
 		//GameObject initialization
 		testJeffrey = new Jeffrey ();
+		gui = new Gui ();
+		gui.declare (0, 0);
 		new GreenBlob ().declare (96, 192);
 		//GameObject declaration
 		textbox = new Textbox ();
 		try {
-			room.loadRoom ("resources/maps/snowmap2.cmf");
+			room.loadRoom ("resources/maps/snowmap.cmf");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

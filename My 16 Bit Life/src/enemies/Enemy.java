@@ -10,6 +10,7 @@ public abstract class Enemy extends GameObject {
 	public static Jeffrey player = (Jeffrey) MainLoop.getObjectMatrix ().get (MainLoop.getObjectMatrix ().getTypeId ("players.Jeffrey"), 0);
 	public static String[] enemyList = new String [0];
 	protected int health = 1;
+	protected double baseDamage = 2.5;
 	public Enemy () {
 		
 	}
@@ -33,7 +34,7 @@ public abstract class Enemy extends GameObject {
 	@Override
 	public void frameEvent () {
 		if (health <= 0) {
-			this.forget ();
+			this.deathEvent ();
 		}
 		enemyFrame ();
 		if (isColliding (player)) {
@@ -44,7 +45,10 @@ public abstract class Enemy extends GameObject {
 		
 	}
 	public void attackEvent () {
-		player.damage (1);
+		player.damage (this.baseDamage);
+	}
+	public void deathEvent () {
+		this.forget ();
 	}
 	public void damage (int amount) {
 		this.health -= amount;
