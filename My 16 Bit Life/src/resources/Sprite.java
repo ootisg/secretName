@@ -67,12 +67,13 @@ public class Sprite {
 	public Sprite (Spritesheet spritesheet, int width, int height) {
 		int sheetWidth = spritesheet.getWidth ();
 		int sheetHeight = spritesheet.getHeight ();
-		imageArray = new BufferedImage[(int) (Math.floor (sheetHeight / height) * Math.floor (sheetWidth / width))];
+		imageArray = new BufferedImage[(sheetHeight / height) * (sheetWidth / width)];
 		for (int i = 0; i < Math.floor (sheetHeight / height); i ++) {
 			for (int c = 0; c < Math.floor (sheetWidth / width); c ++) {
 				imageArray [i * width + c] = spritesheet.getImage ().getSubimage (c * width, i * height, width, height);
 			}
 		}
+		System.out.println(width);
 		this.width = width;
 		this.height = height;
 		isAnimated = true;

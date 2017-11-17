@@ -24,6 +24,8 @@ public class GameCode extends GameAPI {
 	Jeffrey testJeffrey;
 	Textbox textbox;
 	Gui gui;
+	Tbox tbox;
+	ListTbox ltbox;
 	public void initialize () {
 		gameWindow = MainLoop.getWindow ();
 		//Initialize sprites
@@ -33,7 +35,9 @@ public class GameCode extends GameAPI {
 		gui.declare (0, 0);
 		new GreenBlob ().declare (96, 192);
 		//GameObject declaration
-		textbox = new Textbox ();
+		//textbox = new Textbox ();
+		tbox = new Tbox (0, 32, 16, 2, "HELLOTHISISTHEAWESOMEJEFFREY1234567890ANDTHEREARELOTSOFLINESTOTHISTEXT!");
+		ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
 		try {
 			room.loadRoom ("resources/maps/snowmap.cmf");
 		} catch (FileNotFoundException e) {
@@ -44,6 +48,7 @@ public class GameCode extends GameAPI {
 	}
 	public void gameLoop () {
 		room.frameEvent (); //Draws the tiles
-		textbox.textBoxCreator ("HELLOTHISISTHEAWESOMEJEFFREY1234567890", 128, 32, 128, 128);
+		int selectedval = ltbox.getSelected ();
+		//textbox.textBoxCreator ("HELLOTHISISTHEAWESOMEJEFFREY1234567890", 128, 32, 128, 128);
 	}
 }

@@ -11,6 +11,8 @@ public class SpriteContainer {
 	public Spritesheet jeffreySheet = new Spritesheet ("resources/sprites/jeffrey_walking.png");
 	public Spritesheet slimeletSheet = new Spritesheet ("resources/sprites/slimelet.png");
 	public Spritesheet blobSheet = new Spritesheet ("resources/sprites/blob_with_shoes.png");
+	public Spritesheet textBorderSheet = new Spritesheet ("resources/sprites/windowsprites2.png");
+	public Spritesheet fontSheet = new Spritesheet ("resources/sprites/text.png");
 	//Sprites
 	public Sprite hearts = new Sprite (heartSheet, 16, 16);
 	public Sprite butterflySprite = new Sprite (butterflySheet, new int[]{0, 16, 32, 48, 64, 80, 96, 112, 128, 144, 160, 176}, new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 16, 16);
@@ -25,6 +27,9 @@ public class SpriteContainer {
 	public Sprite slimeletHorizontal = new Sprite (slimeletSheet, new int[]{0, 16}, new int[]{0, 0}, 16, 16);
 	public Sprite slimeletVertical = new Sprite (slimeletSheet, new int[]{0, 16}, new int[]{16, 16}, 16, 16);
 	public Sprite blob = new Sprite (blobSheet, new int[]{0, 0}, new int[]{0, 16}, 16, 16);
+	public Sprite textBorder = new Sprite (textBorderSheet, 8, 8);
+	public Sprite font = new Sprite (fontSheet, 8, 8);
+	public Sprite selector = new Sprite ("resources/sprites/selector.png");
 	
 	public SpriteContainer () {
 

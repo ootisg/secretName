@@ -9,6 +9,7 @@ import resources.Spritesheet;
 
 public class Textbox extends GameAPI {
 	//Jeffrey please comment your code
+	//Alternatively, Tbox can be used
 	int timer;
 	int amountToDraw = 1;
 	boolean isFinished;
