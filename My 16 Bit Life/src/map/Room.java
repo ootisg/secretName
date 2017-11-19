@@ -1,5 +1,6 @@
 package map;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -7,8 +8,10 @@ import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 
+import main.GameWindow;
 import main.GameObject;
 import main.Hitbox;
+import main.MainLoop;
 import resources.Sprite;
 import resources.Spritesheet;
 
@@ -100,6 +103,7 @@ public class Room {
 				}
 			}
 		}
+
 		if (y1 == y2) {
 			while (true) {
 				tileXOffset = 0;
@@ -124,7 +128,7 @@ public class Room {
 			ycheck1 = m * xcheck1 + b;
 			ycheck2 = snap16 (ystep, ydir);
 			xcheck2 = (ycheck2 - b) / m;
-			if (Math.abs (x1 - xcheck1) > Math.abs (x2 - xcheck2)) {
+			if (Math.abs (x1 - xcheck1) > Math.abs (x1 - xcheck2)) {
 				double temp = xcheck1;
 				xcheck1 = xcheck2;
 				xcheck2 = temp;
@@ -203,7 +207,7 @@ public class Room {
 	}
 	public boolean isColliding (Hitbox hitbox, double xTo, double yTo) {
 		for (int i = 0; i <= 6; i += 2) {
-			if (isColliding (hitbox.x + hitboxCorners [i] * hitbox.width, hitbox.y + hitboxCorners [i + 1] * hitbox.height, xTo + hitboxCorners [i] * hitbox.width, yTo + hitboxCorners [i + 1])) {
+			if (isColliding (hitbox.x + hitboxCorners [i] * hitbox.width, hitbox.y + hitboxCorners [i + 1] * hitbox.height, xTo + hitboxCorners [i] * hitbox.width, yTo + hitboxCorners [i + 1] * hitbox.height)) {
 				return true;
 			}
 		}

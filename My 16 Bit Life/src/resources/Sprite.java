@@ -73,7 +73,6 @@ public class Sprite {
 				imageArray [i * width + c] = spritesheet.getImage ().getSubimage (c * width, i * height, width, height);
 			}
 		}
-		System.out.println(width);
 		this.width = width;
 		this.height = height;
 		isAnimated = true;

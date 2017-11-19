@@ -1,5 +1,7 @@
-/main/
-/players/
-/enemies/
-/resources/
 /map/
+/main/
+/projectiles/
+/enemies/
+/players/
+/resources/
+/gameObjects/

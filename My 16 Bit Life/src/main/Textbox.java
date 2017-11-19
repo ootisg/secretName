@@ -93,8 +93,11 @@ public void textBoxCreator (String text, int width, int height, int x_origin, in
 	int spaceManipulationPlusSpace = 0;
 	int textLengthAtBeginning = textLength;
 	width_beginning = width_basis;
-	if (space < text.substring (spaceManipulation, text.length () - 1).length ()) {
+	if (space < text.substring (spaceManipulation, text.length ()).length ()) {
 		message = text.substring(spaceManipulation,spaceManipulation + spaceBasis);
+	} else {
+		//Here's the fix
+		message = text.substring (spaceManipulation, text.length ());
 	}
 	y_origin = y_origin + 8;
 	if (((keyPressed(65) || keyPressed(97)) && isFinished) || message.length () == 0){
