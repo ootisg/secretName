@@ -25,7 +25,6 @@ public class Gui extends GameObject {
 		}
 	}
 	public void pausedEvent () {
-		System.out.println(mainMenu.matrixLocation[1]);
 		int selectedVal = mainMenu.getSelected ();
 		if (selectedVal == 0) {
 			if (focus == 0) {
