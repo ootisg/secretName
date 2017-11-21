@@ -1,5 +1,7 @@
 package resources;
 
+import main.MainLoop;
+
 public class AnimationHandler {
 	private Sprite sprite;
 	private int frame = 0;
@@ -12,14 +14,16 @@ public class AnimationHandler {
 	public void animate (int x, int y, boolean flipHorizontal, boolean flipVertical) {
 		sprite.setFrame (frame);
 		sprite.draw (x, y, flipHorizontal, flipVertical);
-		if (animationTime >= Math.round (1/animationSpeed)) {
-			frame ++;
-			animationTime = 0;
+		if (!MainLoop.isPaused ()) {
+			if (animationTime >= Math.round (1/animationSpeed)) {
+				frame ++;
+				animationTime = 0;
+			}
+			if (frame > sprite.getFrameCount () - 1) {
+				frame = 0;
+			}
+			animationTime ++;
 		}
-		if (frame > sprite.getFrameCount () - 1) {
-			frame = 0;
-		}
-		animationTime ++;
 	}
 	public void setSprite (Sprite sprite) {
 		this.sprite = sprite;

@@ -5,6 +5,7 @@ import resources.Sprite;
 import resources.Spritesheet;
 import enemies.DuoflyPlus;
 import enemies.GreenBlob;
+import enemies.Slimelet;
 import enemies.DuoflyMinus;
 import players.Jeffrey;
 import gameObjects.AimableWeapon;
@@ -32,7 +33,8 @@ public class GameCode extends GameAPI {
 		//GameObject initialization
 		testJeffrey = new Jeffrey ();
 		gui = new Gui ();
-		gui.declare (0, 0);
+		//new Slimelet ().declare (0, 16);// From when I was messing around with slimelets =P
+		//Uncomment the above line if you want to see them
 		//GameObject declaration
 		//textbox = new Textbox ();
 		//tbox = new Tbox (0, 32, 16, 2, "HELLOTHISISTHEAWESOMEJEFFREY1234567890ANDTHEREARELOTSOFLINESTOTHISTEXT!");

@@ -71,7 +71,15 @@ public class Tbox extends GameObject {
 			frameCount ++;
 		}
 		//Sets the letter to draw to
-		letterPos = frameCount / scrollTime;
+		if (scrollTime != 0) {
+			letterPos = frameCount / scrollTime;
+		} else {
+			if (startPos / (width * height) == text.length () / (width * height)) {
+				letterPos = text.length () - startPos;
+			} else {
+				letterPos = width * height;
+			}
+		}
 	}
 	public void setContent (String text) {
 		this.text = text;

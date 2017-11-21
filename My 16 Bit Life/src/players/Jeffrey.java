@@ -8,7 +8,7 @@ import projectiles.Paintball;
 import resources.Sprite;
 
 public class Jeffrey extends GameObject {
-	private double health;
+	public double health;
 	public double maxHealth;
 	private double fallSpeed;
 	private boolean isWalking;

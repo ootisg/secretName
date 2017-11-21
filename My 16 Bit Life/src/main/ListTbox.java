@@ -3,7 +3,7 @@ package main;
 public class ListTbox extends Tbox {
 	String[] options;
 	int selected;
-	boolean complete;
+	private boolean complete;
 	public ListTbox (double x, double y, String[] options) {
 		//Initialize parameters
 		this.declare (x, y);
@@ -51,26 +51,56 @@ public class ListTbox extends Tbox {
 	@Override
 	public void frameEvent () {
 		//Handles key presses
-		if (keyPressed ((int)'W')) {
-			selected --;
-		}
-		if (keyPressed ((int)'S')) {
-			selected ++;
-		}
-		if (selected < 0) {
-			selected = height - 1;
-		}
-		if (selected >= height) {
-			selected = 0;
-		}
-		if (keyPressed ((int)'A')) {
-			this.close ();
+		if (!complete) {
+			if (keyPressed ((int)'W')) {
+				selected --;
+			}
+			if (keyPressed ((int)'S')) {
+				selected ++;
+			}
+			if (selected < 0) {
+				selected = height - 1;
+			}
+			if (selected >= height) {
+				selected = 0;
+			}
+			if (keyPressed ((int)'A')) {
+				this.select ();
+			}
 		}
 	}
 	@Override
-	public void close () {
+	public void pausedEvent () {
+		//Handles key presses
+		if (!complete) {
+			if (keyPressed ((int)'W')) {
+				selected --;
+			}
+			if (keyPressed ((int)'S')) {
+				selected ++;
+			}
+			if (selected < 0) {
+				selected = height - 1;
+			}
+			if (selected >= height) {
+				selected = 0;
+			}
+			if (keyPressed ((int)'A')) {
+				this.select ();
+			}
+		}
+	}
+	public void select () {
 		//Doesn't close the window, but sets it ready to be closed
 		complete = true;
+	}
+	public void deselect () {
+		//Deselects the currently selected option
+		complete = false;
+	}
+	@Override
+	public void close () {
+		this.forget ();
 	}
 	public int getSelected () {
 		//Closes the window and returns the option selected if the window is ready to be closed
@@ -78,8 +108,14 @@ public class ListTbox extends Tbox {
 		if (!complete) {
 			return -1;
 		} else {
-			this.forget ();
 			return selected;
+		}
+	}
+	public String getSelectedValue () {
+		if (!complete) {
+			return "NULL";
+		} else {
+			return options [selected];
 		}
 	}
 }

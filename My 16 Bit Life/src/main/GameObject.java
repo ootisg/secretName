@@ -21,9 +21,11 @@ public abstract class GameObject extends GameAPI {
 	private boolean flipHorizontal = false;
 	private boolean flipVertical = false;
 	private boolean visible = true;
+	public boolean declared = false;
 	public void declare (double x, double y) {
 		//Adds this GameObject to the object matrix
 		matrixLocation = MainLoop.getObjectMatrix ().add (this);
+		this.declared = true;
 		this.x = x;
 		this.y = y;
 		xprevious = x;
@@ -31,7 +33,9 @@ public abstract class GameObject extends GameAPI {
 	}
 	public void forget () {
 		//Removes this GameObject from the object matrix
+		System.out.println(matrixLocation[1]);
 		MainLoop.getObjectMatrix ().remove (matrixLocation);
+		this.declared = false;
 	}
 	public void setPosition (double x, double y) {
 		//Sets the position of this GameObject to (x, y)
@@ -360,6 +364,9 @@ public abstract class GameObject extends GameAPI {
 	}
 	public void frameEvent () {
 		//Called once per frame by ObjectMatrix.callAll (), after GameObject.draw ()
+	}
+	public void pausedEvent () {
+		//Called once per frame by ObjectMatrix.callAll () when the game is paused
 	}
 	public AnimationHandler getAnimationHandler () {
 		//Returns the AnimationHandler object associated with this GameObject

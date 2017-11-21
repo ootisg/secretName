@@ -11,12 +11,14 @@ public class MainLoop {
 	private static ObjectMatrix objectMatrix;
 	private static Console console;
 	private static long delay; //Used for loop timing
+	private static boolean paused;
 	public static void main (String[] args) {
 		//Main method
 		double framerate = 30; //The framerate; pretty self-explanitory
 		boolean running = true; //Currently unused, but setting this to false would stop the game
 		long startTime; //Used for loop timing
 		delay = 0; //Used for loop timing
+		paused = false; //Used for pausing game logic
 		gameWindow = new GameWindow (); //Create the window
 		objectMatrix = new ObjectMatrix (); //Create the object matrix
 		sprites = new SpriteContainer (); //Create the sprite container
@@ -73,5 +75,14 @@ public class MainLoop {
 	}
 	public static long getDelay () {
 		return delay;
+	}
+	public static void pause () {
+		paused = true;
+	}
+	public static void resume () {
+		paused = false;
+	}
+	public static boolean isPaused () {
+		return paused;
 	}
 }

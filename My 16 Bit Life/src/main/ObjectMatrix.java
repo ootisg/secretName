@@ -41,7 +41,7 @@ public class ObjectMatrix {
 		objectMatrix.get (coords [0]).set (coords [1], null);
 	}
 	public void callAll () {
-		//Calls the draw method and the frameEvent method
+		//Calls the draw method, the frameEvent method, and the pauseEvent method
 		int objectArrayLength1 = objectMatrix.size ();
 		int objectArrayLength2;
 		for (int i = 0; i < objectArrayLength1; i ++) {
@@ -49,7 +49,11 @@ public class ObjectMatrix {
 			objectArrayLength2 = objectArray.size ();
 			for (int c = 0; c < objectArrayLength2; c ++) {
 				if (objectArray.get (c) != null) {
-					objectArray.get (c).frameEvent ();
+					if (MainLoop.isPaused ()) {
+						objectArray.get (c).pausedEvent ();
+					} else {
+						objectArray.get (c).frameEvent ();
+					}
 					if (objectArray.get (c) != null) {
 						objectArray.get (c).draw ();
 					}
