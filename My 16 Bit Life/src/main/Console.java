@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Constructor;
 
-public class Console {
+public class Console extends GameAPI {
 	//Commands are:
 	//-loadmap <name>
 	//-newinstance <name> <x> <y>
@@ -15,6 +15,9 @@ public class Console {
 	//-gettype
 	//-getposition
 	//-delete
+	//-3denable
+	//-3denable <renderdist>
+	//-3ddisable
 	public boolean showHitboxes = false;
 	private boolean enabled = false;
 	private GameWindow window;
@@ -110,6 +113,16 @@ public class Console {
 				text [currentLine] = "Hitbox display turned off";
 			}
 		}
+		if (command.equals ("-3denable")) {
+			rayCamera.enabled = true;
+			MainLoop.getWindow ().rasterMode = GameWindow.RASTER_ONLY;
+			text [currentLine] = "3D mode enabled";
+		}
+		if (command.equals ("-3ddisable")) {
+			rayCamera.enabled = false;
+			MainLoop.getWindow ().rasterMode = GameWindow.NO_RASTER;
+			text [currentLine] = "3D mode disabled";
+		}
 		String[] cmd = command.split (" ");
 		if (cmd.length == 1) {
 			if (cmd [0].equals ("-gettype")) {
@@ -147,6 +160,12 @@ public class Console {
 			return;
 		}
 		if (cmd.length == 2) {
+			if (cmd [0].equals ("-3denable")) {
+				rayCamera.enabled = true;
+				rayCamera.clipFar = Double.parseDouble (cmd [1]);
+				MainLoop.getWindow ().rasterMode = GameWindow.RASTER_ONLY;
+				text [currentLine] = "3D mode enabled";
+			}
 			if (cmd [0].equals ("-loadmap")) {
 				try {
 					GameAPI.room.loadRoom ("resources/maps/" + cmd [1]);
@@ -161,6 +180,10 @@ public class Console {
 				return;
 			}
 		} else if (cmd.length == 3) {
+			if (cmd [0].equals ("-setresolution")) {
+				MainLoop.getWindow ().setResolution (Integer.parseInt (cmd [1]), Integer.parseInt (cmd [2]));
+				text [currentLine] = "The new resolution has been set.";
+			}
 			if (cmd [0].equals ("-getinstance")) {
 				if (MainLoop.getObjectMatrix ().getTypeId (cmd [1]) != -1) {
 					objectRef = MainLoop.getObjectMatrix ().get (MainLoop.getObjectMatrix ().getTypeId (cmd [1]), Integer.parseInt (cmd [2]));

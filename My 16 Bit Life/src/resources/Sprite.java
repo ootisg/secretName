@@ -16,7 +16,8 @@ public class Sprite {
 	private int width;
 	private int height;
 	public Sprite (BufferedImage image) {
-		imageArray = new BufferedImage[] {image};
+		imageArray = new BufferedImage[] {new BufferedImage (image.getWidth (), image.getHeight (), BufferedImage.TYPE_INT_ARGB)};
+		imageArray [0].getGraphics ().drawImage (image, 0, 0, null);
 		width = image.getWidth ();
 		height = image.getHeight ();
 		isAnimated = false;
@@ -24,7 +25,9 @@ public class Sprite {
 	public Sprite (String filepath) {
 		imageArray = new BufferedImage[1];
 		try {
-			imageArray [0] = ImageIO.read (new File (filepath));
+			BufferedImage imgBuffer = ImageIO.read (new File (filepath));
+			imageArray [0] = new BufferedImage (imgBuffer.getWidth (), imgBuffer.getHeight (), BufferedImage.TYPE_INT_ARGB);
+			imageArray [0].getGraphics ().drawImage (imgBuffer, 0, 0, null);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -67,7 +70,7 @@ public class Sprite {
 	public Sprite (Spritesheet spritesheet, int width, int height) {
 		int sheetWidth = spritesheet.getWidth ();
 		int sheetHeight = spritesheet.getHeight ();
-		imageArray = new BufferedImage[(sheetHeight / height) * (sheetWidth / width)];
+		imageArray = new BufferedImage[(int) (Math.floor (sheetHeight / height) * Math.floor (sheetWidth / width))];
 		for (int i = 0; i < Math.floor (sheetHeight / height); i ++) {
 			for (int c = 0; c < Math.floor (sheetWidth / width); c ++) {
 				imageArray [i * width + c] = spritesheet.getImage ().getSubimage (c * width, i * height, width, height);

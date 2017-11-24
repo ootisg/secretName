@@ -1,10 +1,12 @@
 package main;
 
+import graphics3D.RayCamera;
 import map.Room;
 import resources.SpriteContainer;
 
 public abstract class GameAPI {
 	protected static Room room = new Room (); //Makes the static instance of the room object
+	protected static RayCamera rayCamera = new RayCamera (160, 160, 0);
 	protected static SpriteContainer sprites = MainLoop.getSprites (); //Makes the static instance of the sprite container object
 	public boolean keyCheck (int keyCode) {
 		//Returns true if the key with an ASCII code of keyCode is pressed down

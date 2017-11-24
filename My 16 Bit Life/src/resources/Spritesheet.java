@@ -15,7 +15,9 @@ public class Spritesheet {
 	private int height;
 	public Spritesheet (String filepath) {
 		try {
-			img = ImageIO.read (new File (filepath));
+			BufferedImage imgBuffer = ImageIO.read (new File (filepath));
+			img = new BufferedImage (imgBuffer.getWidth (), imgBuffer.getHeight (), BufferedImage.TYPE_INT_ARGB);
+			img.getGraphics ().drawImage (imgBuffer, 0, 0, null);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

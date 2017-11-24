@@ -21,20 +21,30 @@ public class GameWindow extends JFrame {
 	ExtendedMouseListener mouseListener;
 	ExtendedMouseMotionListener motionListener;
 	BufferedImage bufferImage;
+	BufferedImage rasterImage;
 	BufferedImage consoleImage;
+	WritableRaster bufferRaster;
 	Graphics bufferGraphics;
 	Insets insets;
 	int numtest = 0;
+	int rasterMode = 0;
 	int[] resolution = {640, 480};
 	int[] mouseCoords = null;
+	int[] imageData = new int[640 * 480];
+	public static final int NO_RASTER = 0;
+	public static final int RASTER_ONLY = 1;
+	public static final int RASTER_BACKGROUND = 2;
+	public static final int RASTER_OVERLAY = 3;
 	public GameWindow () {
 		//Create buffers
 		bufferImage = new BufferedImage (640, 480, BufferedImage.TYPE_INT_ARGB); //Used for sprites
+		rasterImage = new BufferedImage (640, 480, BufferedImage.TYPE_INT_ARGB);
 		consoleImage = new BufferedImage (640, 480, BufferedImage.TYPE_INT_RGB); //The buffer for the dev console
 		keysPressed = new boolean[256]; //Array for tracking which keys are down
 		keysPressedOnFrame = new boolean[256]; //Array for tracking which keys have just been pressed
 		keysReleasedOnFrame = new boolean[256]; //Array for tracking which keys have just been released
 		bufferGraphics = bufferImage.getGraphics (); //Get a graphics interface for bufferedimage
+		bufferRaster = rasterImage.getRaster ();
 		//Makes sure that java closes
 		this.addWindowListener (new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
@@ -98,10 +108,32 @@ public class GameWindow extends JFrame {
 				Console console = MainLoop.getConsole ();
 				if (!console.isEnabled ()) {
 					bufferGraphics.drawRect (getMouseX (), getMouseY (), 2, 2);
+					if (rasterMode != 0) {
+						bufferRaster.setDataElements (0, 0, rasterImage.getWidth (), rasterImage.getHeight (), imageData);
+					}
+					if (rasterMode == 0) {
+						g.drawImage (bufferImage, insets.left, insets.top, this.getContentPane ().getWidth (), this.getContentPane ().getHeight (), null);
+					}
+					if (rasterMode == 1) {
+						g.drawImage (rasterImage, insets.left, insets.top, this.getContentPane ().getWidth (), this.getContentPane ().getHeight (), null);
+					}
+					if (rasterMode == 2) {
+						g.drawImage (rasterImage, insets.left, insets.top, this.getContentPane ().getWidth (), this.getContentPane ().getHeight (), null);
+						g.drawImage (bufferImage, insets.left, insets.top, this.getContentPane ().getWidth (), this.getContentPane ().getHeight (), null);
+					}
+					if (rasterMode == 3) {
+						g.drawImage (bufferImage, insets.left, insets.top, this.getContentPane ().getWidth (), this.getContentPane ().getHeight (), null);
+						g.drawImage (rasterImage, insets.left, insets.top, this.getContentPane ().getWidth (), this.getContentPane ().getHeight (), null);
+					}
+					if (rasterMode != 0) {
+						for (int i = 0; i < imageData.length; i ++) {
+							imageData [i] = 0xFF000000;
+						}
+					}
 				} else {
 					console.render ();
+					g.drawImage (bufferImage, insets.left, insets.top, this.getContentPane ().getWidth (), this.getContentPane ().getHeight (), null);
 				}
-				g.drawImage (bufferImage, insets.left, insets.top, this.getContentPane ().getWidth (), this.getContentPane ().getHeight (), null);
 			}
 		}
 		int[] usedResolution = this.getResolution ();
@@ -160,5 +192,18 @@ public class GameWindow extends JFrame {
 		int[] usedResolution = {width, height};
 		resolution = usedResolution;
 		bufferImage = new BufferedImage (width, height, BufferedImage.TYPE_INT_ARGB);
+		rasterImage = new BufferedImage (width, height, BufferedImage.TYPE_INT_ARGB);
+		bufferRaster = rasterImage.getRaster ();
+		bufferGraphics = bufferImage.getGraphics ();
+		imageData = new int[width * height];
+	}
+	public void setRasterMode (int mode) {
+		rasterMode = mode;
+	}
+	public int getRasterMode () {
+		return rasterMode;
+	}
+	public int[] getImageData () {
+		return imageData;
 	}
 }

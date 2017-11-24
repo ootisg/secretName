@@ -29,6 +29,7 @@ public class Room {
 	private byte[] inData;
 	private static double[] hitboxCorners = new double[] {0, 0, 1, 0, 1, 1, 0, 1, 0, 0};
 	private TileAttributesList tileAttributesList;
+	public TileBuffer tileBuffer = new TileBuffer ();
 	public Room () {
 		//A fairly generic constructor
 		tileAttributesList = new TileAttributesList (MapConstants.tileList);
@@ -149,6 +150,131 @@ public class Room {
 			}
 			if (collisionData [getTileId ((int) xstep / 16 + tileXOffset, (int) ystep / 16 + tileYOffset)]) {
 				return new double[] {xstep, ystep};
+			}
+		}
+	}
+	public void setTileBuffer (double x1, double y1, double x2, double y2) {
+		//MainLoop.getWindow ().getBuffer ().setColor (new Color (0xFF0000));
+		if ((x1 < 0 && x2 < 0) || (x1 > levelWidth * 16 && x2 > levelWidth * 16) || (y1 < 0 && y2 < 0) || (y1 > levelWidth * 16 && y2 > levelWidth * 16)) {
+			tileBuffer.enabled = false;
+			return;
+		} else {
+			tileBuffer.enabled = true;
+		}
+		int xdir = 1;
+		int ydir = 1;
+		double xcheck1 = 0;
+		double ycheck1 = 0;
+		double xcheck2 = 0;
+		double ycheck2 = 0;
+		double xstep = x1;
+		double ystep = y1;
+		byte tileXOffset = 0;
+		byte tileYOffset = 0;
+		if (x1 > x2) {
+			xdir = -1;
+		}
+		if (y1 > y2) {
+			ydir = -1;
+		}
+		/*if (collisionData [getTileId ((int) x1 / 16, (int) y1 / 16)]) {
+			tileBuffer.collisionX = x1;
+			tileBuffer.collisionY = y2;
+			tileBuffer.spriteUsed = tileList [getTileId ((int) x1 / 16, (int) y1 / 16)];
+			return;
+		}*/
+		if (x1 == x2) {
+			while (true) {
+				tileYOffset = 0;
+				ystep = snap16 (ystep, ydir);
+				if (ydir == -1 && ystep % 16 == 0) {
+					tileYOffset = -1;
+				}
+				if (!isBetween (ystep, y1, y2)) {
+					tileBuffer.enabled = false;
+					return;
+				}
+				int tileFinalX = (int) x1 / 16;
+				int tileFinalY = (int) ystep / 16 + tileYOffset;
+				if (tileFinalX < 0 || tileFinalX >= levelWidth || tileFinalY < 0 || tileFinalY >= levelHeight) {
+					tileBuffer.enabled = false;
+					return;
+				}
+				if (collisionData [getTileId (tileFinalX, tileFinalY)]) {
+					tileBuffer.collisionX = x1;
+					tileBuffer.collisionY = y2;
+					tileBuffer.spriteUsed = tileList [getTileId ((int) x1 / 16, (int) ystep / 16 + tileYOffset)];
+					return;
+				}
+			}
+		}
+
+		if (y1 == y2) {
+			while (true) {
+				tileXOffset = 0;
+				xstep = snap16 (xstep, xdir);
+				if (xdir == -1 && xstep % 16 == 0) {
+					tileXOffset = -1;
+				}
+				if (!isBetween (xstep, x1, x2)) {
+					tileBuffer.enabled = false;
+					return;
+				}
+				int tileFinalX = (int) x1 / 16 + tileXOffset;
+				int tileFinalY = (int) ystep / 16;
+				if (tileFinalX < 0 || tileFinalX >= levelWidth || tileFinalY < 0 || tileFinalY >= levelHeight) {
+					tileBuffer.enabled = false;
+					return;
+				}
+				if (collisionData [getTileId (tileFinalX, tileFinalY)]) {
+					tileBuffer.collisionX = xstep;
+					tileBuffer.collisionY = y1;
+					tileBuffer.spriteUsed = tileList [getTileId ((int) x1 / 16 + tileXOffset, (int) ystep / 16)];
+					return;
+				}
+			}
+		}
+		double m = (y1 - y2) / (x1 - x2);
+		double b = y1 - m * x1;
+		while (true) {
+			tileXOffset = 0;
+			tileYOffset = 0;
+			xcheck1 = snap16 (xstep, xdir);
+			ycheck1 = m * xcheck1 + b;
+			ycheck2 = snap16 (ystep, ydir);
+			xcheck2 = (ycheck2 - b) / m;
+			if (Math.abs (x1 - xcheck1) > Math.abs (x1 - xcheck2)) {
+				double temp = xcheck1;
+				xcheck1 = xcheck2;
+				xcheck2 = temp;
+				temp = ycheck1;
+				ycheck1 = ycheck2;
+				ycheck2 = temp;
+			}
+			xstep = xcheck1;
+			ystep = ycheck1;
+			//MainLoop.getWindow ().getBuffer ().fillRect ((int)xstep, (int)ystep, 1, 1);
+			if (!isBetween (xstep, x1, x2) || !isBetween (ystep, y1, y2)) {
+				tileBuffer.enabled = false;
+				return;
+			}
+			if (xdir == -1 && xstep % 16 == 0) {
+				tileXOffset = -1;
+			}
+			if (ydir == -1 && ystep % 16 == 0) {
+				tileYOffset = -1;
+			}
+			int tileFinalX = (int) xstep / 16 + tileXOffset;
+			int tileFinalY = (int) ystep / 16 + tileYOffset;
+			if (tileFinalX < 0 || tileFinalX >= levelWidth || tileFinalY < 0 || tileFinalY >= levelHeight) {
+				tileBuffer.enabled = false;
+				return;
+			}
+			if (collisionData [getTileId (tileFinalX, tileFinalY)]) {
+				tileBuffer.collisionX = xstep;
+				tileBuffer.collisionY = ystep;
+				tileBuffer.spriteUsed = tileList [getTileId ((int) xstep / 16 + tileXOffset, (int) ystep / 16 + tileYOffset)];
+				return;
 			}
 		}
 	}

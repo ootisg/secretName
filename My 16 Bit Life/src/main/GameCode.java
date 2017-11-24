@@ -9,6 +9,7 @@ import enemies.Slimelet;
 import enemies.DuoflyMinus;
 import players.Jeffrey;
 import gameObjects.AimableWeapon;
+import graphics3D.RayCamera;
 import enemies.CreepyButterfly;
 
 import java.awt.Image;
@@ -45,7 +46,6 @@ public class GameCode extends GameAPI {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//System.out.println (room.isColliding (0, 0, 128, 128));
 	}
 	public void gameLoop () {
 		room.frameEvent (); //Draws the tiles
