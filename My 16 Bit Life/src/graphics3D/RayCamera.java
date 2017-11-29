@@ -27,20 +27,20 @@ public class RayCamera extends GameObject {
 			imageData = MainLoop.getWindow ().getImageData ();
 			portWidth = MainLoop.getWindow ().getResolution ()[0];
 			portHeight = MainLoop.getWindow ().getResolution ()[1];
-			if (keyCheck ((int)'W')) {
+			if (keyCheck ('W')) {
 				this.setX (this.getX () + Math.cos (ang) * 3);
 				this.setY (this.getY () - Math.sin (ang) * 3);
 			}
-			if (keyCheck ((int)'S')) {
+			if (keyCheck ('S')) {
 				this.setX (this.getX () - Math.cos (ang) * 3);
 				this.setY (this.getY () + Math.sin (ang) * 3);
 			}
 			double x = this.getX ();
 			double y = this.getY ();
-			if (keyCheck ((int)'A')) {
+			if (keyCheck ('A')) {
 				this.ang -= (Math.PI / 180) * 3;
 			}
-			if (keyCheck ((int)'D')) {
+			if (keyCheck ('D')) {
 				this.ang += (Math.PI / 180) * 3;
 			}
 			double castAng = ang - fov / 2;

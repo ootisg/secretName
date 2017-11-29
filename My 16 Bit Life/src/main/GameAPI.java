@@ -8,13 +8,25 @@ public abstract class GameAPI {
 	protected static Room room = new Room (); //Makes the static instance of the room object
 	protected static RayCamera rayCamera = new RayCamera (160, 160, 0);
 	protected static SpriteContainer sprites = MainLoop.getSprites (); //Makes the static instance of the sprite container object
+	public boolean keyCheck (char key) {
+		//Returns true if the key key is pressed down
+		return MainLoop.getWindow ().keyCheck ((int)key);
+	}
 	public boolean keyCheck (int keyCode) {
 		//Returns true if the key with an ASCII code of keyCode is pressed down
 		return MainLoop.getWindow ().keyCheck (keyCode);
 	}
+	public boolean keyPressed (char key) {
+		//Returns true if the key key was pressed down this frame
+		return MainLoop.getWindow ().keyPressed ((int)key);
+	}
 	public boolean keyPressed (int keyCode) {
 		//Returns true if the key with an ASCII code of keyCode was pressed down this frame
 		return MainLoop.getWindow ().keyPressed (keyCode);
+	}
+	public boolean keyReleased (char key) {
+		//Returns true if the key key was released this frame
+		return MainLoop.getWindow ().keyReleased ((int)key);
 	}
 	public boolean keyReleased (int keyCode) {
 		//Returns true if the key with an ASCII code of keyCode was released this frame

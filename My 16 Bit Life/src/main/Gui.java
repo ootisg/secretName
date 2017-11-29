@@ -19,7 +19,7 @@ public class Gui extends GameObject {
 	}
 	@Override
 	public void frameEvent () {
-		if (keyPressed ((int)'E')) {
+		if (keyPressed ('E')) {
 			mainMenu = new ListTbox (0, 0, new String[]{"WEAPONS", "POPTART HOLDER", "EXIT"});
 			MainLoop.pause ();
 		}

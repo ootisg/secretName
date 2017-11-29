@@ -33,7 +33,6 @@ public abstract class GameObject extends GameAPI {
 	}
 	public void forget () {
 		//Removes this GameObject from the object matrix
-		System.out.println(matrixLocation[1]);
 		MainLoop.getObjectMatrix ().remove (matrixLocation);
 		this.declared = false;
 	}

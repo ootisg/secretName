@@ -73,10 +73,10 @@ public class ListTbox extends Tbox {
 	public void pausedEvent () {
 		//Handles key presses
 		if (!complete) {
-			if (keyPressed ((int)'W')) {
+			if (keyPressed ('W')) {
 				selected --;
 			}
-			if (keyPressed ((int)'S')) {
+			if (keyPressed ('S')) {
 				selected ++;
 			}
 			if (selected < 0) {
@@ -85,7 +85,7 @@ public class ListTbox extends Tbox {
 			if (selected >= height) {
 				selected = 0;
 			}
-			if (keyPressed ((int)'A')) {
+			if (keyPressed ('A')) {
 				this.select ();
 			}
 		}

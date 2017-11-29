@@ -8,8 +8,10 @@ import enemies.GreenBlob;
 import enemies.Slimelet;
 import enemies.DuoflyMinus;
 import players.Jeffrey;
+import players.TopDown;
 import gameObjects.AimableWeapon;
 import graphics3D.RayCamera;
+import graphics3D.VectorCamera;
 import enemies.CreepyButterfly;
 
 import java.awt.Image;
@@ -24,9 +26,11 @@ public class GameCode extends GameAPI {
 	DuoflyPlus testFly;
 	DuoflyMinus testFly2;
 	Jeffrey testJeffrey;
+	TopDown td;
 	Textbox textbox;
 	Gui gui;
 	Tbox tbox;
+	VectorCamera cam;
 	ListTbox ltbox;
 	public void initialize () {
 		gameWindow = MainLoop.getWindow ();
@@ -34,6 +38,8 @@ public class GameCode extends GameAPI {
 		//GameObject initialization
 		testJeffrey = new Jeffrey ();
 		gui = new Gui ();
+		//td = new TopDown ();
+		//cam = new VectorCamera (0, 0);
 		//new Slimelet ().declare (0, 16);// From when I was messing around with slimelets =P
 		//Uncomment the above line if you want to see them
 		//GameObject declaration

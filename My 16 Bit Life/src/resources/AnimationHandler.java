@@ -28,6 +28,9 @@ public class AnimationHandler {
 	public void setSprite (Sprite sprite) {
 		this.sprite = sprite;
 	}
+	public Sprite getSprite () {
+		return this.sprite;
+	}
 	public double getAnimationSpeed () {
 		return animationSpeed;
 	}
@@ -36,5 +39,8 @@ public class AnimationHandler {
 	}
 	public void setFrame (int frame) {
 		this.frame = frame;
+	}
+	public int getFrame () {
+		return this.frame;
 	}
 }

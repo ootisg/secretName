@@ -14,6 +14,7 @@ public class SpriteContainer {
 	public Spritesheet textBorderSheet = new Spritesheet ("resources/sprites/windowsprites2.png");
 	public Spritesheet fontSheet = new Spritesheet ("resources/sprites/text.png");
 	public Spritesheet slimeletClimbSheet = new Spritesheet ("resources/sprites/slimelet_climb.png");
+	public Spritesheet walkSheetTD = new Spritesheet ("resources/sprites/walk_cycle_TD.png");
 	//Sprites
 	public Sprite hearts = new Sprite (heartSheet, 16, 16);
 	public Sprite butterflySprite = new Sprite (butterflySheet, new int[]{0, 16, 32, 48, 64, 80, 96, 112, 128, 144, 160, 176}, new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 16, 16);
@@ -32,7 +33,13 @@ public class SpriteContainer {
 	public Sprite font = new Sprite (fontSheet, 8, 8);
 	public Sprite selector = new Sprite ("resources/sprites/selector.png");
 	public Sprite slimeletClimb = new Sprite (slimeletClimbSheet, new int[]{0, 16, 32, 48, 64, 80, 96, 112, 128, 0, 16, 32, 48, 64, 80, 96, 112, 128}, new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16, 16, 16, 16, 16, 16, 16}, 16, 16);
-	
+	public Sprite[] tdWalk = new Sprite[] {
+			new Sprite (walkSheetTD, new int[]{16, 32}, new int[]{0, 0}, 16, 16),
+			new Sprite (walkSheetTD, new int[]{16, 32}, new int[]{16, 16}, 16, 16),
+			new Sprite (walkSheetTD, new int[]{16, 32}, new int[]{32, 32}, 16, 16),
+			new Sprite (walkSheetTD, new int[]{16, 32}, new int[]{48, 48}, 16, 16)
+	};
+	public Sprite tdIdle = new Sprite (walkSheetTD, new int[]{0, 0, 0, 0}, new int[]{0, 16, 32, 48}, 16, 16);
 	public SpriteContainer () {
 
 	}

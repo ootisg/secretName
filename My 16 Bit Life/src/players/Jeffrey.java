@@ -48,7 +48,7 @@ public class Jeffrey extends GameObject {
 			cooldown = 5;
 		}
 		//Gravity and collision with floor
-		if (keyPressed (0x57) && !isJumping && fallSpeed == 0) {
+		if (keyPressed ('W') && !isJumping && fallSpeed == 0) {
 			isJumping = true;
 			fallSpeed = -10.15625;
 			setSprite (walkSprite);
@@ -81,14 +81,14 @@ public class Jeffrey extends GameObject {
 				}
 			}
 		}
-		if (keyCheck (0x41)) {
+		if (keyCheck ('A')) {
 			setX (getX () - 3);
 			setFlipHorizontal (true);
 			if (fallSpeed == 0 && !isWalking) {
 				isWalking = true;
 				setSprite (walkSprite);
 			}
-		} else if (keyCheck (0x44)) {
+		} else if (keyCheck ('D')) {
 			setX (getX () + 3);
 			setFlipHorizontal (false);
 			if (fallSpeed == 0 && !isWalking) {

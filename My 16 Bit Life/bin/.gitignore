@@ -1,8 +1,4 @@
-/map/
-/main/
-/projectiles/
-/enemies/
-/players/
-/resources/
-/gameObjects/
 /graphics3D/
+/main/
+/resources/
+/players/
