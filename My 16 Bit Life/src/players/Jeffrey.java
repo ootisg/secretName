@@ -76,7 +76,7 @@ public class Jeffrey extends GameObject {
 					break;
 				}
 				if (collidingTiles [i][0]) {
-					this.setY (((getY () + this.getHitboxYOffset ()) / 16) * 16 + 16 - this.getHitboxYOffset ());
+					this.setY ((int)((getY () + this.getHitboxYOffset ()) / 16) * 16 + 16 - this.getHitboxYOffset ());
 					break;
 				}
 			}
