@@ -239,6 +239,33 @@ public abstract class GameObject extends GameAPI {
 		}
 		return null;
 	}
+	public GameObject getCollidingObject (String objectType) {
+		//Returns true if this GameObject is colliding with a GameObject on the object matrix of the type objectType
+		if (this.hitbox != null) {
+			ObjectMatrix objectMatrix = MainLoop.getObjectMatrix ();
+			int nameListLength = objectMatrix.classNameList.size ();
+			ArrayList<GameObject> objectList = null;
+			for (int i = 0; i < nameListLength; i ++) {
+				if (objectType.equals (objectMatrix.classNameList.get (i))) {
+					objectList = objectMatrix.objectMatrix.get (i);
+				}
+			}			
+			if (objectList != null) {
+				int objectListLength = objectList.size ();
+				for (int i = 0; i < objectListLength; i ++) {
+					if (objectList.get (i) != null) {
+						if (objectList.get (i).getHitbox () != null) {
+							if (getHitbox ().checkOverlap (objectList.get (i).getHitbox ())) {
+								return objectList.get (i);
+							}
+						}
+					}
+				}
+				return null;
+			}
+		}
+		return null;
+	}
 	public boolean isColliding (String objectType, double xTo, double yTo) {
 		//Returns true if this GameObject collides with a GameObject on the object matrix of type objectType when moving to (xTo, yTo)
 		if (this.getCollidingCoords (objectType, xTo, yTo) != null) {

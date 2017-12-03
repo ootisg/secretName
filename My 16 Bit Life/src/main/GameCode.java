@@ -38,7 +38,6 @@ public class GameCode extends GameAPI {
 		//GameObject initialization
 		testJeffrey = new Jeffrey ();
 		gui = new Gui ();
-		//td = new TopDown ();
 		//cam = new VectorCamera (0, 0);
 		//new Slimelet ().declare (0, 16);// From when I was messing around with slimelets =P
 		//Uncomment the above line if you want to see them
@@ -54,6 +53,7 @@ public class GameCode extends GameAPI {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		//td = new TopDown ();
 	}
 	public void gameLoop () {
 		room.frameEvent (); //Draws the tiles

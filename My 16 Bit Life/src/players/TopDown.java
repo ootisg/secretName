@@ -2,6 +2,10 @@ package players;
 
 import main.GameObject;
 
+import java.io.FileNotFoundException;
+
+import gameObjects.Loadzone;
+
 public class TopDown extends GameObject {
 	public TopDown () {
 		this.declare (0, 0);
@@ -66,6 +70,10 @@ public class TopDown extends GameObject {
 		if (room.isColliding (this.getHitbox ())) {
 			this.setX (xprev);
 			this.setY (yprev);
+		}
+		GameObject obj = this.getCollidingObject ("gameObjects.Loadzone");
+		if (obj != null) {
+			((Loadzone) obj).loadMap ();
 		}
 	}
 }
