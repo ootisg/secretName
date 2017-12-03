@@ -1,4 +1,4 @@
-package enemies;
+package gameObjects;
 
 import resources.Sprite;
 

@@ -133,4 +133,8 @@ public class Gui extends GameObject {
 			sprites.hearts.draw ((numHearts - 1) * 16, 0);
 		}
 	}
+	@Override
+	public void forget () {
+		
+	}
 }

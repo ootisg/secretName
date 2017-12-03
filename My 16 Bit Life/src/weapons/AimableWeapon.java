@@ -1,4 +1,4 @@
-package gameObjects;
+package weapons;
 
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
@@ -57,5 +57,9 @@ public class AimableWeapon extends GameObject {
 			endY = this.getY () + Math.sin (ang - Math.PI / 180 * 15) * 14;
 		}
 		projectile.setAttributes (endX, endY, ang);
+	}
+	@Override
+	public void forget () {
+		
 	}
 }

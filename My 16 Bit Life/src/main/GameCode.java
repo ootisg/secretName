@@ -3,16 +3,16 @@ package main;
 import resources.AnimationHandler;
 import resources.Sprite;
 import resources.Spritesheet;
-import enemies.DuoflyPlus;
-import enemies.GreenBlob;
-import enemies.Slimelet;
-import enemies.DuoflyMinus;
+import gameObjects.DuoflyPlus;
+import gameObjects.GreenBlob;
+import gameObjects.Slimelet;
+import gameObjects.DuoflyMinus;
 import players.Jeffrey;
 import players.TopDown;
-import gameObjects.AimableWeapon;
+import weapons.AimableWeapon;
 import graphics3D.RayCamera;
 import graphics3D.VectorCamera;
-import enemies.CreepyButterfly;
+import gameObjects.CreepyButterfly;
 
 import java.awt.Image;
 import java.awt.image.*;
@@ -46,6 +46,8 @@ public class GameCode extends GameAPI {
 		//textbox = new Textbox ();
 		//tbox = new Tbox (0, 32, 16, 2, "HELLOTHISISTHEAWESOMEJEFFREY1234567890ANDTHEREARELOTSOFLINESTOTHISTEXT!");
 		//ltbox = new ListTbox (0, 128, new String[] {"OPTION A", "OPTION B", "OPTION C"});
+		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
+		//Add the following to an object to a class to keep it around: @Override public void forget () {}
 		try {
 			room.loadRoom ("resources/maps/snowmap.cmf");
 		} catch (FileNotFoundException e) {

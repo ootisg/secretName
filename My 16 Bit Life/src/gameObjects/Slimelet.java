@@ -1,4 +1,4 @@
-package enemies;
+package gameObjects;
 
 public class Slimelet extends Enemy {
 	private boolean isClimbingConcave;

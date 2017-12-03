@@ -83,4 +83,8 @@ public class RayCamera extends GameObject {
 	public void setPixel (int x, int y, int val) {
 		imageData [y * portWidth + x] = val;
 	}
+	@Override
+	public void forget () {
+		
+	}
 }

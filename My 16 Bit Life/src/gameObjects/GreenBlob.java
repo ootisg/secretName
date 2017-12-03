@@ -1,4 +1,4 @@
-package enemies;
+package gameObjects;
 
 public class GreenBlob extends Enemy {
 	boolean moveRight;

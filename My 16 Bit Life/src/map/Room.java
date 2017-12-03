@@ -390,6 +390,19 @@ public class Room {
 		}
 	}
 	public void loadRoom (String path) throws FileNotFoundException {
+		//Purges the gameObjects
+		ArrayList<ArrayList<GameObject>> objList = MainLoop.getObjectMatrix ().objectMatrix;
+		for (int i = 0; i < objList.size (); i ++) {
+			if (objList.get (i) != null) {
+				int listSize = objList.get (i).size ();
+				for (int j = 0; j < listSize; j ++) {
+					if (objList.get (i).get (j) != null) {
+						objList.get (i).get (j).forget ();
+					}
+					//System.out.println(listSize);
+				}
+			}
+		}
 		//Loads the CMF file at the given filepath
 		readBit = 0;
 		File file = null;
@@ -513,7 +526,7 @@ public class Room {
 			objX = readBits (widthBits);
 			objY = readBits (heightBits);
 			try {
-				objectClass = Class.forName ("enemies." + objectList [objId]);
+				objectClass = Class.forName ("gameObjects." + objectList [objId]);
 			}
 			catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block

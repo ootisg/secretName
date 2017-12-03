@@ -1,6 +1,6 @@
 package players;
 
-import gameObjects.AimableWeapon;
+import weapons.AimableWeapon;
 import main.GameObject;
 import main.GameWindow;
 import main.MainLoop;
@@ -192,5 +192,9 @@ public class Jeffrey extends GameObject {
 	}
 	public double getHealth () {
 		return this.health;
+	}
+	@Override
+	public void forget () {
+		
 	}
 }
