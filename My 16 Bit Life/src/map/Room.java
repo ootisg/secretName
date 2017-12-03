@@ -29,6 +29,7 @@ public class Room {
 	private byte[] inData;
 	private static double[] hitboxCorners = new double[] {0, 0, 1, 0, 1, 1, 0, 1, 0, 0};
 	private TileAttributesList tileAttributesList;
+	private ArrayList<Background> backgroundList;
 	public TileBuffer tileBuffer = new TileBuffer ();
 	public Room () {
 		//A fairly generic constructor
@@ -39,6 +40,7 @@ public class Room {
 		viewX = 0;
 		viewY = 0;
 		readBit = 0;
+		backgroundList = new ArrayList<Background> ();
 	}
 	private int readBits (int num) {
 		//Reads a number of bits from the byte[] inData equal to num and returns them as an int
@@ -381,10 +383,15 @@ public class Room {
 	}
 	public void frameEvent () {
 		//Renders the room
+		int windowWidth = MainLoop.getWindow ().getResolution ()[0];
+		int windowHeight = MainLoop.getWindow ().getResolution()[1];
+		for (int i = 0; i < backgroundList.size (); i ++) {
+			backgroundList.get (i).draw (viewX, viewY);
+		}
 		for (int layer = tileData.length - 1; layer >= 0; layer --) {
-			for (int i = 0; i < levelWidth; i ++) {
-				for (int j = 0; j < levelHeight; j ++) {
-					tileList [tileData [layer][i][j]].draw (i * 16 - viewX, j * 16 - viewY);
+			for (int i = -(viewX % 16); i < windowWidth && i < levelWidth * 16; i += 16) {
+				for (int j = (-viewY % 16); j < windowHeight && j < levelHeight * 16; j += 16) {
+					tileList [tileData [layer][(viewX + i) / 16][(viewY + j) / 16]].draw (i, j);
 				}
 			}
 		}
@@ -645,5 +652,8 @@ public class Room {
 			bound1 = temp;
 		}
 		return (num >= bound1 && num <= bound2);
+	}
+	public ArrayList<Background> getBackgroundList () {
+		return backgroundList;
 	}
 }
