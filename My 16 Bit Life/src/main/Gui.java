@@ -1,10 +1,13 @@
 package main;
 
+import java.awt.Color;
+import java.awt.Graphics;
+
 import players.Jeffrey;
 
 public class Gui extends GameObject {
 	private static Jeffrey player = (Jeffrey) MainLoop.getObjectMatrix ().get (MainLoop.getObjectMatrix ().getTypeId ("players.Jeffrey"), 0);
-	public int totalHearts = 10;
+	//public int totalHearts = 10;
 	ListTbox mainMenu;
 	ListTbox subMenu;
 	Tbox splashBox;
@@ -114,7 +117,7 @@ public class Gui extends GameObject {
 	}
 	@Override
 	public void draw () {
-		int numHearts = (int) Math.ceil((player.getHealth () / player.maxHealth) * totalHearts);
+		/*int numHearts = (int) Math.ceil((player.getHealth () / player.maxHealth) * totalHearts);
 		for (int i = 0; i < numHearts - 1; i ++) {
 			sprites.hearts.setFrame (0);
 			sprites.hearts.draw (i * 16, 0);
@@ -131,7 +134,12 @@ public class Gui extends GameObject {
 		if (finalHeart >= 0) {
 			sprites.hearts.setFrame (3 - finalHeart);
 			sprites.hearts.draw ((numHearts - 1) * 16, 0);
-		}
+		}*/
+		Graphics buffer = MainLoop.getWindow ().getBuffer ();
+		buffer.setColor (new Color(0xFF0000));
+		buffer.fillRect (0, 0, (int)(160 * (player.health / player.maxHealth)), 16);
+		buffer.setColor (new Color(0x000000));
+		buffer.drawRect (0, 0, 160, 16);
 	}
 	@Override
 	public void forget () {

@@ -13,7 +13,7 @@ public class CreepyButterfly extends Enemy {
 		player = (Jeffrey) getObject (getTypeId ("players.Jeffrey"), 0);
 		x = -1;
 		y = -1;
-		this.health = 5;
+		this.health = 1;
 	}
 	@Override
 	public void enemyFrame () {
