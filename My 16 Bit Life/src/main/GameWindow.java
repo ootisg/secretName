@@ -27,7 +27,7 @@ public class GameWindow extends JFrame {
 	Graphics bufferGraphics;
 	Insets insets;
 	int numtest = 0;
-	int rasterMode = 1;
+	int rasterMode = 0;
 	int[] resolution = {640, 480};
 	int[] mouseCoords = null;
 	int[] imageData = new int[640 * 480];
