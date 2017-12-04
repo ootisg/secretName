@@ -406,7 +406,6 @@ public class Room {
 					if (objList.get (i).get (j) != null) {
 						objList.get (i).get (j).forget ();
 					}
-					//System.out.println(listSize);
 				}
 			}
 		}

@@ -1,5 +1,11 @@
 package main;
 
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JFrame;
 
 import java.awt.Color;
@@ -13,8 +19,14 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 
 public class GameWindow extends JFrame {
+	Clip clip;
 	boolean[] keysPressed;
 	boolean[] keysPressedOnFrame;
 	boolean[] keysReleasedOnFrame;
@@ -45,6 +57,34 @@ public class GameWindow extends JFrame {
 		keysReleasedOnFrame = new boolean[256]; //Array for tracking which keys have just been released
 		bufferGraphics = bufferImage.getGraphics (); //Get a graphics interface for bufferedimage
 		bufferRaster = rasterImage.getRaster ();
+		try {
+			clip = AudioSystem.getClip ();
+		} catch (LineUnavailableException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			AudioInputStream audioIn = AudioSystem.getAudioInputStream (new File ("resources/audio/test.wav"));
+			try {
+				Clip clip = AudioSystem.getClip ();
+			} catch (LineUnavailableException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			try {
+				clip.open (audioIn);
+			} catch (LineUnavailableException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			clip.start ();
+		} catch (UnsupportedAudioFileException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		//Makes sure that java closes
 		this.addWindowListener (new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
