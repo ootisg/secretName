@@ -39,7 +39,6 @@ public class GameCode extends GameAPI {
 		testJeffrey = new Jeffrey ();
 		//gui = new Gui ();
 		//cam = new VectorCamera (0, 0);
-		//new Slimelet ().declare (0, 16);// From when I was messing around with slimelets =P
 		//Uncomment the above line if you want to see them
 		//GameObject declaration
 		//textbox = new Textbox ();
@@ -53,6 +52,7 @@ public class GameCode extends GameAPI {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		new Slimelet ().declare (0, 16);// From when I was messing around with slimelets =P
 		//td = new TopDown ();
 	}
 	public void gameLoop () {

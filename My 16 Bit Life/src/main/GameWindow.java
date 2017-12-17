@@ -73,6 +73,7 @@ public class GameWindow extends JFrame {
 			}
 			try {
 				clip.open (audioIn);
+				clip.loop (Clip.LOOP_CONTINUOUSLY);
 			} catch (LineUnavailableException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
