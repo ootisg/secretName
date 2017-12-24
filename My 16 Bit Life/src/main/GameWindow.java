@@ -63,7 +63,7 @@ public class GameWindow extends JFrame {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		try {
+		/*try {
 			AudioInputStream audioIn = AudioSystem.getAudioInputStream (new File ("resources/audio/test.wav"));
 			try {
 				Clip clip = AudioSystem.getClip ();
@@ -85,7 +85,7 @@ public class GameWindow extends JFrame {
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}
+		}*/
 		//Makes sure that java closes
 		this.addWindowListener (new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {

@@ -122,4 +122,10 @@ public class Hitbox {
 		}
 		return (num >= bound1 && num <= bound2);
 	}
+	public void setAttributes (int x, int y, int width, int height) {
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+	}
 }

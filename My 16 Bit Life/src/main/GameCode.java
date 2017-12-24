@@ -52,7 +52,7 @@ public class GameCode extends GameAPI {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		new Slimelet ().declare (0, 16);// From when I was messing around with slimelets =P
+		new Slimelet ().declare (200, 400);// From when I was messing around with slimelets =P
 		//td = new TopDown ();
 	}
 	public void gameLoop () {

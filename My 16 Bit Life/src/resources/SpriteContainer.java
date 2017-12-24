@@ -32,7 +32,8 @@ public class SpriteContainer {
 	public Sprite textBorder = new Sprite (textBorderSheet, 8, 8);
 	public Sprite font = new Sprite (fontSheet, 8, 8);
 	public Sprite selector = new Sprite ("resources/sprites/selector.png");
-	public Sprite slimeletClimb = new Sprite (slimeletClimbSheet, new int[]{0, 16, 32, 48, 64, 80, 96, 112, 128, 0, 16, 32, 48, 64, 80, 96, 112, 128}, new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16, 16, 16, 16, 16, 16, 16}, 16, 16);
+	public Sprite slimeletClimbHorizontal = new Sprite (slimeletClimbSheet, new int[]{0, 16, 32, 48, 64, 80, 96, 112, 128, 0, 16, 32, 48, 64, 80, 96, 112, 128}, new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 16, 16, 16, 16, 16, 16, 16, 16}, 16, 16);
+	public Sprite slimeletClimbVertical = new Sprite (slimeletClimbSheet, new int[]{0, 16, 32, 48, 64, 80, 96, 112, 128, 0, 16, 32, 48, 64, 80, 96, 112, 128}, new int[] {32, 32, 32, 32, 32, 32, 32, 32, 32, 48, 48, 48, 48, 48, 48, 48, 48, 48}, 16, 16);
 	public Sprite[] tdWalk = new Sprite[] {
 			new Sprite (walkSheetTD, new int[]{16, 32}, new int[]{0, 0}, 16, 16),
 			new Sprite (walkSheetTD, new int[]{16, 32}, new int[]{16, 16}, 16, 16),
