@@ -37,7 +37,7 @@ public class GameCode extends GameAPI {
 		//Initialize sprites
 		//GameObject initialization
 		testJeffrey = new Jeffrey ();
-		//gui = new Gui ();
+		gui = new Gui ();
 		//cam = new VectorCamera (0, 0);
 		//Uncomment the above line if you want to see them
 		//GameObject declaration

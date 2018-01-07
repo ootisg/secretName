@@ -132,7 +132,7 @@ public class Slimelet extends Enemy {
 		if ((direction == 2 || direction == 3) && conversePrevious) {
 			this.setFlipHorizontal (true);
 		}
-		if (this.animation != 0) {
+		if (this.animation == 1) {
 			//System.out.println("1");
 			if (climbTimer >= climbFrames * 9) {
 				climbTimer = 0;
@@ -216,7 +216,7 @@ public class Slimelet extends Enemy {
 				}
 				climbTimer ++;
 			}
-		} else {
+		} else if (animation == 0) {
 			groundAnimationStep ();
 		}
 		animationTimer ++;
@@ -242,5 +242,16 @@ public class Slimelet extends Enemy {
 		this.setHitboxYOffset (y1);
 		this.getHitbox ().width = x2 - x1;
 		this.getHitbox ().height = y2 - y1;
+	}
+	public boolean roomIsCollidingOffset (double offsetX, double offsetY) {
+		this.setX (this.getX () + offsetX);
+		this.setY (this.getY () + offsetY);
+		if (room.isColliding (this.getHitbox ())) {
+			this.backstep ();
+			return true;
+		} else {
+			this.backstep ();
+			return false;
+		}
 	}
 }
