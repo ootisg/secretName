@@ -1,0 +1,1 @@
+The build must be in the same folder as the resources folder to run correctly.
