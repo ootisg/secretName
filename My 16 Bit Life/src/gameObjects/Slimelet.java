@@ -132,7 +132,9 @@ public class Slimelet extends Enemy {
 		if ((direction == 2 || direction == 3) && conversePrevious) {
 			this.setFlipHorizontal (true);
 		}
-		if (this.animation == 1) {
+		if (this.animation == 2) {
+			
+		} else if (this.animation == 1) {
 			//System.out.println("1");
 			if (climbTimer >= climbFrames * 9) {
 				climbTimer = 0;

@@ -47,12 +47,12 @@ public class GameCode extends GameAPI {
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
 		try {
-			room.loadRoom ("resources/maps/snowmap.cmf");
+			room.loadRoom ("resources/maps/box.cmf");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		new Slimelet ().declare (200, 400);// From when I was messing around with slimelets =P
+		new Slimelet ().declare (48, 16);// From when I was messing around with slimelets =P
 		//td = new TopDown ();
 	}
 	public void gameLoop () {
