@@ -32,7 +32,7 @@ public class Textbox extends GameAPI {
 	textBoxTop = new Sprite (borderSheet, 0, 0, 8, 8); 
 	textBoxBottum = new Sprite (borderSheet, 24, 0, 8, 1);
 	textBoxSides = new  Sprite (borderSheet, 16, 0, 1, 8);
-	textBoxBackground = new Sprite (borderSheet, 17, 0, 8, 8);
+	textBoxBackground = new Sprite (borderSheet, 8, 0, 8, 8);
 	isFinished = false;
 	spaceManipulation = 0;
 	}
