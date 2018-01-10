@@ -34,6 +34,7 @@ public class GameCode extends GameAPI {
 	ListTbox ltbox;
 	public void initialize () {
 		gameWindow = MainLoop.getWindow ();
+		gameWindow.setResolution(320,240);
 		//Initialize sprites
 		//GameObject initialization
 		testJeffrey = new Jeffrey ();
@@ -52,7 +53,7 @@ public class GameCode extends GameAPI {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		new Slimelet ().declare (48, 16);// From when I was messing around with slimelets =P
+		new Slimelet ().declare (128, 16);// From when I was messing around with slimelets =P
 		//td = new TopDown ();
 	}
 	public void gameLoop () {

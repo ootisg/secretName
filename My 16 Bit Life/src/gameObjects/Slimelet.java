@@ -28,50 +28,56 @@ public class Slimelet extends Enemy {
 	@Override
 	public void enemyFrame () {
 		//Random numbers correspond to sprite coordinates
+		int slimeOffset;
+		if (this.animation != 2) {
+			slimeOffset = (climbTimer + 1) / climbFrames;
+		} else {
+			slimeOffset = 0;
+		}
 		if (!this.conversePrevious) {
 			switch (this.direction) {
 				case 0:
 					this.setHitboxRect (6, 7, 15, 15);
-					this.slimeX = 3 + (climbTimer + 1) / climbFrames;
+					this.slimeX = 3 + slimeOffset;
 					this.slimeY = 15;
 					break;
 				case 1:
 					this.setHitboxRect (0, 7, 9, 15);
-					this.slimeX = 12 - (climbTimer + 1) / climbFrames;
+					this.slimeX = 12 - slimeOffset;
 					this.slimeY = 15;
 					break;
 				case 2:
 					this.setHitboxRect (7, 0, 15, 9);
 					this.slimeX = 15;
-					this.slimeY = 12 - (climbTimer + 1) / climbFrames;
+					this.slimeY = 12 - slimeOffset;
 					break;
 				case 3:
 					this.setHitboxRect (7, 6, 15, 15);
 					this.slimeX = 15;
-					this.slimeY = 3 + (climbTimer + 1) / climbFrames;
+					this.slimeY = 3 + slimeOffset;
 					break;
 			}
 		} else {
 			switch (this.direction) {
 				case 0:
 					this.setHitboxRect (6, 0, 15, 8);
-					this.slimeX = 3 + (climbTimer + 1) / climbFrames;
+					this.slimeX = 3 + slimeOffset;
 					this.slimeY = 0;
 					break;
 				case 1:
 					this.setHitboxRect (0, 0, 9, 8);
-					this.slimeX = 12 - (climbTimer + 1) / climbFrames;
+					this.slimeX = 12 - slimeOffset;
 					this.slimeY = 0;
 					break;
 				case 2:
 					this.setHitboxRect (0, 0, 8, 9);
 					this.slimeX = 0;
-					this.slimeY = 12 - (climbTimer + 1) / climbFrames;
+					this.slimeY = 12 - slimeOffset;
 					break;
 				case 3:
 					this.setHitboxRect (0, 6, 8, 15);
 					this.slimeX = 0;
-					this.slimeY = 3 + (climbTimer + 1) / climbFrames;
+					this.slimeY = 3 + slimeOffset;
 					break;
 				}
 		}
@@ -108,6 +114,78 @@ public class Slimelet extends Enemy {
 					}
 					break;
 			}
+			if (!this.conversePrevious) {
+				switch (this.direction) {
+					case 0:
+						if (!this.roomIsCollidingOffset (this.getHitbox ().width, this.getHitbox ().height) && !room.isColliding (this.getHitbox ())) {
+							this.animation = 2;
+							this.setX (this.getX () + 8);
+							this.setY (this.getY () + 5);
+						}
+						break;
+					case 1:
+						
+						break;
+					case 2:
+						
+						break;
+					case 3:
+						if (!this.roomIsCollidingOffset (-this.getHitbox ().width, this.getHitbox ().height) && !room.isColliding (this.getHitbox ())) {
+							this.animation = 2;
+							this.setX (this.getX () - 5);
+							this.setY (this.getY () - 7);
+						}
+						break;
+				}
+			} else {
+				switch (this.direction) {
+					case 0:
+						
+						break;
+					case 1:
+						
+						break;
+					case 2:
+						
+						break;
+					case 3:
+						
+						break;
+					}
+			}
+		}
+		if (this.animation == 2) {
+			if (!this.conversePrevious) {
+				switch (this.direction) {
+					case 0:
+						this.setY (this.getY () + 1);
+						break;
+					case 1:
+						this.setY (this.getY () + 1);
+						break;
+					case 2:
+						this.setX (this.getY () + 1);
+						break;
+					case 3:
+						this.setX (this.getX () + 1);
+						break;
+				}
+			} else {
+				switch (this.direction) {
+					case 0:
+						this.setY (this.getY () - 1);
+						break;
+					case 1:
+						this.setY (this.getY () - 1);
+						break;
+					case 2:
+						this.setX (this.getX () - 1);
+						break;
+					case 3:
+						this.setX (this.getX () - 1);
+						break;
+				}
+			}
 		}
 		new Slime ().declare (this.getX () + this.slimeX, this.getY () + this.slimeY);
 	}
@@ -133,7 +211,78 @@ public class Slimelet extends Enemy {
 			this.setFlipHorizontal (true);
 		}
 		if (this.animation == 2) {
-			
+			if (climbTimer >= climbFrames * 9) {
+				climbTimer = 0;
+				this.animation = 0;
+				//System.out.println(this.converse);
+				if (this.conversePrevious) {
+					switch (this.direction) {
+						case 0:
+							this.direction = 2;
+							this.converse = false;
+							break;
+						case 1:
+							this.direction = 2;
+							this.converse = true;
+							break;
+						case 2:
+							this.direction = 1;
+							this.converse = true;
+							break;
+						case 3:
+							this.direction = 1;
+							this.converse = false;
+							break;
+					}
+				} else {
+					switch (this.direction) {
+						case 0:
+							this.direction = 3;
+							this.converse = true;
+							this.setX (this.getX () + 7);
+							this.setY (this.getY () - 4);
+							break;
+						case 1:
+							this.direction = 3;
+							this.converse = true;
+							break;
+						case 2:
+							this.direction = 0;
+							this.converse = true;
+							break;
+						case 3:
+							this.direction = 0;
+							this.converse = false;
+							break;
+					}
+				}
+				this.conversePrevious = this.converse;
+				this.setFlipVertical (false);
+				this.setFlipHorizontal (false);
+				if (direction == 1) {
+					this.setFlipHorizontal (true);
+				}
+				if (direction == 3) {
+					this.setFlipVertical (true);
+				}
+				if ((direction == 0 || direction == 1) && converse) {
+					this.setFlipVertical (true);
+				}
+				if ((direction == 2 || direction == 3) && converse) {
+					this.setFlipHorizontal (true);
+				}
+				groundAnimationStep ();
+			} else {
+				int frameToDraw = (climbTimer / climbFrames);
+				if (this.direction == 0 || this.direction == 1) {
+					sprites.slimeletOver.setFrame (frameToDraw);
+					sprites.slimeletOver.draw ((int)this.getX () - room.getViewX (), (int)this.getY () - room.getViewY (), this.getFlipHorizontal (), this.getFlipVertical ());
+				} else {
+					sprites.slimeletAround.setFrame (frameToDraw);
+					sprites.slimeletAround.draw ((int)this.getX () - room.getViewX (), (int)this.getY () - room.getViewY (), this.getFlipHorizontal (), this.getFlipVertical ());
+				}
+				climbTimer ++;
+			}
 		} else if (this.animation == 1) {
 			//System.out.println("1");
 			if (climbTimer >= climbFrames * 9) {

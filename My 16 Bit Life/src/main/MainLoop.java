@@ -14,7 +14,7 @@ public class MainLoop {
 	private static boolean paused;
 	public static void main (String[] args) {
 		//Main method
-		double framerate = 30; //The framerate; pretty self-explanitory
+		double framerate = 2; //The framerate; pretty self-explanitory
 		boolean running = true; //Currently unused, but setting this to false would stop the game
 		long startTime; //Used for loop timing
 		delay = 0; //Used for loop timing
