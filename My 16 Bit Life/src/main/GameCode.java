@@ -34,7 +34,7 @@ public class GameCode extends GameAPI {
 	ListTbox ltbox;
 	public void initialize () {
 		gameWindow = MainLoop.getWindow ();
-		gameWindow.setResolution(320,240);
+		gameWindow.setResolution (640, 480);
 		//Initialize sprites
 		//GameObject initialization
 		testJeffrey = new Jeffrey ();
@@ -48,12 +48,12 @@ public class GameCode extends GameAPI {
 		//WARNING: LOADING A ROOM PURGES ALL THE OBJECTS USING THE FORGET METHOD
 		//Add the following to an object to a class to keep it around: @Override public void forget () {}
 		try {
-			room.loadRoom ("resources/maps/box.cmf");
+			room.loadRoom ("resources/maps/snowmap.cmf");
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		new Slimelet ().declare (128, 16);// From when I was messing around with slimelets =P
+		new Slimelet ().declare (200, 400);// From when I was messing around with slimelets =P
 		//td = new TopDown ();
 	}
 	public void gameLoop () {

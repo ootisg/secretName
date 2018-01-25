@@ -7,7 +7,7 @@ public class CreepyButterfly extends Enemy {
 	private double x;
 	private double y;
 	public CreepyButterfly () {
-		setSprite (getSprites ().butterflySprite);
+		setSprite (sprites.butterflySprite);
 		createHitbox (0, 0, 16, 16);
 		getAnimationHandler ().setAnimationSpeed (.6);
 		player = (Jeffrey) getObject (getTypeId ("players.Jeffrey"), 0);

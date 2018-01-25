@@ -32,7 +32,7 @@ public class Slimelet extends Enemy {
 		if (this.animation != 2) {
 			slimeOffset = (climbTimer + 1) / climbFrames;
 		} else {
-			slimeOffset = 0;
+			slimeOffset = -65535;
 		}
 		if (!this.conversePrevious) {
 			switch (this.direction) {
@@ -124,32 +124,56 @@ public class Slimelet extends Enemy {
 						}
 						break;
 					case 1:
-						
-						break;
-					case 2:
-						
-						break;
-					case 3:
 						if (!this.roomIsCollidingOffset (-this.getHitbox ().width, this.getHitbox ().height) && !room.isColliding (this.getHitbox ())) {
 							this.animation = 2;
-							this.setX (this.getX () - 5);
-							this.setY (this.getY () - 7);
+							this.setX (this.getX () - 8);
+							this.setY (this.getY () + 5);
+						}
+						break;
+					case 2:
+						if (!this.roomIsCollidingOffset (this.getHitbox ().width, -this.getHitbox ().height) && !room.isColliding (this.getHitbox ())) {
+							this.animation = 2;
+							this.setX (this.getX () + 5);
+							this.setY (this.getY () - 8);
+						}
+						break;
+					case 3:
+						if (!this.roomIsCollidingOffset (this.getHitbox ().width, this.getHitbox ().height) && !room.isColliding (this.getHitbox ())) {
+							this.animation = 2;
+							this.setX (this.getX () + 5);
+							this.setY (this.getY () + 8);
 						}
 						break;
 				}
 			} else {
 				switch (this.direction) {
 					case 0:
-						
+						if (!this.roomIsCollidingOffset (this.getHitbox ().width, -this.getHitbox ().height) && !room.isColliding (this.getHitbox ())) {
+							this.animation = 2;
+							this.setX (this.getX () + 8);
+							this.setY (this.getY () - 5);
+						}
 						break;
 					case 1:
-						
+						if (!this.roomIsCollidingOffset (-this.getHitbox ().width, -this.getHitbox ().height) && !room.isColliding (this.getHitbox ())) {
+							this.animation = 2;
+							this.setX (this.getX () - 8);
+							this.setY (this.getY () - 5);
+						}
 						break;
 					case 2:
-						
+						if (!this.roomIsCollidingOffset (-this.getHitbox ().width, -this.getHitbox ().height) && !room.isColliding (this.getHitbox ())) {
+							this.animation = 2;
+							this.setX (this.getX () - 5);
+							this.setY (this.getY () - 8);
+						}
 						break;
 					case 3:
-						
+						if (!this.roomIsCollidingOffset (-this.getHitbox ().width, this.getHitbox ().height) && !room.isColliding (this.getHitbox ())) {
+							this.animation = 2;
+							this.setX (this.getX () - 5);
+							this.setY (this.getY () + 8);
+						}
 						break;
 					}
 			}
@@ -164,7 +188,7 @@ public class Slimelet extends Enemy {
 						this.setY (this.getY () + 1);
 						break;
 					case 2:
-						this.setX (this.getY () + 1);
+						this.setX (this.getX () + 1);
 						break;
 					case 3:
 						this.setX (this.getX () + 1);
@@ -219,19 +243,25 @@ public class Slimelet extends Enemy {
 					switch (this.direction) {
 						case 0:
 							this.direction = 2;
-							this.converse = false;
+							this.converse = true;
+							this.setX (this.getX () + 7);
+							this.setY (this.getY () + 4);
 							break;
 						case 1:
 							this.direction = 2;
-							this.converse = true;
+							this.converse = false;
+							this.setX (this.getX () - 7);
+							this.setY (this.getY () + 7);
 							break;
 						case 2:
 							this.direction = 1;
-							this.converse = true;
+							this.converse = false;
+							this.setY (this.getY () - 7);
 							break;
 						case 3:
 							this.direction = 1;
-							this.converse = false;
+							this.converse = true;
+							this.setY (this.getY () + 7);
 							break;
 					}
 				} else {
@@ -244,15 +274,19 @@ public class Slimelet extends Enemy {
 							break;
 						case 1:
 							this.direction = 3;
-							this.converse = true;
+							this.converse = false;
+							this.setX (this.getX () - 7);
+							this.setY (this.getY () - 4);
 							break;
 						case 2:
 							this.direction = 0;
-							this.converse = true;
+							this.converse = false;
+							this.setY (this.getY () - 7);
 							break;
 						case 3:
 							this.direction = 0;
-							this.converse = false;
+							this.converse = true;
+							this.setY (this.getY () + 7);
 							break;
 					}
 				}
@@ -379,13 +413,13 @@ public class Slimelet extends Enemy {
 			sprites.slimeletVertical.setFrame (1);
 		} else {
 			sprites.slimeletHorizontal.setFrame (0);
-			sprites.slimeletVertical.setFrame (1);
+			sprites.slimeletVertical.setFrame (0);
 		}
 		if (direction == 0 || direction == 1) {
-			sprites.slimeletHorizontal.draw ((int)getX (), (int)getY (), this.getFlipHorizontal (), this.getFlipVertical ());
+			sprites.slimeletHorizontal.draw ((int)getX () - room.getViewX (), (int)getY () - room.getViewY (), this.getFlipHorizontal (), this.getFlipVertical ());
 		}
 		if (direction == 2 || direction == 3) {
-			sprites.slimeletVertical.draw ((int)getX (), (int)getY (), this.getFlipHorizontal (), this.getFlipVertical ());
+			sprites.slimeletVertical.draw ((int)getX () - room.getViewX (), (int)getY () - room.getViewY (), this.getFlipHorizontal (), this.getFlipVertical ());
 		}
 	}
 	public void setHitboxRect (int x1, int y1, int x2, int y2) {
