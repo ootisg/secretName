@@ -10,7 +10,6 @@ import resources.Sprite;
 public class Jeffrey extends GameObject {
 	public double health;
 	public double maxHealth;
-	private double fallSpeed;
 	private boolean isWalking;
 	private boolean isJumping;
 	private Sprite standSprite;
@@ -20,6 +19,7 @@ public class Jeffrey extends GameObject {
 	private int cooldown;
 	private int invulTimer;
 	private int specialCooldown;
+	private double vx, vy, ax, ay;
 	public Jeffrey () {
 		//This class is not yet commented
 		this.declare (0, 0);
@@ -36,6 +36,10 @@ public class Jeffrey extends GameObject {
 		this.health = 100;
 		this.maxHealth = 100;
 		this.invulTimer = 0;
+		this.vx = 0;
+		this.vy = 0;
+		this.ax = 0;
+		this.ay = 0;
 	}
 	@Override
 	public void frameEvent () {
@@ -48,30 +52,43 @@ public class Jeffrey extends GameObject {
 			cooldown = 5;
 		}
 		//Gravity and collision with floor
-		if (keyPressed ('W') && !isJumping && fallSpeed == 0) {
+		if (keyPressed ('W') && !isJumping && vy == 0) {
 			isJumping = true;
-			fallSpeed = -10.15625;
+			vy = -10.15625;
 			setSprite (walkSprite);
 			getAnimationHandler ().setAnimationSpeed (0);
 			getAnimationHandler ().setFrame (3);
 		}
-		if (fallSpeed == 0) {
+		if (vy == 0) {
 			getAnimationHandler ().setAnimationSpeed (.7);
 		}
-		fallSpeed += .65625;
-		if (fallSpeed > 15) {
-			fallSpeed = 15;
+		vy += room.getGravity ();
+		if (vy > 15.0) {
+			vy = 15.0;
 		}
-		setY (getY () + (int) Math.ceil (fallSpeed));
+		setY (getY () + (int) Math.ceil (vy));
 		if (room.isColliding (this.getHitbox ())) {
-			fallSpeed = 0;
+			vy = 0;
+			double fc = .2; //Friction coefficient
+			if (vx > 0) {
+				vx -= fc;
+				if (vx < 0) {
+					vx = 0;
+				}
+			} else if (vx < 0) {
+				vx += fc;
+				if (vx > 0) {
+					vx = 0;
+				}
+			}
 			boolean[][] collidingTiles = room.getCollidingTiles (this.getHitbox ());
 			int tileY = 0;
+			this.setY (this.getY() + vy);
 			for (int i = 0; i < collidingTiles.length; i ++) {
 				if (collidingTiles [i][collidingTiles [0].length - 1]) {
 					tileY = (((int) getY () + this.getHitboxYOffset ()) / 16) + collidingTiles [0].length - 1;
 					this.setY (tileY * 16 - 32);
-					this.fallSpeed = 0;
+					this.vy = 0;
 					isJumping = false;
 					break;
 				}
@@ -82,16 +99,20 @@ public class Jeffrey extends GameObject {
 			}
 		}
 		if (keyCheck ('A')) {
-			setX (getX () - 3);
+			if (vx >= -3.0) {
+				ax = -.5;
+			}
 			setFlipHorizontal (true);
-			if (fallSpeed == 0 && !isWalking) {
+			if (vy == 0 && !isWalking) {
 				isWalking = true;
 				setSprite (walkSprite);
 			}
 		} else if (keyCheck ('D')) {
-			setX (getX () + 3);
+			if (vx <= 3.0) {
+				ax = .5;
+			}
 			setFlipHorizontal (false);
-			if (fallSpeed == 0 && !isWalking) {
+			if (vy == 0 && !isWalking) {
 				isWalking = true;
 				setSprite (walkSprite);
 			}
@@ -100,13 +121,18 @@ public class Jeffrey extends GameObject {
 				isWalking = false;
 				setSprite (standSprite);
 			}
-			if (!isJumping && fallSpeed == 0) {
+			if (!isJumping && vy == 0) {
 				isJumping = false;
 				setSprite (standSprite);
 			}
 		}
+		vx = vx + ax;
+		vy = vy + ay;
+		ax = 0;
+		this.setX (this.getX () + vx);
 		if (room.isColliding (this.getHitbox ())) {
 			this.backstepX ();
+			vx = 0;
 		}
 		double x = this.getX ();
 		double y = this.getY ();

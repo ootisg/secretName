@@ -11,11 +11,13 @@ public class SpriteContainer {
 	public Spritesheet jeffreySheet = new Spritesheet ("resources/sprites/jeffrey_walking.png");
 	public Spritesheet slimeletSheet = new Spritesheet ("resources/sprites/slimelet.png");
 	public Spritesheet blobSheet = new Spritesheet ("resources/sprites/blob_with_shoes.png");
+	public Spritesheet tankSheet = new Spritesheet ("resources/sprites/Tank_enemy.png");
 	public Spritesheet textBorderSheet = new Spritesheet ("resources/sprites/windowsprites2.png");
 	public Spritesheet fontSheet = new Spritesheet ("resources/sprites/text.png");
 	public Spritesheet slimeletClimbSheet = new Spritesheet ("resources/sprites/slimelet_climb.png");
 	public Spritesheet slimeletAroundSheet = new Spritesheet ("resources/sprites/slimelet_around.png");
 	public Spritesheet walkSheetTD = new Spritesheet ("resources/sprites/walk_cycle_TD.png");
+	public Spritesheet explosionSheet = new Spritesheet ("resources/sprites/explosion.png");
 	//Sprites
 	public Sprite hearts = new Sprite (heartSheet, 16, 16);
 	public Sprite butterflySprite = new Sprite (butterflySheet, new int[]{0, 16, 32, 48, 64, 80, 96, 112, 128, 144, 160, 176}, new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}, 16, 16);
@@ -37,6 +39,11 @@ public class SpriteContainer {
 	public Sprite slimeletClimbVertical = new Sprite (slimeletClimbSheet, new int[]{0, 16, 32, 48, 64, 80, 96, 112, 128, 0, 16, 32, 48, 64, 80, 96, 112, 128}, new int[] {32, 32, 32, 32, 32, 32, 32, 32, 32, 48, 48, 48, 48, 48, 48, 48, 48, 48}, 16, 16);
 	public Sprite slimeletAround = new Sprite (slimeletAroundSheet, new int[]{0, 16, 32, 48, 64, 80, 96, 112, 128}, new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0}, 16, 16);
 	public Sprite slimeletOver = new Sprite (slimeletAroundSheet, new int[]{0, 16, 32, 48, 64, 80, 96, 112, 128}, new int[] {16, 16, 16, 16, 16, 16, 16, 16, 16}, 16, 16);
+	public Sprite rightTank = new Sprite (tankSheet, new int [] {0, 16}, new int []{0,0}, 16, 32);
+	public Sprite leftTank = new Sprite (tankSheet, new int [] {112, 128}, new int []{0,0}, 16, 32);
+	public Sprite cannonBall = new Sprite (tankSheet, 144, 24, 8, 8);
+	public Sprite turrningCannon = new Sprite (tankSheet, new int [] {32, 48, 64, 80, 96}, new int []{0, 0, 0, 0, 0}, 16, 32);
+	public Sprite explosion = new Sprite (explosionSheet, 8, 8);
 	public Sprite[] tdWalk = new Sprite[] {
 			new Sprite (walkSheetTD, new int[]{16, 32}, new int[]{0, 0}, 16, 16),
 			new Sprite (walkSheetTD, new int[]{16, 32}, new int[]{16, 16}, 16, 16),

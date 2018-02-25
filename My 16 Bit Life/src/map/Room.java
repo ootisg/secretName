@@ -21,6 +21,7 @@ public class Room {
 	private String[] objectList;
 	private short[][][] tileData;
 	private boolean[] collisionData;
+	private double gravity = .65625;
 	private int levelWidth;
 	private int levelHeight;
 	private int viewX;
@@ -206,6 +207,9 @@ public class Room {
 					tileBuffer.collisionX = x1;
 					tileBuffer.collisionY = y2;
 					tileBuffer.spriteUsed = tileList [getTileId ((int) x1 / 16, (int) ystep / 16 + tileYOffset)];
+					tileBuffer.mapTile.tileId = tileIdList [getTileId ((int) x1 / 16, (int) ystep / 16 + tileYOffset)];
+					tileBuffer.mapTile.x = (int) x1 / 16;
+					tileBuffer.mapTile.y = (int) ystep / 16 + tileYOffset;
 					return;
 				}
 			}
@@ -232,6 +236,9 @@ public class Room {
 					tileBuffer.collisionX = xstep;
 					tileBuffer.collisionY = y1;
 					tileBuffer.spriteUsed = tileList [getTileId ((int) x1 / 16 + tileXOffset, (int) ystep / 16)];
+					tileBuffer.mapTile.tileId = tileIdList [getTileId ((int) x1 / 16 + tileXOffset, (int) ystep / 16)];
+					tileBuffer.mapTile.x = (int) x1 / 16 + tileXOffset;
+					tileBuffer.mapTile.y = (int) ystep / 16;
 					return;
 				}
 			}
@@ -276,6 +283,9 @@ public class Room {
 				tileBuffer.collisionX = xstep;
 				tileBuffer.collisionY = ystep;
 				tileBuffer.spriteUsed = tileList [getTileId ((int) xstep / 16 + tileXOffset, (int) ystep / 16 + tileYOffset)];
+				tileBuffer.mapTile.tileId = tileIdList [getTileId ((int) xstep / 16 + tileXOffset, (int) ystep / 16 + tileYOffset)];
+				tileBuffer.mapTile.x = (int) xstep / 16 + tileXOffset;
+				tileBuffer.mapTile.y = (int) ystep / 16 + tileYOffset;
 				return;
 			}
 		}
@@ -340,6 +350,80 @@ public class Room {
 			}
 		}
 		return false;
+	}
+	public double[] getCollidingCoords (Hitbox hitbox, double xTo, double yTo) {
+		double[][] collisionData = new double [4][2];
+		for (int i = 0; i <= 6; i += 2) {
+			collisionData [i / 2] = getCollidingCoords (hitbox.x + hitboxCorners [i] * hitbox.width, hitbox.y + hitboxCorners [i + 1] * hitbox.height, xTo + hitboxCorners [i] * hitbox.width, yTo + hitboxCorners [i + 1] * hitbox.height);
+			if (collisionData [i / 2] != null) {
+				if (collisionData [i / 2][0] >= hitbox.x + hitboxCorners [i]) {
+					collisionData [i / 2][0] -= hitboxCorners [i] * hitbox.width;
+				}
+				if (collisionData [i / 2][1] >= hitbox.y * hitboxCorners [i + 1]) {
+					collisionData [i / 2][1] -= hitboxCorners [i + 1] * hitbox.height;
+				}
+			}
+		}
+		double[] returnData = null;
+		double minDist = -1;
+		double currentDist;
+		for (int i = 0; i < 4; i ++) {
+			//System.out.println(collisionData[i][1]);
+			if (collisionData [i] != null) {
+				currentDist = (collisionData [i][0] - hitbox.x) * (collisionData [i][0] - hitbox.x) + (collisionData [i][1] - hitbox.y) * (collisionData [i][1] - hitbox.y);
+				if (currentDist <= minDist || minDist == -1) {
+					minDist = currentDist;
+					returnData = collisionData [i];
+				}
+			}
+		}
+		return returnData;
+	}
+	public boolean setTileBuffer (Hitbox hitbox, double xTo, double yTo) {
+		MapTile[] collidingTiles = new MapTile [4];
+		double[][] collisionData = new double [4][2];
+		MapTile[] tileList = new MapTile[4];
+		for (int i = 0; i <= 6; i += 2) {
+			setTileBuffer (hitbox.x + hitboxCorners [i] * hitbox.width, hitbox.y + hitboxCorners [i + 1] * hitbox.height, xTo + hitboxCorners [i] * hitbox.width, yTo + hitboxCorners [i + 1] * hitbox.height);
+			if (tileBuffer.enabled) {
+				collisionData [i / 2][0] = this.tileBuffer.collisionX;
+				collisionData [i / 2][1] = this.tileBuffer.collisionY;
+				if (collisionData [i / 2][0] >= hitbox.x + hitboxCorners [i]) {
+					collisionData [i / 2][0] -= hitboxCorners [i] * hitbox.width;
+				}
+				if (collisionData [i / 2][1] >= hitbox.y * hitboxCorners [i + 1]) {
+					collisionData [i / 2][1] -= hitboxCorners [i + 1] * hitbox.height;
+				}
+				MainLoop.getWindow ().getBuffer ().fillRect ((int)tileBuffer.collisionX, (int)tileBuffer.collisionY, 2, 2);
+				collidingTiles [i / 2] = new MapTile (tileBuffer.mapTile.tileId, tileBuffer.mapTile.x, tileBuffer.mapTile.y);
+			}
+		}
+		int closestTile = -1;
+		double minDist = -1;
+		double currentDist;
+		for (int i = 0; i < 4; i ++) {
+			//System.out.println(collisionData[i][1]);
+			if (collidingTiles [i] != null) {
+				currentDist = (collisionData [i][0] - hitbox.x) * (collisionData [i][0] - hitbox.x) + (collisionData [i][1] - hitbox.y) * (collisionData [i][1] - hitbox.y);
+				if (currentDist <= minDist || minDist == -1) {
+					minDist = currentDist;
+					closestTile = i;
+				}
+			}
+		}
+		if (closestTile != -1) {
+			this.tileBuffer.collisionX = collisionData [closestTile][0];
+			this.tileBuffer.collisionY = collisionData [closestTile][1];
+			this.tileBuffer.mapTile.x  = collidingTiles [closestTile].x;
+			this.tileBuffer.mapTile.y = collidingTiles [closestTile].y;
+			this.tileBuffer.mapTile.tileId = collidingTiles [closestTile].tileId;
+			this.tileBuffer.spriteUsed = null; //Because I'm lazy
+			return true;
+			//Returns true for a successful collision
+		} else {
+			return false;
+			//Returns false for no collision detected
+		}
 	}
 	public boolean[][] getCollidingTiles (Hitbox hitbox) {
 		//Returns a matrix of tiles that are being collided with by the given Hitbox
@@ -654,5 +738,11 @@ public class Room {
 	}
 	public ArrayList<Background> getBackgroundList () {
 		return backgroundList;
+	}
+	public double getGravity () {
+		return this.gravity;
+	}
+	public void setGravity (double gravity) {
+		this.gravity = gravity;
 	}
 }

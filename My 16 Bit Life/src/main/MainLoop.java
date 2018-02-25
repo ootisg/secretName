@@ -7,37 +7,37 @@ import resources.SpriteContainer;
 public class MainLoop {
 	//Main class
 	private static GameWindow gameWindow;
+	private static GameCode gameCode;
 	private static SpriteContainer sprites;
 	private static ObjectMatrix objectMatrix;
 	private static Console console;
+	private static int frameCount;
 	private static long delay; //Used for loop timing
 	private static boolean paused;
+	private static boolean debugMode;
 	public static void main (String[] args) {
 		//Main method
 		double framerate = 30; //The framerate; pretty self-explanitory
 		boolean running = true; //Currently unused, but setting this to false would stop the game
 		long startTime; //Used for loop timing
+		frameCount = 0; //Self-explanitory
 		delay = 0; //Used for loop timing
 		paused = false; //Used for pausing game logic
+		debugMode = false; //Used for debug mode (duh)
 		gameWindow = new GameWindow (); //Create the window
 		objectMatrix = new ObjectMatrix (); //Create the object matrix
 		sprites = new SpriteContainer (); //Create the sprite container
 		console = new Console (); //Create the dev console
-		GameCode gameCode = new GameCode (); //Initialize game code
+		gameCode = new GameCode (); //Initialize game code
 		gameCode.initialize (); //Note: runs before gameCode.gameLoop ()
 		while (running) {
 			//Everything in here is run once per frame
 			startTime = System.currentTimeMillis(); //Used for loop timing
 			try {
 				//This try block catches any errors while the game is running
-				gameWindow.updateClick (); //Updates mouse input information
-				if (!console.isEnabled ()) {
-					//Only run if the console is disabled
-					gameCode.gameLoop ();
-					objectMatrix.callAll (); //For each child of GameObject for which the method declare has been called, this calls that object's draw method, then its frameEvent method
+				if (!debugMode || frameCount == 0) {
+					doFrame ();
 				}
-				gameWindow.clearKeyArrays (); //Resets keystroke events that only fire for 1 frame
-				gameWindow.doPaint (); //Refreshes the game window
 			}
 			catch (Throwable e) {
 				//Displays the console if an error occurs, and print out information usable for debugging
@@ -73,6 +73,9 @@ public class MainLoop {
 	public static Console getConsole () {
 		return console;
 	}
+	public static int getFrameCount () {
+		return frameCount;
+	}
 	public static long getDelay () {
 		return delay;
 	}
@@ -82,7 +85,24 @@ public class MainLoop {
 	public static void resume () {
 		paused = false;
 	}
+	public static void setDebug (boolean debug) {
+		debugMode = debug;
+	}
 	public static boolean isPaused () {
 		return paused;
+	}
+	public static boolean isDebug () {
+		return debugMode;
+	}
+	public static void doFrame () {
+		frameCount ++;
+		gameWindow.updateClick (); //Updates mouse input information
+		if (!console.isEnabled ()) {
+			//Only run if the console is disabled
+			gameCode.gameLoop ();
+			objectMatrix.callAll (); //For each child of GameObject for which the method declare has been called, this calls that object's draw method, then its frameEvent method
+		}
+		gameWindow.clearKeyArrays (); //Resets keystroke events that only fire for 1 frame
+		gameWindow.doPaint (); //Refreshes the game window
 	}
 }

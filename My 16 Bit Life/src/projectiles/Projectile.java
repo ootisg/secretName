@@ -1,12 +1,15 @@
 package projectiles;
 
 import main.GameObject;
+import main.MainLoop;
+import players.Jeffrey;
 import resources.Sprite;
 
 public abstract class Projectile extends GameObject {
 	//Template for projectiles
 	protected double direction = 0;
 	protected double speed = 0;
+	public static Jeffrey player = (Jeffrey) MainLoop.getObjectMatrix ().get (MainLoop.getObjectMatrix ().getTypeId ("players.Jeffrey"), 0);
 	@Override
 	public void frameEvent () {
 		projectileFrame ();

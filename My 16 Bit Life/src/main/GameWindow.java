@@ -106,6 +106,13 @@ public class GameWindow extends JFrame {
 			@Override
 			public boolean dispatchKeyEvent (KeyEvent e) {
 				if (e.getID () == KeyEvent.KEY_PRESSED) {
+					if (MainLoop.isDebug ()) {
+						if (e.getKeyChar () == 'Q' || e.getKeyChar () == 'q') {
+							System.out.print ("Frame ");
+							System.out.println (MainLoop.getFrameCount ());
+							MainLoop.doFrame ();
+						}
+					}
 					if (e.getKeyCode () <= 255) {
 						keysPressed [e.getKeyCode ()] = true;
 						keysPressedOnFrame [e.getKeyCode ()] = true;

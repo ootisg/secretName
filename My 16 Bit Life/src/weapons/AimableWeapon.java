@@ -27,6 +27,7 @@ public class AimableWeapon extends GameObject {
 			AffineTransform transform = new AffineTransform ();
 			transform.rotate (rotation, 5, 12);
 			AffineTransformOp operation = new AffineTransformOp (transform, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+			img = new BufferedImage (this.src.getImageArray ()[0].getWidth (), this.src.getImageArray ()[0].getHeight (), this.src.getImageArray ()[0].getType ());
 			operation.filter (startImg, img);
 			this.setSprite (new Sprite (img));
 			renderedRotation = rotation;

@@ -23,11 +23,12 @@ public class Textbox extends GameAPI {
 	public Sprite fontSheet;
 	String message;
 	int isScrolled = 0;
-	public Textbox (){
+	// put filepath of fontsheet to use as the font
+	public Textbox (String font){
 	Spritesheet borderSheet;
 	Spritesheet FontSheet;
 	borderSheet = new Spritesheet ("resources/sprites/windowsprites2.png");
-	FontSheet = new Spritesheet ("resources/sprites/text.png");
+	FontSheet = new Spritesheet (font);
 	fontSheet = new Sprite (FontSheet, 8, 8);
 	textBoxTop = new Sprite (borderSheet, 0, 0, 8, 8); 
 	textBoxBottum = new Sprite (borderSheet, 24, 0, 8, 1);
@@ -36,6 +37,8 @@ public class Textbox extends GameAPI {
 	isFinished = false;
 	spaceManipulation = 0;
 	}
+	// text = the message thats displayed width is the width of the box height is the height of the box 
+	//x_orign is the x start point of the box y_orign is the why start point of the box
 public void textBoxCreator (String text, int width, int height, int x_origin, int y_origin){
 	if (finalCheck && isFinished && (keyPressed(65) || keyPressed (97) || isDone)){
 		isDone = true;
@@ -138,6 +141,8 @@ public void textBoxCreator (String text, int width, int height, int x_origin, in
 		if (space <= 0 && amountToDraw >= message.length()) {
 			isFinished = true;
 		}	
+		// translates the charictar in the message to a askii value that is used to specify position on the
+		// text sheet run for every for every charitar in the message every frame
 		if (amountToDrawBasis > 0) {
 			amountToDrawBasis = amountToDrawBasis - 1;
 			if (charictarNumber < message.length()){
@@ -149,6 +154,7 @@ public void textBoxCreator (String text, int width, int height, int x_origin, in
 					x_beginning = x_beginning + 8;
 					space = space - 1;
 				}
+		// uses the askii value to draw the charictar in the box
 				else{
 				fontSheet.setFrame(charitarCode);
 				fontSheet.draw(x_beginning, y_origin);

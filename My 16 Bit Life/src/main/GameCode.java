@@ -6,9 +6,11 @@ import resources.Spritesheet;
 import gameObjects.DuoflyPlus;
 import gameObjects.GreenBlob;
 import gameObjects.Slimelet;
+import gameObjects.TestObject;
 import gameObjects.DuoflyMinus;
 import players.Jeffrey;
 import players.TopDown;
+import players.TubeRaster;
 import weapons.AimableWeapon;
 import graphics3D.RayCamera;
 import graphics3D.VectorCamera;
@@ -21,6 +23,7 @@ import java.io.FileNotFoundException;
 public class GameCode extends GameAPI {
 	private GameWindow gameWindow;
 	//GameObjects
+	TubeRaster raster;
 	AimableWeapon wpn;
 	CreepyButterfly newFly;
 	DuoflyPlus testFly;
@@ -53,8 +56,9 @@ public class GameCode extends GameAPI {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		//new TestObject ().declare (128, 200);
 		//new Slimelet ().declare (200, 400);// From when I was messing around with slimelets =P
-		//td = new TopDown ();
+		td = new TopDown ();
 	}
 	public void gameLoop () {
 		room.frameEvent (); //Draws the tiles
