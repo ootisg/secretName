@@ -58,7 +58,7 @@ public class GameCode extends GameAPI {
 		}
 		//new TestObject ().declare (128, 200);
 		//new Slimelet ().declare (200, 400);// From when I was messing around with slimelets =P
-		td = new TopDown ();
+		//td = new TopDown ();
 	}
 	public void gameLoop () {
 		room.frameEvent (); //Draws the tiles

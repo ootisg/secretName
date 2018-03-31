@@ -42,7 +42,7 @@ public class TopDown extends KinematicObject {
 				if (this.getAnimationHandler ().getSprite () != sprites.tdWalk [0]) {
 					this.setSprite (sprites.tdWalk [0]);
 				}
-				this.setVelocityY (-3);
+				this.setVelocityY (-10.15625);
 			}
 			if (keyCheck ('S')) {
 				if (this.getAnimationHandler ().getSprite () != sprites.tdWalk [2]) {

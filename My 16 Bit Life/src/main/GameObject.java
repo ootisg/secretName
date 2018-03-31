@@ -8,6 +8,8 @@ import resources.Sprite;
 
 public abstract class GameObject extends GameAPI {
 	protected int[] matrixLocation;
+	private String variantData;
+	private String[] variantList;
 	private double x;
 	private double y;
 	private double xprevious;
@@ -410,6 +412,10 @@ public abstract class GameObject extends GameAPI {
 		//Sets the vertical flip state of this GameObject
 		flipVertical = flip;
 	}
+	public void setVariantData (String variantData) {
+		this.variantData = variantData;
+		this.variantList = variantData.split ("&");
+	}
 	public boolean getFlipHorizontal () {
 		//Returns the horizontal filp state of this GameObject
 		return flipHorizontal;
@@ -425,6 +431,28 @@ public abstract class GameObject extends GameAPI {
 	public Sprite getSprite () {
 		//Returns this object's Sprite
 		return this.sprite;
+	}
+	public String getVariantData () {
+		//Returns this object's variant data
+		return this.variantData;
+	}
+	public String getVariant (String variantName) {
+		//Returns the value of the variant variantName
+		for (int i = 0; i < variantList.length; i ++) {
+			if (variantList [i].split (":")[0].equals (variantName)) {
+				return variantList [i].split (":")[1];
+			}
+		}
+		return null;
+	}
+	public boolean hasVariant (String variant) {
+		//Returns true if the object has the variant passed for the argument. Must be in the format "name:value"
+		for (int i = 0; i < variantList.length; i ++) {
+			if (variantList [i].equals (variant)) {
+				return true;
+			}
+		}
+		return false;
 	}
 	public boolean hasParent (String parentId) {
 		Class c;

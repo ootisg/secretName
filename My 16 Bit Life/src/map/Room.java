@@ -157,29 +157,42 @@ public class Room {
 		}
 	}
 	public void setTileBuffer (double x1, double y1, double x2, double y2) {
-		//MainLoop.getWindow ().getBuffer ().setColor (new Color (0xFF0000));
+		int xdir = 1;
+		int ydir = 1;
+		byte tileXOffset = 0;
+		byte tileYOffset = 0;
+		if (x1 >= x2 && x1 % 16 == 0) {
+			xdir = -1;
+			tileXOffset = -1;
+		}
+		if (y1 >= y2 && y1 % 16 == 0) {
+			ydir = -1;
+			tileYOffset = -1;
+		}
+		if (tileInBounds ((int)(x1 / 16 + tileXOffset), (int)(y1 / 16 + tileYOffset))) {
+			if (collisionData [getTileId ((int)(x1 / 16 + tileXOffset), (int)(y1 / 16 + tileYOffset))] == true) {
+				tileBuffer.enabled = true;
+				tileBuffer.collisionX = x1;
+				tileBuffer.collisionY = y1;
+				tileBuffer.spriteUsed = tileList [getTileId ((int)(x1 / 16), (int)(y1 / 16))];
+				tileBuffer.mapTile.tileId = tileIdList [getTileId ((int)(x1 / 16), (int)(y1 / 16))];
+				tileBuffer.mapTile.x = (int) x1 / 16;
+				tileBuffer.mapTile.y = (int) y1 / 16;
+				return;
+			}
+		}
 		if ((x1 < 0 && x2 < 0) || (x1 > levelWidth * 16 && x2 > levelWidth * 16) || (y1 < 0 && y2 < 0) || (y1 > levelWidth * 16 && y2 > levelWidth * 16)) {
 			tileBuffer.enabled = false;
 			return;
 		} else {
 			tileBuffer.enabled = true;
 		}
-		int xdir = 1;
-		int ydir = 1;
 		double xcheck1 = 0;
 		double ycheck1 = 0;
 		double xcheck2 = 0;
 		double ycheck2 = 0;
 		double xstep = x1;
 		double ystep = y1;
-		byte tileXOffset = 0;
-		byte tileYOffset = 0;
-		if (x1 > x2) {
-			xdir = -1;
-		}
-		if (y1 > y2) {
-			ydir = -1;
-		}
 		/*if (collisionData [getTileId ((int) x1 / 16, (int) y1 / 16)]) {
 			tileBuffer.collisionX = x1;
 			tileBuffer.collisionY = y2;
@@ -379,49 +392,74 @@ public class Room {
 		}
 		return returnData;
 	}
-	public boolean setTileBuffer (Hitbox hitbox, double xTo, double yTo) {
+	public double[] doHitboxVectorCollison (Hitbox hitbox, double xTo, double yTo) {
+		//Performs a hitbox-on-tilemap vector collision, sets tileBuffer accordingly, and returns the position the object was in when it collided
 		MapTile[] collidingTiles = new MapTile [4];
 		double[][] collisionData = new double [4][2];
+		double[][] collisionPoints = new double [4][2];
 		MapTile[] tileList = new MapTile[4];
+		double xDiff = xTo - hitbox.x;
+		double yDiff = yTo - hitbox.y;
+		int[] ptrlist;
+		if (xDiff < 0 && yDiff < 0) {
+			ptrlist = new int[] {0, 1, 2, 3};
+		} else if (xDiff >= 0 && yDiff < 0) {
+			ptrlist = new int[] {1, 0, 2, 3};
+		} else if (xDiff < 0 && yDiff >= 0) {
+			ptrlist = new int[] {2, 0, 1, 3};
+		} else {
+			ptrlist = new int[] {3, 0, 1, 2};
+		}
 		for (int i = 0; i <= 6; i += 2) {
 			setTileBuffer (hitbox.x + hitboxCorners [i] * hitbox.width, hitbox.y + hitboxCorners [i + 1] * hitbox.height, xTo + hitboxCorners [i] * hitbox.width, yTo + hitboxCorners [i + 1] * hitbox.height);
+			//MainLoop.getWindow ().getBuffer ().drawLine ((int)(hitbox.x + hitboxCorners [i] * hitbox.width), (int)(hitbox.y + hitboxCorners [i + 1] * hitbox.height), (int)(xTo + hitboxCorners [i] * hitbox.width), (int)(yTo + hitboxCorners [i + 1] * hitbox.height));
 			if (tileBuffer.enabled) {
 				collisionData [i / 2][0] = this.tileBuffer.collisionX;
+				collisionPoints [i / 2][0] = this.tileBuffer.collisionX;
 				collisionData [i / 2][1] = this.tileBuffer.collisionY;
+				collisionPoints [i / 2][1] = this.tileBuffer.collisionY;
 				if (collisionData [i / 2][0] >= hitbox.x + hitboxCorners [i]) {
 					collisionData [i / 2][0] -= hitboxCorners [i] * hitbox.width;
 				}
 				if (collisionData [i / 2][1] >= hitbox.y * hitboxCorners [i + 1]) {
 					collisionData [i / 2][1] -= hitboxCorners [i + 1] * hitbox.height;
 				}
+				/*MainLoop.getWindow ().getBuffer ().setColor (new Color(0xFF0000));
 				MainLoop.getWindow ().getBuffer ().fillRect ((int)tileBuffer.collisionX, (int)tileBuffer.collisionY, 2, 2);
+				MainLoop.getWindow ().getBuffer ().setColor (new Color(0x000000));*/
+				//MainLoop.getWindow ().getBuffer ().fillRect ((int)tileBuffer.collisionX, (int)tileBuffer.collisionY, 2, 2);
 				collidingTiles [i / 2] = new MapTile (tileBuffer.mapTile.tileId, tileBuffer.mapTile.x, tileBuffer.mapTile.y);
 			}
 		}
 		int closestTile = -1;
 		double minDist = -1;
 		double currentDist;
+		int usedIndex;
 		for (int i = 0; i < 4; i ++) {
 			//System.out.println(collisionData[i][1]);
-			if (collidingTiles [i] != null) {
-				currentDist = (collisionData [i][0] - hitbox.x) * (collisionData [i][0] - hitbox.x) + (collisionData [i][1] - hitbox.y) * (collisionData [i][1] - hitbox.y);
+			usedIndex = ptrlist [i];
+			if (collidingTiles [usedIndex] != null) {
+				currentDist = (collisionData [usedIndex][0] - hitbox.x) * (collisionData [usedIndex][0] - hitbox.x) + (collisionData [usedIndex][1] - hitbox.y) * (collisionData [usedIndex][1] - hitbox.y);
 				if (currentDist <= minDist || minDist == -1) {
 					minDist = currentDist;
-					closestTile = i;
+					closestTile = usedIndex;
 				}
 			}
 		}
 		if (closestTile != -1) {
-			this.tileBuffer.collisionX = collisionData [closestTile][0];
-			this.tileBuffer.collisionY = collisionData [closestTile][1];
+			this.tileBuffer.collisionX = collisionPoints [closestTile][0];
+			this.tileBuffer.collisionY = collisionPoints [closestTile][1];
 			this.tileBuffer.mapTile.x  = collidingTiles [closestTile].x;
 			this.tileBuffer.mapTile.y = collidingTiles [closestTile].y;
 			this.tileBuffer.mapTile.tileId = collidingTiles [closestTile].tileId;
 			this.tileBuffer.spriteUsed = null; //Because I'm lazy
-			return true;
+			MainLoop.getWindow ().getBuffer ().setColor (new Color(0xFF0000));
+			MainLoop.getWindow ().getBuffer ().fillRect ((int)tileBuffer.collisionX, (int)tileBuffer.collisionY, 2, 2);
+			MainLoop.getWindow ().getBuffer ().setColor (new Color(0x000000));
+			return collisionData [closestTile];
 			//Returns true for a successful collision
 		} else {
-			return false;
+			return null;
 			//Returns false for no collision detected
 		}
 	}
@@ -462,8 +500,16 @@ public class Room {
 		return result;
 	}
 	public short getTileId (int x, int y) {
-		//Returns the numerical tile ID of a give object
+		//Returns the numerical tile ID at x, y
 		return tileData [0][x][y];
+	}
+	public boolean isSolid (int x, int y) {
+		//Returns true if the tile at x, y is solid
+		return collisionData[tileData [0][x][y]];
+	}
+	public String getTileIdString (int x, int y) {
+		//Returns the string tile ID at x, y
+		return tileIdList [tileData [0][x][y]];
 	}
 	public void frameEvent () {
 		//Renders the room
@@ -611,12 +657,21 @@ public class Room {
 		int objY;
 		Class<?> objectClass = null;
 		Constructor<?> constructor = null;
+		String workingName;
+		boolean hasVariants;
 		for (int i = 0; i < objectsPlacedLength; i ++) {
 			objId = readBits (objectBits);
 			objX = readBits (widthBits);
 			objY = readBits (heightBits);
+			if (objectList [objId].split ("#").length == 2) {
+				workingName = objectList [objId].split ("#")[0];
+				hasVariants = true;
+			} else {
+				workingName = objectList [objId];
+				hasVariants = false;
+			}
 			try {
-				objectClass = Class.forName ("gameObjects." + objectList [objId]);
+				objectClass = Class.forName ("gameObjects." + workingName);
 			}
 			catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -629,6 +684,9 @@ public class Room {
 			try {
 				GameObject obj = (GameObject) objectClass.newInstance ();
 				obj.declare (objX * 16, objY * 16);
+				if (hasVariants) {
+					obj.setVariantData (objectList [objId].split ("#")[1]);
+				}
 			} catch (InstantiationException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -744,5 +802,18 @@ public class Room {
 	}
 	public void setGravity (double gravity) {
 		this.gravity = gravity;
+	}
+	public TileAttributesList getTileAttributesList () {
+		return this.tileAttributesList;
+	}
+	public void setTileAttributesList (TileAttributesList tileAttributesList) {
+		this.tileAttributesList = tileAttributesList;
+	}
+	public boolean tileInBounds (int x, int y) {
+		if (x >= 0 && x < this.levelWidth && y >= 0 && y < this.levelHeight) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
