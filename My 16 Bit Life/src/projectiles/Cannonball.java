@@ -28,11 +28,15 @@ public class Cannonball extends Projectile{
 		if (animation == 20){
 			this.forget();
 		}
+		try{
 		if (room.isColliding(this.getHitbox()) && !hitSomething){
 			setSprite (sprites.explosion);
 			hitSomething = true;
 			setSpeed (0);
 			setY (getY());
+		}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			this.forget();
 		}
 		if (isColliding("players.Jeffrey") && !hitSomething){
 			player.damage(7);

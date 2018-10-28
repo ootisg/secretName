@@ -11,15 +11,19 @@ public class Jeffrey extends GameObject {
 	public double health;
 	public double maxHealth;
 	private boolean isWalking;
-	private boolean isJumping;
-	private Sprite standSprite;
-	private Sprite walkSprite;
+	public boolean isJumping;
+	public Sprite standSprite;
+	public Sprite walkSprite;
 	private Sprite redblack_gun;
 	private AimableWeapon wpn;
 	private int cooldown;
 	private int invulTimer;
 	private int specialCooldown;
-	private double vx, vy, ax, ay;
+	public static double vx;
+	public static double vy;
+	private double ax;
+	private double ay;
+	public static boolean onLadder;
 	public Jeffrey () {
 		//This class is not yet commented
 		this.declare (0, 0);
@@ -52,7 +56,7 @@ public class Jeffrey extends GameObject {
 			cooldown = 5;
 		}
 		//Gravity and collision with floor
-		if (keyPressed ('W') && !isJumping && vy == 0) {
+		if (keyPressed (32) && !isJumping && vy == 0 && !onLadder) {
 			isJumping = true;
 			vy = -10.15625;
 			setSprite (walkSprite);
@@ -62,7 +66,9 @@ public class Jeffrey extends GameObject {
 		if (vy == 0) {
 			getAnimationHandler ().setAnimationSpeed (.7);
 		}
+		if (!onLadder) {
 		vy += room.getGravity ();
+		}
 		if (vy > 15.0) {
 			vy = 15.0;
 		}
@@ -98,6 +104,7 @@ public class Jeffrey extends GameObject {
 				}
 			}
 		}
+		if (!onLadder) {
 		if (keyCheck ('A')) {
 			if (vx >= -3.0) {
 				ax = -.5;
@@ -125,6 +132,7 @@ public class Jeffrey extends GameObject {
 				isJumping = false;
 				setSprite (standSprite);
 			}
+		}
 		}
 		vx = vx + ax;
 		vy = vy + ay;

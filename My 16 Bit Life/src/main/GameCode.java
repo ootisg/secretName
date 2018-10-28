@@ -3,8 +3,11 @@ package main;
 import resources.AnimationHandler;
 import resources.Sprite;
 import resources.Spritesheet;
+import statusEffect.Poison;
+import statusEffect.Status;
 import gameObjects.DuoflyPlus;
 import gameObjects.GreenBlob;
+import gameObjects.Ladder;
 import gameObjects.Slimelet;
 import gameObjects.TestObject;
 import gameObjects.DuoflyMinus;
@@ -14,7 +17,10 @@ import players.TubeRaster;
 import weapons.AimableWeapon;
 import graphics3D.RayCamera;
 import graphics3D.VectorCamera;
+import gameObjects.CannonTankEnemy;
+import gameObjects.ClostridiumBowtielinea;
 import gameObjects.CreepyButterfly;
+import gameObjects.CyclopesCrab;
 
 import java.awt.Image;
 import java.awt.image.*;
@@ -28,20 +34,30 @@ public class GameCode extends GameAPI {
 	CreepyButterfly newFly;
 	DuoflyPlus testFly;
 	DuoflyMinus testFly2;
-	Jeffrey testJeffrey;
+	public static Jeffrey testJeffrey;
 	TopDown td;
 	Textbox textbox;
 	Gui gui;
 	Tbox tbox;
 	VectorCamera cam;
 	ListTbox ltbox;
+	CannonTankEnemy showTank;
+	CyclopesCrab testCrab;
+	ClostridiumBowtielinea testTie;
+	Status testStatus;
+	Ladder testLaddder;
 	public void initialize () {
 		gameWindow = MainLoop.getWindow ();
 		gameWindow.setResolution (640, 480);
 		//Initialize sprites
 		//GameObject initialization
+		testLaddder = new Ladder ();
 		testJeffrey = new Jeffrey ();
+		showTank = new CannonTankEnemy();
 		gui = new Gui ();
+		testCrab = new CyclopesCrab();
+		testTie = new ClostridiumBowtielinea();
+	
 		//cam = new VectorCamera (0, 0);
 		//Uncomment the above line if you want to see them
 		//GameObject declaration
@@ -58,7 +74,8 @@ public class GameCode extends GameAPI {
 		}
 		//new TestObject ().declare (128, 200);
 		//new Slimelet ().declare (200, 400);// From when I was messing around with slimelets =P
-		//td = new TopDown ();
+		td = new TopDown ();
+		testLaddder.declare(150, 195);
 	}
 	public void gameLoop () {
 		room.frameEvent (); //Draws the tiles

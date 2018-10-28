@@ -212,22 +212,43 @@ public class Room {
 				}
 				int tileFinalX = (int) x1 / 16;
 				int tileFinalY = (int) ystep / 16 + tileYOffset;
-				if (tileFinalX < 0 || tileFinalX >= levelWidth || tileFinalY < 0 || tileFinalY >= levelHeight) {
-					tileBuffer.enabled = false;
-					return;
-				}
-				if (collisionData [getTileId (tileFinalX, tileFinalY)]) {
-					tileBuffer.collisionX = x1;
-					tileBuffer.collisionY = y2;
-					tileBuffer.spriteUsed = tileList [getTileId ((int) x1 / 16, (int) ystep / 16 + tileYOffset)];
-					tileBuffer.mapTile.tileId = tileIdList [getTileId ((int) x1 / 16, (int) ystep / 16 + tileYOffset)];
-					tileBuffer.mapTile.x = (int) x1 / 16;
-					tileBuffer.mapTile.y = (int) ystep / 16 + tileYOffset;
-					return;
+				if (x1 % 16 == 0) {
+					if (tileFinalX <= 0 || tileFinalX >= levelWidth || tileFinalY < 0 || tileFinalY >= levelHeight) {
+						tileBuffer.enabled = false;
+						return;
+					}
+					if (collisionData [getTileId (tileFinalX, tileFinalY)] && collisionData [getTileId (tileFinalX - 1, tileFinalY)]) {
+						System.out.print(tileFinalX);
+						System.out.print(", ");
+						System.out.println(tileFinalY);
+						tileBuffer.collisionX = x1;
+						tileBuffer.collisionY = y2;
+						tileBuffer.spriteUsed = tileList [getTileId ((int) x1 / 16, (int) ystep / 16 + tileYOffset)];
+						tileBuffer.mapTile.tileId = tileIdList [getTileId ((int) x1 / 16, (int) ystep / 16 + tileYOffset)];
+						tileBuffer.mapTile.x = (int) x1 / 16;
+						tileBuffer.mapTile.y = (int) ystep / 16 + tileYOffset;
+						return;
+					}
+				} else {
+					if (tileFinalX < 0 || tileFinalX >= levelWidth || tileFinalY < 0 || tileFinalY >= levelHeight) {
+						tileBuffer.enabled = false;
+						return;
+					}
+					if (collisionData [getTileId (tileFinalX, tileFinalY)]) {
+						tileBuffer.collisionX = x1;
+						tileBuffer.collisionY = y2;
+						tileBuffer.spriteUsed = tileList [getTileId ((int) x1 / 16, (int) ystep / 16 + tileYOffset)];
+						tileBuffer.mapTile.tileId = tileIdList [getTileId ((int) x1 / 16, (int) ystep / 16 + tileYOffset)];
+						tileBuffer.mapTile.x = (int) x1 / 16;
+						tileBuffer.mapTile.y = (int) ystep / 16 + tileYOffset;
+						return;
+					}
 				}
 			}
 		}
-
+		/*System.out.print (y1);
+		System.out.print (", ");
+		System.out.println (y2);*/
 		if (y1 == y2) {
 			while (true) {
 				tileXOffset = 0;
@@ -241,18 +262,34 @@ public class Room {
 				}
 				int tileFinalX = (int) x1 / 16 + tileXOffset;
 				int tileFinalY = (int) ystep / 16;
-				if (tileFinalX < 0 || tileFinalX >= levelWidth || tileFinalY < 0 || tileFinalY >= levelHeight) {
-					tileBuffer.enabled = false;
-					return;
-				}
-				if (collisionData [getTileId (tileFinalX, tileFinalY)]) {
-					tileBuffer.collisionX = xstep;
-					tileBuffer.collisionY = y1;
-					tileBuffer.spriteUsed = tileList [getTileId ((int) x1 / 16 + tileXOffset, (int) ystep / 16)];
-					tileBuffer.mapTile.tileId = tileIdList [getTileId ((int) x1 / 16 + tileXOffset, (int) ystep / 16)];
-					tileBuffer.mapTile.x = (int) x1 / 16 + tileXOffset;
-					tileBuffer.mapTile.y = (int) ystep / 16;
-					return;
+				if (y1 % 16 == 0) {
+					if (tileFinalX < 0 || tileFinalX >= levelWidth || tileFinalY <= 0 || tileFinalY >= levelHeight) {
+						tileBuffer.enabled = false;
+						return;
+					}
+					if (collisionData [getTileId (tileFinalX, tileFinalY)] && collisionData [getTileId (tileFinalX, tileFinalY - 1)]) {
+						tileBuffer.collisionX = xstep;
+						tileBuffer.collisionY = y1;
+						tileBuffer.spriteUsed = tileList [getTileId ((int) x1 / 16 + tileXOffset, (int) ystep / 16)];
+						tileBuffer.mapTile.tileId = tileIdList [getTileId ((int) x1 / 16 + tileXOffset, (int) ystep / 16)];
+						tileBuffer.mapTile.x = (int) x1 / 16 + tileXOffset;
+						tileBuffer.mapTile.y = (int) ystep / 16;
+						return;
+					}
+				} else {
+					if (tileFinalX < 0 || tileFinalX >= levelWidth || tileFinalY < 0 || tileFinalY >= levelHeight) {
+						tileBuffer.enabled = false;
+						return;
+					}
+					if (collisionData [getTileId (tileFinalX, tileFinalY)]) {
+						tileBuffer.collisionX = xstep;
+						tileBuffer.collisionY = y1;
+						tileBuffer.spriteUsed = tileList [getTileId ((int) x1 / 16 + tileXOffset, (int) ystep / 16)];
+						tileBuffer.mapTile.tileId = tileIdList [getTileId ((int) x1 / 16 + tileXOffset, (int) ystep / 16)];
+						tileBuffer.mapTile.x = (int) x1 / 16 + tileXOffset;
+						tileBuffer.mapTile.y = (int) ystep / 16;
+						return;
+					}
 				}
 			}
 		}

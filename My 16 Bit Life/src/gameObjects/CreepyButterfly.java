@@ -14,6 +14,7 @@ public class CreepyButterfly extends Enemy {
 		x = -1;
 		y = -1;
 		this.health = 1;
+		this.defence = 0;
 	}
 	@Override
 	public void enemyFrame () {

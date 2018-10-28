@@ -14,7 +14,7 @@ public class KinematicObject extends GameObject {
 		double[] newCoords = room.doHitboxVectorCollison (this.getHitbox (), this.getX () + vx, this.getY () + vy);
 		boolean collisionDetected = true; //set to true for initial loop condition
 		if (newCoords != null) {
-			while (collisionDetected) {
+			while (collisionDetected && newCoords != null && !(this.vx == 0 && this.vy == 0)) {
 				collisionDetected = false;
 				byte direction = -1;
 				//-1 is no direction
@@ -23,6 +23,7 @@ public class KinematicObject extends GameObject {
 				//2 is down
 				//3 is right
 				if (newCoords [0] % 16 != 0 || newCoords [1] % 16 != 0) {
+					System.out.println(room.tileBuffer.collisionX);
 					if (room.tileBuffer.collisionX % 16 == 0 && (int)room.tileBuffer.collisionX / 16 == room.tileBuffer.mapTile.x) {
 						direction = 3;
 					} else if (room.tileBuffer.collisionX % 16 == 0 && (int)room.tileBuffer.collisionX / 16 - 1 == room.tileBuffer.mapTile.x) {
@@ -31,6 +32,19 @@ public class KinematicObject extends GameObject {
 						direction = 2;
 					} else if (room.tileBuffer.collisionY % 16 == 0 && (int)room.tileBuffer.collisionY - 1 / 16 == room.tileBuffer.mapTile.y) {
 						direction = 0;
+					}
+					if (vx == 0) {
+						if (vy < 0) {
+							direction = 0;
+						} else if (vy > 0) {
+							direction = 2;
+						}
+					} else if (vy == 0) {
+						if (vx < 0) {
+							direction = 1;
+						} else if (vx > 0) {
+							direction = 3;
+						}
 					}
 				} else {
 					int tileXOffset = 1;
@@ -93,6 +107,7 @@ public class KinematicObject extends GameObject {
 						}*/
 					}
 				}
+				System.out.println(direction);
 				if (direction == 3 || direction == 1) {
 					TileData workingData = room.getTileAttributesList ().getTile (room.tileBuffer.mapTile.tileId);
 					double frictionCoefficient;
@@ -101,7 +116,8 @@ public class KinematicObject extends GameObject {
 					} else {
 						frictionCoefficient = 1.0;
 					}
-					this.vx = (newCoords [0] - this.getX ());
+					this.setX ((newCoords [0]));
+					this.vx = 0;
 					if (this.vy < 0) {
 						this.vy += ax * frictionCoefficient;
 						if (this.vy > 0) {
@@ -126,7 +142,8 @@ public class KinematicObject extends GameObject {
 					} else {
 						frictionCoefficient = 1.0;
 					}
-					this.vy = (newCoords [1] - this.getY ());
+					this.setY (newCoords [1]);
+					this.vy = 0;
 					if (this.vx < 0) {
 						this.vx += ay * frictionCoefficient;
 						if (this.vx > 0) {
@@ -143,10 +160,15 @@ public class KinematicObject extends GameObject {
 				if (room.tileBuffer.collisionY == (double)(room.tileBuffer.mapTile.y * 16 - 16)) {
 						
 				}
+				/*System.out.print(vx);
+				System.out.print(", ");
+				System.out.println(vy);*/
+				//collisionDetected = false;
+				newCoords = room.doHitboxVectorCollison (this.getHitbox (), this.getX () + vx, this.getY () + vy);
 			}
 		}
-	this.setX (this.getX () + vx);
-	this.setY (this.getY () + vy);
+		this.setX (this.getX () + vx);
+		this.setY (this.getY () + vy);
 	}
 	public double getVelocityX () {
 		return vx;

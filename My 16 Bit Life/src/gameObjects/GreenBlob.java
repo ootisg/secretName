@@ -7,7 +7,8 @@ public class GreenBlob extends Enemy {
 		this.getAnimationHandler ().setAnimationSpeed (.2);
 		this.moveRight = true;
 		this.createHitbox (1, 3, 13, 12);
-		this.health = 2;
+		this.health = 30;
+		this.defence = 0;
 	}
 	@Override
 	public void enemyFrame () {

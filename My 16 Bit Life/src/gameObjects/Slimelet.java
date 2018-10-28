@@ -23,6 +23,8 @@ public class Slimelet extends Enemy {
 		this.direction = 0;
 		this.animation = 0;
 		this.converse = false;
+		this.defence = 0;
+		this.health = 47;
 		this.conversePrevious = false;
 	}
 	@Override

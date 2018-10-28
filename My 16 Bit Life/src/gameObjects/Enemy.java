@@ -9,10 +9,11 @@ public abstract class Enemy extends GameObject {
 	//Template for enemies
 	public static Jeffrey player = (Jeffrey) MainLoop.getObjectMatrix ().get (MainLoop.getObjectMatrix ().getTypeId ("players.Jeffrey"), 0);
 	public static String[] enemyList = new String [0];
-	protected int health = 1;
+	public int health = 1;
 	protected double baseDamage = 2.5;
+	public int defence;
+	DamageText text;
 	public Enemy () {
-		
 	}
 	@Override
 	public void declare (double x, double y) {
@@ -51,7 +52,13 @@ public abstract class Enemy extends GameObject {
 		this.forget ();
 	}
 	public void damage (int amount) {
-		this.health -= amount;
+		text = new DamageText (amount, this.getX(), this.getY());
+		text.declare(this.getX(), this.getY());
+		amount = amount - defence;
+		if(amount <= 0){
+			amount = 1;
+		}
+		this.health = health - amount;
 	}
 	public void setHealth (int health) {
 		this.health = health;
