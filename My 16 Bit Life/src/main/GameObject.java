@@ -8,8 +8,7 @@ import resources.Sprite;
 
 public abstract class GameObject extends GameAPI {
 	protected int[] matrixLocation;
-	private String variantData;
-	private String[] variantList;
+	private Variant variant = new Variant ("");
 	private double x;
 	private double y;
 	private double xprevious;
@@ -412,9 +411,14 @@ public abstract class GameObject extends GameAPI {
 		//Sets the vertical flip state of this GameObject
 		flipVertical = flip;
 	}
+	public void setVariant (Variant variant) {
+		this.variant = variant;
+	}
 	public void setVariantData (String variantData) {
-		this.variantData = variantData;
-		this.variantList = variantData.split ("&");
+		variant.setVariantData (variantData);
+	}
+	public void setVariantAttribute (String variantAttribute, String value) {
+		variant.setAttribute (variantAttribute, value);
 	}
 	public boolean getFlipHorizontal () {
 		//Returns the horizontal filp state of this GameObject
@@ -432,27 +436,21 @@ public abstract class GameObject extends GameAPI {
 		//Returns this object's Sprite
 		return this.sprite;
 	}
+	public Variant getVariant () {
+		//Returns the variant object associated with this GameObject
+		return variant;
+	}
 	public String getVariantData () {
 		//Returns this object's variant data
-		return this.variantData;
+		return variant.getVariantData ();
 	}
-	public String getVariant (String variantName) {
-		//Returns the value of the variant variantName
-		for (int i = 0; i < variantList.length; i ++) {
-			if (variantList [i].split (":")[0].equals (variantName)) {
-				return variantList [i].split (":")[1];
-			}
-		}
-		return null;
+	public String getVariantAttribute (String attributeName) {
+		//Returns the value of the variant attribute attributeName
+		return variant.getAttribute (attributeName);
 	}
-	public boolean hasVariant (String variant) {
+	public boolean hasVariantAttribute (String attributeName) {
 		//Returns true if the object has the variant passed for the argument. Must be in the format "name:value"
-		for (int i = 0; i < variantList.length; i ++) {
-			if (variantList [i].equals (variant)) {
-				return true;
-			}
-		}
-		return false;
+		return variant.hasAttribute (attributeName);
 	}
 	public boolean hasParent (String parentId) {
 		Class c;
