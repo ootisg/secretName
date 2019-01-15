@@ -2,25 +2,29 @@ package gameObjects;
 
 import main.GameCode;
 import main.GameObject;
-import map.MapTile;
-import map.MapTileCollision;
 import players.Jeffrey;
 
-public class Ladder extends GameObject {
-	MapTile barrier;
-	MapTileCollision barrier2EB;
-	public Ladder () {
+public class LaunchPad extends GameObject {
+	boolean onTop;
+	public LaunchPad () {
 		this.setSprite(sprites.ladder);
 		this.createHitbox(0, 0, 8, 8);
+		onTop = false;
 	}
+	
 	public  void frameEvent () {
-		barrier = new MapTile ("", (int)this.getX(), (int)this.getY());
-		barrier2EB = new MapTileCollision (barrier, 16, 1);
 		if (this.isColliding(GameCode.testJeffrey) && keyPressed('W')) {
 			Jeffrey.onLadder = true;
 			Jeffrey.vy = 0;
 			Jeffrey.vx = 0;
 			GameCode.testJeffrey.setX(this.getX());
+		}
+		if (GameCode.testJeffrey.getY() <= this.getY()  && this.isColliding(GameCode.testJeffrey)) {
+			Jeffrey.onLadder = false;
+			Jeffrey.standingOnPlatform = true;
+		}
+		if (Jeffrey.standingOnPlatform && (keyPressed (32))) {
+			Jeffrey.standingOnPlatform = false;
 		}
 		if (Jeffrey.onLadder && keyCheck ('W') && this.isColliding (GameCode.testJeffrey)) {
 			GameCode.testJeffrey.setY(GameCode.testJeffrey.getY() -3);
@@ -33,4 +37,3 @@ public class Ladder extends GameObject {
 		}
 	}
 }
-

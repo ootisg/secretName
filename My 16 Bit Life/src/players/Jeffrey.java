@@ -1,6 +1,8 @@
 package players;
 
 import weapons.AimableWeapon;
+import items.Inventory;
+import items.RedBlackPaintBall;
 import main.GameObject;
 import main.GameWindow;
 import main.MainLoop;
@@ -11,7 +13,7 @@ public class Jeffrey extends GameObject {
 	public double health;
 	public double maxHealth;
 	private boolean isWalking;
-	public boolean isJumping;
+	public  boolean isJumping;
 	public Sprite standSprite;
 	public Sprite walkSprite;
 	private Sprite redblack_gun;
@@ -24,9 +26,16 @@ public class Jeffrey extends GameObject {
 	private double ax;
 	private double ay;
 	public static boolean onLadder;
+	public Inventory inventory;
+	public RedBlackPaintBall testball;
+	private int textTimer;
+	public static boolean standingOnPlatform;
 	public Jeffrey () {
 		//This class is not yet commented
 		this.declare (0, 0);
+		testball = new RedBlackPaintBall ();
+		inventory = new Inventory();
+		standingOnPlatform = false;
 		this.standSprite = getSprites ().jeffreyIdle;
 		this.walkSprite = getSprites ().jeffreyWalking;
 		setSprite (standSprite);
@@ -44,6 +53,7 @@ public class Jeffrey extends GameObject {
 		this.vy = 0;
 		this.ax = 0;
 		this.ay = 0;
+		textTimer = 0;
 	}
 	@Override
 	public void frameEvent () {
@@ -51,9 +61,19 @@ public class Jeffrey extends GameObject {
 		if (this.cooldown > 0) {
 			this.cooldown --;
 		}
-		if (mouseClicked () && cooldown == 0) {
+		if (mouseClicked () && cooldown == 0 ) {
+			if (inventory.checkAmmo(testball)) {
 			wpn.shoot (new Paintball ());
+			inventory.removeItem(testball);
 			cooldown = 5;
+			} else {
+				textTimer = 10;
+				//sprites.outtaAmmo.draw((int)this.getX() - room.getViewX(), (int)this.getY() - 10);
+			}
+		}
+		if (textTimer > 0) {
+			//sprites.outtaAmmo.draw((int)this.getX() - room.getViewX(), (int)this.getY() - 10);
+			textTimer = textTimer - 1;
 		}
 		//Gravity and collision with floor
 		if (keyPressed (32) && !isJumping && vy == 0 && !onLadder) {
@@ -67,7 +87,9 @@ public class Jeffrey extends GameObject {
 			getAnimationHandler ().setAnimationSpeed (.7);
 		}
 		if (!onLadder) {
+			if (!standingOnPlatform) {
 		vy += room.getGravity ();
+			}
 		}
 		if (vy > 15.0) {
 			vy = 15.0;
@@ -223,6 +245,9 @@ public class Jeffrey extends GameObject {
 			health -= baseDamage;
 			invulTimer = 15;
 		}
+	}
+	public Inventory getInventory () {
+		return this.inventory;
 	}
 	public double getHealth () {
 		return this.health;

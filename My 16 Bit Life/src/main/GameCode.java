@@ -10,6 +10,7 @@ import gameObjects.GreenBlob;
 import gameObjects.Ladder;
 import gameObjects.Slimelet;
 import gameObjects.TestObject;
+import gameObjects.LaunchPad;
 import gameObjects.DuoflyMinus;
 import players.Jeffrey;
 import players.TopDown;
@@ -17,6 +18,7 @@ import players.TubeRaster;
 import weapons.AimableWeapon;
 import graphics3D.RayCamera;
 import graphics3D.VectorCamera;
+import items.RedBlackPaintBall;
 import gameObjects.CannonTankEnemy;
 import gameObjects.ClostridiumBowtielinea;
 import gameObjects.CreepyButterfly;
@@ -46,6 +48,8 @@ public class GameCode extends GameAPI {
 	ClostridiumBowtielinea testTie;
 	Status testStatus;
 	Ladder testLaddder;
+	RedBlackPaintBall paintball;
+	Ladder testLadder;
 	public void initialize () {
 		gameWindow = MainLoop.getWindow ();
 		gameWindow.setResolution (640, 480);
@@ -57,7 +61,13 @@ public class GameCode extends GameAPI {
 		gui = new Gui ();
 		testCrab = new CyclopesCrab();
 		testTie = new ClostridiumBowtielinea();
-	
+		int x = 0;
+		while (x <= 5) {
+		paintball = new RedBlackPaintBall();
+		testJeffrey.inventory.addAmmo(paintball);
+		testLadder = new Ladder ();
+		x = x + 1;
+		}
 		//cam = new VectorCamera (0, 0);
 		//Uncomment the above line if you want to see them
 		//GameObject declaration
@@ -74,8 +84,9 @@ public class GameCode extends GameAPI {
 		}
 		//new TestObject ().declare (128, 200);
 		//new Slimelet ().declare (200, 400);// From when I was messing around with slimelets =P
-		//td = new TopDown ();
-		testLaddder.declare(150, 195);
+		td = new TopDown ();
+		testLaddder.declare(150, 373);
+		testLadder.declare(150, 388);
 	}
 	public void gameLoop () {
 		room.frameEvent (); //Draws the tiles

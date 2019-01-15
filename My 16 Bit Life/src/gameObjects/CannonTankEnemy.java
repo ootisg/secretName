@@ -10,6 +10,7 @@ public class CannonTankEnemy extends Enemy {
 	boolean hasTurned;
 	int turrning;
 	boolean nathansVariable;
+	int cannonBalls;
 public CannonTankEnemy () {
 	setSprite (sprites.rightTank);
 	createHitbox (0, 3, 15, 28);
@@ -28,6 +29,11 @@ public CannonTankEnemy () {
 		if ((getY () - player.getY() <= 16 && getY () - player.getY() >= -16) && cooldown >= 20 && ((player.getX () > getX() && moveRight) || (player.getX() < getX() && !moveRight)) ){
 			moveing = false;
 			cooldown = 0;
+			cannonBalls = cannonBalls + 1;
+			if (cannonBalls == 2) {
+				cooldown = -30;
+				cannonBalls = 0;
+			}
 			attack = new Cannonball (moveRight);
 			attack.declare (getX(), getY() + 5);
 		}

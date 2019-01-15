@@ -23,8 +23,10 @@ public class SpriteContainer {
 	public Spritesheet buttonSheet = new Spritesheet ("resources/sprites/Button_L.png");
 	public Spritesheet poisonedJeffrey = new Spritesheet ("resources/sprites/jeffrey_walking_poisoned.png");
 	public Spritesheet crabGunSheet = new Spritesheet ("resources/sprites/Cyclops_Crab_Gun.png");
+	public Spritesheet moneyBagSheet = new Spritesheet("resources/sprites/Money_Bag.png");
 	//Sprites
 	public Sprite crabGun = new Sprite (crabGunSheet, 0, 0, 6, 16);
+	public Sprite idleBag = new Sprite (moneyBagSheet, 16, 15);
 	public Sprite ladder = new Sprite ("resources/sprites/Ladder.png");
 	public Sprite crabGunFireing = new Sprite (crabGunSheet, new int []{0, 7, 13, 19}, new int [] {0,0,0,0}, 6, 16);
 	public Sprite crabBullet = new Sprite (crabGunSheet, 26, 13, 3, 3);
